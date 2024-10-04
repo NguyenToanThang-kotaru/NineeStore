@@ -1,0 +1,147 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}                               
+#container{
+    position: relative;
+}
+#Topmenu{  
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width: 100%;
+    background-color: #f0f0f0; 
+    padding: 0px; 
+    z-index: 1000; 
+    display: flex;    
+    justify-content: space-between;       
+    text-align: center;  
+}   
+#centermenu{
+    list-style: none;
+    display: flex;
+}
+#leftmenu{
+    padding: 0;
+    display: flex;
+    align-items: center;      
+    text-align: center;  
+    text-decoration: none;
+    color: black;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+
+}
+#leftmenu img{
+    margin: 0px;
+}
+
+#leftmenu img:hover{
+    background-color: rgb(223, 218, 218);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+}
+#centermenu li{
+    display: flex;
+    padding: 0 15px;
+}
+#rightmenu li{
+    padding: 0 15px ;
+}
+#Topmenu li{
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+#Topmenu li:hover{
+    background-color: rgb(223, 218, 218);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+.container{
+    padding: 4rem;
+}
+.slider-wrapper{
+    position: relative;
+    max-width: 55rem;
+    margin: 0 auto; 
+}
+.slider{
+    display: flex;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overflow-x: scroll ;
+    scrollbar-width: none;
+    box-shadow: 0 1.5rem 3rem 0.75rem hsla(0, 0%, 0%, 0.25);
+}
+.slider img{
+    width: 100%;
+    flex: 1 0 100%;
+    scroll-snap-align: start ;
+    object-fit: cover;
+}
+.slider-nav{
+    display: flex;
+    column-gap: 1rem;
+    position: absolute;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 1;
+}
+.slider-nav a{
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: #f8f5f5;
+    opacity: 0.75;
+    transition: opacity ease 250ms,background-color 0.3s;
+}
+.slider-nav a:hover{
+    background-color: #312f2f;
+    opacity: 1;
+}
+#ProductHome{
+    width: 100%;
+    display: flexbox;
+    justify-content: left;
+    color: red;
+    font-size: x-large;
+}
+#StartProducts{
+    display: flex;
+    text-align: center;
+    list-style-type: none;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+#StartProducts li img:hover{
+    background-color: rgb(223, 218, 218);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+#StartProducts p{
+    color: black;
+}
+/* Footer */
+#Footer{
+    width: 100%;
+}
+#Subscribe{
+    display: flex ;
+    justify-content: space-between;   
+    background-color: #312f2f;
+    width: 100%;
+}
+#Subscribe div{
+    color:white;
+    font-size: x-large;
+    padding: 15px;
+}
+#InputFooter{
+    color:white;
+    font-size: x-large;
+    padding: 0%;
+}
