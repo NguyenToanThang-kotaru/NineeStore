@@ -51,6 +51,7 @@
             <li
               style="padding: 0 15px"
               class="fa-solid fa-magnifying-glass"
+              onclick="focusSearch()"
             ></li>
             <li
               style="padding: 0 15px; position: relative"
@@ -102,12 +103,94 @@
       <!-- Product when guest at home  -->
       <section id="all-product">
         <div class="container">
-          <input
-            type="text"
-            id="search-product"
-            placeholder="Nhập sản phẩm tìm kiếm"
-            oninput="searchProduct()"
-          />
+          <div class="search-product">
+            <div class="filter-product">
+              <div class="filter-item" onclick="toggleDisplayFilter(event, this)">
+                <i class="fa-solid fa-filter filter-icon"></i>
+                <span class="filter-title">Lọc</span>
+              </div>
+              <div class="filter-box">
+                <form class="filter-form">
+                  <div class="filter-row">
+                    <label for="filter-brand">Hãng:</label>
+                    <select name="filter-brand" id="filter-brand">
+                      <option value="" selected>Chọn hãng</option>
+                      <option value="Dell">Dell</option>
+                      <option value="Asus">Asus</option>
+                      <option value="Mac">Macbook</option>
+                    </select>
+                  </div>
+                  <div class="filter-row">
+                    <label for="filter-ram">RAM:</label>
+                    <select name="filter-ram" id="filter-ram">
+                      <option value="" selected>Chọn RAM</option>
+                      <option value="8GB">8GB</option>
+                      <option value="16GB">16GB</option>
+                      <option value="32GB">32GB</option>
+                    </select>
+                  </div>
+                  <div class="filter-row">
+                    <label for="filter-rom">Bộ nhớ trong:</label>
+                    <select name="filter-rom" id="filter-rom">
+                      <option value="" selected>Chọn bộ nhớ trong</option>
+                      <option value="256GB">256GB</option>
+                      <option value="512GB">512GB</option>
+                      <option value="1TB">1TB</option>
+                    </select>
+                  </div>
+                  <div class="filter-row">
+                    <span for="filter-price">Giá:</span>
+                    <label for="filter-price-start">từ</label>
+                    <select name="filter-price-start" id="filter-price-start">
+                      <option value="" selected>Chọn giá bắt đầu</option>
+                      <option value="10000000">10.000.000₫</option>
+                      <option value="15000000">15.000.000₫</option>
+                      <option value="20000000">20.000.000₫</option>
+                      <option value="40000000">40.000.000₫</option>
+                      <option value="50000000">50.000.000₫</option>
+                    </select>
+                    <label for="filter-price-end">đến</label>
+                    <select name="filter-price-end" id="filter-price-end">
+                      <option value="" selected>Chọn giá kết thúc</option>
+                      <option value="15000000">15.000.000₫</option>
+                      <option value="20000000">20.000.000₫</option>
+                      <option value="40000000">40.000.000₫</option>
+                      <option value="50000000">50.000.000₫</option>
+                      <option value="100000000">100.000.000₫</option>
+                    </select>
+                  </div>
+                  <div class="filter-submit">
+                    <button
+                      class="filter-submit-btn"
+                      onclick="submitFilter(event)"
+                    >
+                      Lọc
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="sort-product-item" >
+              <div class="sort-product-title" onclick="toggleDisplaySort(event, this)">Sắp xếp theo <i class="fa-solid fa-sort"></i></div>
+              <ul class="sort-product-list">
+                <li>
+                  <div class="sort-price-inc" onclick="sortProductIncrease()">Giá tăng dần <i class="fa-solid fa-arrow-up-wide-short"></i></div>
+                </li>
+                <li>
+                  <div class="sort-price-desc" onclick="sortProductDecrease()">Giá giảm dần <i class="fa-solid fa-arrow-down-wide-short"></i></div>
+                </li>
+              </ul>
+            </div>
+            <div class="search-product-item">
+              <label for="search-product-input"><i class="fa-solid fa-magnifying-glass"></i></label>
+              <input
+                type="text"
+                id="search-product-input"
+                placeholder="Nhập sản phẩm tìm kiếm"
+                oninput="searchProduct()"
+              />
+            </div>
+          </div>
           <div class="type-list">
             <button onclick="showDELL()" class="type-button">
               <img
@@ -338,7 +421,7 @@
                     </tr>
                     <tr>
                       <td>Bộ nhớ trong</td>
-                      <td class="ROM">256 GB</td>
+                      <td class="ROM">256GB</td>
                     </tr>
                     <tr>
                       <td>Hệ điều hành:</td>
