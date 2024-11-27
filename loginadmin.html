@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoginAdmin</title>
+    <link rel="stylesheet" href="loginadmin.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+</head>
+<body>
+    <div class="container-login-admin">
+        <div class="login-page-admin">
+            <div class="login-box-admin">
+              <h1 class="login-title-admin">Đăng nhập</h1>
+              <form class="form-login-admin">
+                <label for="email-login-admin" class="label-login-admin email-label-login-admin"
+                  >Email đăng nhập:</label
+                >
+                <br />
+                <input
+                  type="email"
+                  id="email-login-admin"
+                  placeholder="Nhập email của bạn:"
+                /><br />
+                <label for="password-login-admin" class="label-login-admin password-label-login-admin"
+                  >Mật khẩu:</label
+                ><br />
+                <input
+                  type="password"
+                  id="password-login-admin"
+                  placeholder="Nhập mật khẩu của bạn:"
+                />
+                <br />
+                <div class="login-error-admin">Email hoặc mật khẩu không đúng!</div>
+                <button type="submit" class="login-submit-admin">Đăng nhập</button> <br />
+              </form>
+            </div>
+            <div class="overlay-admin login-success-admin">
+                <div class="login-success-box-admin">
+                    <i class="fa-solid fa-rectangle-xmark close-admin"></i>
+                    <i class="fa-regular fa-circle-check check-admin"></i>
+                    <h2 class="success-title-admin">Đăng nhập thành công</h2>
+                    <h2 class="success-btn-admin">Quay về trang chủ</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

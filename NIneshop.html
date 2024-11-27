@@ -48,11 +48,17 @@
             <li>More</li>
           </ul>
           <ul id="rightmenu">
-            <li
-              style="padding: 0 15px"
-              class="fa-solid fa-magnifying-glass"
-              onclick="focusSearch()"
-            ></li>
+            <li>
+              <div class="search-product-item">
+                <label for="search-product-input"><i class="fa-solid fa-magnifying-glass"></i></label>
+                <input
+                  type="text"
+                  id="search-product-input"
+                  placeholder="Nhập sản phẩm tìm kiếm"
+                  oninput="searchProduct()"
+                />
+              </div>
+            </li>
             <li
               style="padding: 0 15px; position: relative"
               class="fa-solid fa-user"
@@ -186,6 +192,7 @@
                     Giá tăng dần <i class="fa-solid fa-arrow-up-wide-short"></i>
                   </div>
                 </li>
+                
                 <li>
                   <div class="sort-price-desc" onclick="sortProductDecrease()">
                     Giá giảm dần
@@ -195,9 +202,7 @@
               </ul>
             </div>
             <div class="search-product-item">
-              <label for="search-product-input"
-                ><i class="fa-solid fa-magnifying-glass"></i
-              ></label>
+              <label for="search-product-input"><i class="fa-solid fa-magnifying-glass"></i></label>
               <input
                 type="text"
                 id="search-product-input"
@@ -2225,95 +2230,6 @@
           <i class="fa-regular fa-circle-check"></i>
           <h2 class="success-title">Đăng nhập thành công</h2>
           <h2 class="success-btn" onclick="reloadPage()">Quay về trang chủ</h2>
-        </div>
-      </div>
-    </div>
-    <!---------------------------- Product_Macbook-Menu ------------------------->
-    <div id="container_Mac">
-      <div id="BigTitle_Mac">Macbook</div>
-      <div id="captalog_mac">
-        <div id="filter">
-          <div class="just_space_right">
-            <i class="fa-solid fa-filter"></i> Lọc sản phẩm
-          </div>
-          <div style="position: absolute; right: 0px; display: flex">
-            <div class="just_space">
-              <i class="fa-solid fa-down-long"></i>Giá từ cao đến thấp
-            </div>
-            <div class="just_space">
-              <i class="fa-solid fa-up-long"></i>Giá từ thấp đến cao
-            </div>
-          </div>
-        </div>
-
-        <div id="show_item">
-          <div class="Mac_Item">
-            <img
-              class="item"
-              src=".\img\macbook\1682044807859_thumb_macbook_air_m1_8gb_256gb_didongviet.webp"
-              alt=""
-            />
-            <div class="name_Product">Macbook Air M1</div>
-            <div class="price_Product">16.900.000</div>
-          </div>
-
-          <div class="Mac_Item">
-            <img
-              class="item"
-              src=".\img\macbook\1682044807859_thumb_macbook_air_m1_8gb_256gb_didongviet.webp"
-              alt=""
-            />
-            <div class="name_Product">Macbook Air M1</div>
-            <div class="price_Product">16.900.000</div>
-          </div>
-
-          <div class="Mac_Item">
-            <img
-              class="item"
-              src=".\img\macbook\1682044807859_thumb_macbook_air_m1_8gb_256gb_didongviet.webp"
-              alt=""
-            />
-            <div class="name_Product">Macbook Air M1</div>
-            <div class="price_Product">16.900.000</div>
-          </div>
-
-          <div class="Mac_Item">
-            <img
-              class="item"
-              src=".\img\macbook\1682044807859_thumb_macbook_air_m1_8gb_256gb_didongviet.webp"
-              alt=""
-            />
-            <div class="name_Product">Macbook Air M1</div>
-            <div class="price_Product">16.900.000</div>
-          </div>
-
-          <div class="Mac_Item">
-            <img
-              class="item"
-              src=".\img\macbook\1682044807859_thumb_macbook_air_m1_8gb_256gb_didongviet.webp"
-              alt=""
-            />
-            <div class="name_Product">Macbook Air M1</div>
-            <div class="price_Product">16.900.000</div>
-          </div>
-
-          <div class="Mac_Item">
-            <img
-              class="item"
-              src=".\img\macbook\1682044807859_thumb_macbook_air_m1_8gb_256gb_didongviet.webp"
-              alt=""
-            />
-            <div class="name_Product">Macbook Air M1</div>
-            <div class="price_Product">16.900.000</div>
-          </div>
-        </div>
-
-        <div class="page-button">
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>...</button>
-          <button>></button>
         </div>
       </div>
     </div>
