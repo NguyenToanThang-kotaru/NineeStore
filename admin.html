@@ -5,21 +5,50 @@
     <script src="https://kit.fontawesome.com/8ca35a85ae.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./adminstyle.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter" />
-    <link rel="stylesheet" href="loginadmin.css" />
+    <link rel="stylesheet" href="login.css" />
     <link rel="stylesheet" href="thongke.css">
     <title>Admin Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
 <body>
-    <div></div>
+    <div class="login-page overlay" id="loginFromadmin" style="display: block;">
+        <div class="login-box">
+          <div class="esc-register" onclick="closeRL(this)">
+            <i class="fa-solid fa-x"></i>
+          </div>
+          <h1 class="login-title">Đăng nhập</h1>
+          <form class="form-login">
+            <label for="email-login" class="label-login email-label-login"
+              >Email đăng nhập:</label
+            >
+            <br />
+            <input
+              type="email"
+              id="email-login"
+              placeholder="Nhập email của bạn:"
+            /><br />
+            <label for="password-login" class="label-login password-label-login"
+              >Mật khẩu:</label
+            ><br />
+            <input
+              type="password"
+              id="password-login"
+              placeholder="Nhập mật khẩu của bạn:"
+            />
+            <br />
+            <div class="login-error">Email hoặc mật khẩu không đúng!</div>
+            <button type="submit" id="login-from-admin">Đăng nhập</button> <br/>
+          </form>
+        </div>
+    </div>
     <div class="image__cannot-go-in"
         style="height: 100vh; width: 100vw; display: flex; justify-content: center; align-items: center; background-color: #c2deef;">
         <img src="./img/404-status-code.png" alt="Error 404"
             style="overflow: hidden; height: 100%; object-fit: contain" />
     </div>
     <!-- Rest of the HTML code -->
-    <div class="admin__page">
+    <div class="admin__page" style="display: none;">
         <!-- Side menu -->
         <div class="side-menu">
             <a href="#statistic" id="side-menu__menu-statistic" title="Thống kê">
@@ -40,6 +69,7 @@
         </div>
         <!-- Contain -->
         <div class="main">
+            <!------------------- Statistics ----------------->
             <div id="statistic" class="statistic disable">
                 <div id="statistics">
                     <div id="menu-tke">
@@ -280,7 +310,6 @@
 
 
             </div>
-
             <!------------------- Product ----------------->
             <div id="product" class="product disable">
                 <div class="product__header">
@@ -719,6 +748,7 @@
     <!------------------- Order ----------------->
     
     <script src="./admin.js"></script>
+    <script src="./loginAdmin.js"></script>
 </body>
 
 </html>

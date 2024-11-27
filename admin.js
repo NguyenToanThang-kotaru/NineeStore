@@ -142,9 +142,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const user = JSON.parse(localStorage.getItem("userLogin"));
     if (user.UserType == "admin") { 
         document.querySelector(".image__cannot-go-in").style.display = "none";
+        document.querySelector("#loginFromadmin").style.display = "none";
         document.querySelector(".admin__page").style.display = "block";
-    } else {
-        document.querySelector(".admin__page").style.display = "none";
+
+    } 
+    else{
+        document.querySelector("#loginFromadmin").style.display = "none";
         document.querySelector(".image__cannot-go-in").style.display = "block";
     }
 

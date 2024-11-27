@@ -3,12 +3,16 @@ const adminAccount = {
   Password: "admin123",
   UserType: "admin"
 };
+
+
+
 const loginSubmit = document.querySelector(".login-submit");
 loginSubmit.addEventListener("click", (event) => {
   const userLocalLogin = JSON.parse(localStorage.getItem("users")) || [];
   const emailLogin = document.getElementById("email-login");
   const passwordLogin = document.getElementById("password-login");
   event.preventDefault();
+  console.log("sad")
   if (
     adminAccount.UserName === emailLogin.value &&
     adminAccount.Password === passwordLogin.value

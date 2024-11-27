@@ -39,7 +39,8 @@
 }
 .form-login {
   margin: 0 auto;
-  width: 250px;
+  width: 250px; 
+  background-color: transparent;
 }
 .login-submit {
   display: flex;
