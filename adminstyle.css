@@ -265,6 +265,12 @@ button:hover {
 }
 
 /* --------------- Order ------------ */
+#filter-date, #filter-address {
+    display: none;
+    width: 90%;
+    margin-bottom: 20px;
+}
+
 .order__detail {
   background-color: #b6b6b6;
   width: 100px;
