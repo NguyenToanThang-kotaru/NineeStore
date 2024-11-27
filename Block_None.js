@@ -56,3 +56,13 @@ function Macproduct_open() {
 function displayCart() {
   document.querySelector(".cart-page").style.display = "block";
 }
+function toggleMenu() {
+  const menudacap = document.querySelector('.menudacap-mobile');
+  menudacap.classList.toggle('open'); 
+}
+function toggleOverlayNav(){
+  const overlayNav = document.querySelector('.overlay-nav')
+  const menuList = document.querySelector('.mobile-menu')
+  overlayNav.classList.toggle('show')
+  menuList.classList.toggle('show')
+}

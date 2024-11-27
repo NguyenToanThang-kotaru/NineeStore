@@ -20,6 +20,11 @@ body {
   text-align: center;
   align-items: center;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent
+}
+i.nav-bar {
+  padding: 0 15px;
+  display: none;
 }
 #centermenu {
   list-style: none;
@@ -212,4 +217,17 @@ body {
   border-radius: 50%;
   border-left: none;
   font-family: "Courier New", Courier, monospace;
+}
+.overlay-nav {
+  -webkit-tap-highlight-color: transparent;
+  opacity: 0; /* Ban đầu ẩn */
+  visibility: hidden; /* Ban đầu không chiếm không gian */
+  overflow: hidden; /* Ẩn nội dung tràn */
+  transition: all 0.5s ease; /* Hiệu ứng mượt */
+}
+.mobile-menu {
+  -webkit-tap-highlight-color: transparent;
+  transform: translateX(-100%);
+  overflow: hidden;
+  transition: all 0.5s ease; 
 }

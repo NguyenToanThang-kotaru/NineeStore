@@ -31,6 +31,7 @@
       <!-- Topmenu -->
       <div id="container">
         <div id="Topmenu">
+          <i class="fa-solid fa-bars nav-bar" onclick="toggleOverlayNav()"></i>
           <a href="Nineshop.html" id="leftmenu">
             <img src="./img/download.jpg" width="130px" alt="logo" ah />
           </a>
@@ -45,7 +46,6 @@
             <li class="mac_Product">MacBook</li>
             <li>Sản phẩm cũ</li>
             <li>Đang giảm giá</li>
-            <li>More</li>
           </ul>
           <ul id="rightmenu">
             <li
@@ -81,6 +81,7 @@
           </ul>
         </div>
       </div>
+
       <!-- Slideshow -->
       <div id="Slideshow" style="display: flex; justify-content: center">
         <div id="slideshow">
@@ -2096,6 +2097,22 @@
             </div>
           </div>
         </footer>
+      </div>
+    </div>
+    <!-- Nav mobile -->
+    <div class="nav-mobile">
+      <div class="overlay-nav" onclick="toggleOverlayNav()"></div>
+      <div class="mobile-menu">
+        <ul id="menu-list-mobile">
+          <li class="menu-mobile-item" onclick="toggleMenu()">Laptop</li>
+          <ul class="menudacap-mobile">
+            <li class="child-menu-lap">Asus</li>
+            <li class="child-menu-lap">Dell</li>
+          </ul>
+          <li class="menu-mobile-item">MacBook</li>
+          <li class="menu-mobile-item">Sản phẩm cũ</li>
+          <li class="menu-mobile-item">Đang giảm giá</li>
+        </ul>
       </div>
     </div>
     <!---------------------------- register ------------------------->

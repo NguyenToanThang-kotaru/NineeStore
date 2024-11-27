@@ -110,6 +110,56 @@
     padding: 2px 0;
     margin: 0;
   }
+  i.nav-bar {
+    display: block;
+  }
+  .nav-mobile{
+    overflow: hidden;
+  }
+  .overlay-nav {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 11;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .overlay-nav.show {
+    visibility: visible;
+    opacity: 1;
+  }
+  .mobile-menu {
+    position: fixed;
+    inset: 0 50% 0 0;
+    background: rgb(255, 255, 255); /* Nền mờ màu đen */
+    z-index: 11;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .menu-mobile-item {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  #menu-list-mobile li:hover {
+    opacity: 0.6;
+  }
+  .menudacap-mobile {
+    padding-left: 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s linear;
+  }
+  .menudacap-mobile.open {
+    max-height: 100px; /* Đảm bảo đủ để hiển thị toàn bộ mục */
+  }
+  .child-menu-lap {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  .mobile-menu.show {
+    transform: translateX(0);
+    transition: all 0.5s ease; 
+  }
 }
 /* Mobile no rotate*/
 @media (max-width: 499.8px) {
