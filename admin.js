@@ -744,3 +744,60 @@ document.querySelector("#form__add-submit").addEventListener("click", function (
     }
 });
 // edit and remove product: at the function section
+
+//editCustomer 
+function editCustomer(customerElement) {
+    console.log("hhahahahahahahhah");
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const divCustomer = customerElement.parentElement.parentElement;
+    const id = divCustomer.querySelector(".customer__userID").innerText;
+
+     const userNameField = document.getElementById("form__edit-userName");
+    const namefullField = document.getElementById("form__edit-fullname");
+    const phoneField = document.getElementById("form__edit-phone");
+    const emailField = document.getElementById("form__edit-email");
+    const addressField = document.getElementById("form__edit-address");
+
+
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].UserId == id) {
+           
+            userNameField.value = users[i].UserName;
+            namefullField.value = users[i].FullName;
+            phoneField.value = users[i].Phone;
+            emailField.value = users[i].Email;
+            addressField.value = users[i].Address;
+
+          
+            document.getElementById("form__edit-submit").addEventListener("click", function (event) {
+                event.preventDefault();
+
+              
+                 users[i].FullName = namefullField.value;
+                users[i].Phone = phoneField.value;
+                users[i].Email = emailField.value;
+                users[i].Address = addressField.value;
+                users[i].UserName = userNameField.value;
+
+               
+                localStorage.setItem("users", JSON.stringify(users));
+
+                
+        
+                 divCustomer.querySelector(".customer__userFullName").innerText = users[i].FullName;
+                divCustomer.querySelector(".customer__userName").innerText = users[i].UserName;
+                divCustomer.querySelector(".customer__userPhone").innerText = users[i].Phone;
+                divCustomer.querySelector(".customer__userEmail").innerText = users[i].Email;
+                divCustomer.querySelector(".customer__userAddress").innerText = users[i].Address;
+
+                // Close the modal
+                document.querySelector(".admin__edit").style.display = "none";
+            });
+
+            break;
+        }
+    }
+
+    // Show the edit modal
+    document.querySelector(".admin__edit").style.display = "block";
+}
