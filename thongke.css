@@ -1,0 +1,223 @@
+.container-statistics {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f7f3f3;
+    text-align: center;
+}
+
+#items-tke,#customers-tke {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    width: 95%;
+    height: 90vh; 
+    margin: auto; 
+    overflow-y: auto; 
+    box-shadow: 0 5px 10px rgb(35, 35, 80);
+}
+.select-period-tke{
+    color: rgb(35, 35, 80);
+}
+.option-period-tke{
+    color: rgb(35, 35, 80);
+    border: 2px solid rgb(35, 35, 80);
+}
+
+#menu-tke{
+    position: relative;
+    bottom: 150px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid rgb(240, 231, 231);
+    background-color: whitesmoke;
+    margin: auto;
+    width: 60%;
+    box-shadow: 0 0 18px rgb(35, 35, 80);
+}
+
+#menu-tke button {
+    margin: 20px;
+    padding: 15px;
+    font-size: 18px;
+    background-color: #63696e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 50%;
+}
+
+#menu-tke button:hover {
+    background-color: rgb(35, 35, 80);
+}
+
+.items-table-tke {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.items-table-tke td {
+    border: 3px solid #ddd;
+    background-color: #f4f4f4;
+    padding: 10px;
+    text-align: left;
+}
+
+.items-table-tke th{
+    border: 3px solid #ddd;
+    background-color: #cccccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.items-table-tke button{
+    border: 2px solid rgb(35, 35, 80);
+    cursor: pointer;
+}
+
+.items-table-tke button:hover{
+    background-color: rgb(105, 105, 165);
+}
+
+.total-revenue-tke{
+    background-color: rgb(135, 135, 209);
+    border: 2px solid #ddd;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+#amount-revenue-tke{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.summary-table-tke {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.summary-table-tke th {
+    border: 3px solid #ddd;
+    background-color: #cccccc;
+    padding: 10px;
+    text-align: left;
+}
+.summary-table-tke td {
+    border: 3px solid #ddd;
+    background-color: #f4f4f4;
+    padding: 10px;
+    text-align: left;
+}
+
+#back-btn-mh, #back-btn-kh {
+    color: white;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #6c757d;
+    cursor: pointer;
+}
+
+#back-btn-mh:hover , #back-btn-kh:hover {
+    background-color: rgb(35, 35, 80);
+} 
+
+/* Hoa don */
+
+.hoa-don-container{
+    width: 30%;
+    z-index: 1010;
+    border: 2px solid;
+    padding: 20px;
+    margin: 0 auto; 
+    justify-content: center;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.hoa-don-header{
+    text-align: center;
+
+}
+.hoa-don-info{
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+
+}
+.product-table-info-hd{
+    width: 100%;
+    table-layout: fixed;
+    text-align: center;
+}
+.table-header-hd th{
+    text-align: center;
+    justify-content: center;
+    padding: 20px; 
+}
+
+.product-table-hd{
+    margin: 0 auto;
+}
+
+.total-container-hd{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.total-amount-hd{
+    margin: 0;
+    padding: 20px;
+}
+.total-text-hd{
+    margin-left: 50px;
+}
+
+.overlay-hd {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1000;
+}
+
+.esc-hoadon-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #63696e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.esc-hoadon-btn:hover:hover {
+    background-color: rgb(35, 35, 80);
+}

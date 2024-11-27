@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business statistics</title>
+    <link rel="stylesheet" href="thongke.css">
+</head>
+
+<body>
+    <div class="container-statistics">
+        <div id="menu-tke">
+            <button id="items-btn">Thống kê mặt hàng</button>
+            <button id="customers-btn">Thống kê khách hàng</button>
+        </div>
+        <div id="items-tke">
+            <h2>Thống kê mặt hàng</h2>
+            <div class="select-period-tke">
+                Khoảng thời gian:
+                <select name="select-preiod-tke" class="option-period-tke">
+                    <option value="1">1 ngày</option>
+                    <option value="7">7 ngày</option>
+                    <option value="30">30 ngày</option>
+                    <option value="60">60 ngày</option>
+                </select>
+            </div>
+            <table class="items-table-tke">
+                <thead>
+                    <tr>
+                        <th>Tên mặt hàng</th>
+                        <th>Số lượng bán</th>
+                        <th>Tổng thu</th>
+                        <th>Xem hóa đơn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mặt hàng 1</td>
+                        <td>0</td>
+                        <td>0 VNĐ</td>
+                        <td><button class="show-hoadon-mh">Xem</button></td>
+                    </tr>
+                    <tr>
+                        <td>Mặt hàng 2</td>
+                        <td>0</td>
+                        <td>0 VNĐ</td>
+                        <td><button class="show-hoadon-mh">Xem</button></td>
+                    </tr>
+                    <tr>
+                        <td>Mặt hàng 3</td>
+                        <td>0</td>
+                        <td>0 VNĐ</td>
+                        <td><button class="show-hoadon-mh">Xem</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="total-revenue-tke">
+                Tổng doanh thu: <span id="amount-revenue-tke">0</span>VNĐ
+            </div>
+
+            <table class="summary-table-tke">
+                <thead>
+                    <tr>
+                        <th>Tiêu chí</th>
+                        <th>Mặt hàng</th>
+                        <th>Doanh thu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mặt hàng bán chạy nhất</td>
+                        <td id="best-item">Mặt hàng 1</td>
+                        <td id="best-item-revenue">0 VNĐ</td>
+                    </tr>
+                    <tr>
+                        <td>Mặt hàng bán ế nhất</td>
+                        <td id="worst-item">Mặt Hàng 2</td>
+                        <td id="worst-item-revenue">0 VNĐ</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button id="back-btn-mh">Quay lại</button>
+        </div>
+
+        <div id="customers-tke">
+            <h2>Thống kê khách hàng</h2>
+            <div class="select-period-tke">
+                Khoảng thời gian:
+                <select name="select-preiod-tke" class="option-period-tke">
+                    <option value="1">1 ngày</option>
+                    <option value="7">7 ngày</option>
+                    <option value="30">30 ngày</option>
+                    <option value="60">60 ngày</option>
+                </select>
+            </div>
+            <table class="items-table-tke">
+                <thead>
+                    <tr>
+                        <th>Tên khách hàng</th>
+                        <th>Tổng doanh thu</th>
+                        <th>Xem hóa đơn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Khách hàng 1</td>
+                        <td>0 VNĐ</td>
+                        <td><button class="show-hoadon-kh">Xem</button></td>
+                    </tr>
+                    <tr>
+                        <td>Khách hàng 2</td>
+                        <td>0 VNĐ</td>
+                        <td><button class="show-hoadon-kh">Xem</button></td>
+                    </tr>
+                    <tr>
+                        <td>Khách hàng 3</td>
+                        <td>0 VNĐ</td>
+                        <td><button class="show-hoadon-kh">Xem</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id="back-btn-kh">Quay lại</button>
+        </div>
+
+        <!-- Hoa don -->
+
+        <div class="hoa-don-container" id="hoadon-customers">
+            <button class="esc-hoadon-btn" id="esc-hoadon-btn-kh">X</button>
+            <div class="hoa-don-header">
+                <h1>Hóa đơn </h1>
+
+            </div>
+            <div class="hoa-don-info">
+                <div class="hoa-don-customer">
+                    <h3>Thông tin khách hàng</h3>
+                    <p>Họ tên: Nguyễn Văn A</p>
+                    <p>Địa chỉ: 123 An Dương Vương</p>
+                    <p>Số điện thoại:0912345678</p>
+                    <p>Email:123@gmail.com</p>
+                </div>
+            </div>
+            <div class="product-table-hd">
+                <table class="product-table-info-hd">
+                    <thead>
+                        <tr class="table-header-hd">
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng </th>
+                            <th>Đơn giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sản phẩm 1</td>
+                            <td>1</td>
+                            <td>20.000.000</td>
+                            <td>20.000.000</td>
+                        </tr>
+                        <tr>
+                            <td>Sản phẩm 2</td>
+                            <td>2</td>
+                            <td>30.000.000</td>
+                            <td>60.000.000</td>
+                        </tr>
+                        <tr>
+                            <td>Sản phẩm 3</td>
+                            <td>1</td>
+                            <td>40.000.000</td>
+                            <td>40.000.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="total-hd">
+                <hr>
+                <div class="total-container-hd">
+
+                    <p class="text">Tổng tiền:</p>
+                    <p class="total-amount-hd">120.000.000</p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay-hd"></div>
+
+        <div class="hoa-don-container" id="hoadon-items">
+            <button class="esc-hoadon-btn" id="esc-hoadon-btn-mh">X</button>
+            <div class="hoa-don-header">
+                <h1>Hóa đơn </h1>
+            </div>
+            <div class="hoa-don-info">
+                <div class="hoa-don-mat-hang">
+                    <h3>Thông tin sản phẩm</h3>
+                    <p> Tên: Laptop ASUS Zephyrus</p>
+                    <p>Hãng: ASUS</p>
+                    <p>Nơi Bán: Nine Store</p>
+
+                </div>
+            </div>
+            <div class="product-table-hd">
+                <table class="product-table-info-hd">
+                    <thead>
+                        <tr class="table-header-hd">
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng </th>
+                            <th>Đơn giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Khách hàng 1</td>
+                            <td>1</td>
+                            <td>20.000.000</td>
+                            <td>20.000.000</td>
+                        </tr>
+                        <tr>
+                            <td>Khách hàng 2</td>
+                            <td>2</td>
+                            <td>30.000.000</td>
+                            <td>60.000.000</td>
+                        </tr>
+                        <tr>
+                            <td>Khách hàng 3</td>
+                            <td>1</td>
+                            <td>40.000.000</td>
+                            <td>40.000.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="total-hd">
+                <hr>
+                <div class="total-container-hd">
+
+                    <p class="text-hd">Tổng tiền:</p>
+                    <p class="total-amount-hd">120.000.000</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="thongke.js"></script>
+
+</html>
