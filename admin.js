@@ -22,6 +22,9 @@
         const closes = document.querySelectorAll(".close") || [];
         closes.forEach((closebtn) => {
             closebtn.addEventListener("click", () => {
+                // clear the inputs in the form
+                const inputs = closebtn.parentElement.querySelectorAll("input");
+                clearInput(inputs);
                 closebtn.parentElement.parentElement.style.display = "none";
             });
         });
@@ -157,7 +160,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const thongke = document.getElementById("side-menu__menu-statistic");
     // customers
     const customerList = document.getElementById("customer__list-body");
-
+    // order
+    const filterDate = document.getElementById("filter__date");
+    const filterDateContainer = document.getElementById("filter-date");
+    const filterAddress = document.getElementById("filter-address");
+    let showFilterDate = false;
+    let showFilterAddress = false;
     // statistic
 
     // open / close a page when the icon is clicked
@@ -215,6 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // check if the pay and the ship is checked => its background will be green
 
     //--------------------------------- Customer -----------------------------
+    // add customer to the table when the page is loaded
     function addCustomertoTable() {
         const userLocal = JSON.parse(localStorage.getItem("users")) || [];
         let customerContent = "";
@@ -223,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td class="customer__userID">${user.UserId}</td>
                 <td class="customer__userName">${user.UserName}</td>
                 <td class="customer__userPhone">${user.Phone}</td>
-                <td class="customer__userAddress">${user.Address}</td>
+                <td class="customer__userAddress">${user.Address}, ${user.District}, ${user.Province}</td>
                 <td class="customer__userEmail">${user.Email}</td>
                 <td><button type="button" class="customer__status" title="Nhấp chuột để thay đổi trạng thái">Hoạt động</button></td>
             </tr>`;
@@ -380,51 +389,141 @@ document.addEventListener("DOMContentLoaded", function () {
         const phone = document.getElementById("form__admin-phone");
         const email = document.getElementById("form__admin-email");
         const address = document.getElementById("form__admin-address");
+        const district = document.getElementById("form__admin-district");
+        const province = document.getElementById("form__admin-province");
         const userName = document.getElementById("form__admin-username");
         const password = document.getElementById("form__admin-password");
 
+        // check if the information admin filled is valid
         if (!inputFilled([name, phone, email, address, userName, password])) {
+            alert("Vui lòng điền đầy đủ thông tin.");
             return false;
-        } else if (isNaN(phone.value)) {
-            alert("Vui lòng nhập số.");
+        } else if (!isNaN(name.value)) {
+            alert("Vui lòng nhập tên.");
+            name.focus();
+            return false;
+        } else if (isNaN(phone.value) || phone.value.length != 10) {
+            alert("Vui lòng nhập số (số phải đủ 10 kí tự).");
             phone.focus();
             return false;
+        } else if (!isNaN(password.value) || password.value.length < 8) {
+            alert("Mật khẩu phải có ít nhất 8 kí tự và phải chưa kí tự chữ.");
+            password.focus();
+            return false;
+        } else {
+            // check if the information is already in the database
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            for (let i = 0; i < users.length; i++) {
+                if (users[i].Email == email.value) {
+                    alert("Email này đã được đăng ký.");
+                    email.focus();
+                    return false;
+                }
+                if (users[i].Phone == phone.value) {
+                    alert("Số điện thoại này đã được đăng ký.");
+                    phone.focus();
+                    return false;
+                }
+                if (users[i].UserName == userName.value) {
+                    alert("Tên đăng nhập này đã được đăng ký.");
+                    userName.focus();
+                    return false;
+                }
+            }
         }
 
         // bring values into table
-        else {
-            // do the thing
-            const user = {
-                UserId: Math.ceil(Math.random() * 10000000000),
-                FullName: name.value,
-                Phone: phone.value,
-                Address: address.value,
-                UserName: userName.value,
-                Email: email.value,
-                Password: password.value,
-                OrderHistory: [],
-                UserType: "admin",
-            };
-            // Thêm vào bảng khi không load trang
-            const userInfo = `<tr>
-                <td class="customer__userID">${user.UserId}</td>
-                <td class="customer__userName">${user.FullName} (Admin)</td>
-                <td class="customer__userPhone">${user.Phone}</td>
-                <td class="customer__userAddress">${user.Address}</td>
-                <td class="customer__userEmail">${user.Email}</td>
-                <td><button type="button" class="customer__status" title="Nhấp chuột để thay đổi trạng thái">Hoạt động</button></td>
-            </tr>`;
-            customerList.innerHTML += userInfo;
-            // store data into localStorage
-            const users = JSON.parse(localStorage.getItem("users")) || [];
-            users.push(user);
-            localStorage.setItem("users", JSON.stringify(users));
+        // do the thing
+        const user = {
+            UserId: Math.ceil(Math.random() * 10000000000),
+            FullName: name.value,
+            Phone: phone.value,
+            Address: address.value,
+            District: district.value,    
+            Province: province.value,
+            UserName: userName.value,
+            Email: email.value,
+            Password: password.value,
+            OrderHistory: [],
+            UserType: "admin",
+        };
+        // Thêm vào bảng khi không load trang
+        const userInfo = `<tr>
+            <td class="customer__userID">${user.UserId}</td>
+            <td class="customer__userName">${user.FullName} (Admin)</td>
+            <td class="customer__userPhone">${user.Phone}</td>
+            <td class="customer__userAddress">${user.Address}, ${user.District}, ${user.Province}</td>
+            <td class="customer__userEmail">${user.Email}</td>
+            <td><button type="button" class="customer__status" title="Nhấp chuột để thay đổi trạng thái">Hoạt động</button></td>
+        </tr>`;
+        customerList.innerHTML += userInfo;
+        // store data into localStorage
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        users.push(user);
+        localStorage.setItem("users", JSON.stringify(users));
 
-            // make all the input empty
-            clearInput([name, phone, email, address, userName, password]);
+        // make all the input empty
+        clearInput([name, phone, email, address, userName, password]);
+    });
+
+    // filter in order
+    // open/close the date filter window
+    document.getElementById("order__filter-date").addEventListener("click", function () {
+        if (showFilterDate == false) {
+            filterAddress.style.display = "none";
+            filterDateContainer.style.display = "flex";
+            filterDateContainer.style.justifyContent = "flex-end";
+            showFilterDate = true;    
+        }
+        else {
+            filterDateContainer.style.display = "none";
+            showFilterDate = false;
         }
     });
 
+    filterDate.addEventListener("change", function () {
+        if (filterDate.value == "all") {
+            addOrdertoTable();
+        }
+        else if (filterDate.value == "today") {
+            let year = new Date().getFullYear();
+            let month = new Date().getMonth();
+            let day = new Date().getDate();
+            let today = new Date(year, month, day);
+            console.log(today);
+            const tableBody = document.querySelector(".order-table tbody");
+            const rows = tableBody.querySelectorAll("tr");
+            console.log(rows[0]);
+            for (let row of rows) {
+                let tmp = row.querySelector(".order__date").innerText;
+                console.log(tmp);
+                let [day, month, year] = tmp.split("/");
+                let date = new Date(year, month - 1, day);
+                console.log(date);
+                if (date !== today) {
+                    row.style.display = "none";
+                }
+            }
+        }
+    });
+
+
+    // open/close the address filter window
+    document.getElementById("order__filter-address").addEventListener("click", function () {
+        if (showFilterAddress == false) {
+            filterDateContainer.style.display = "none";
+            filterAddress.style.display = "flex";
+            filterAddress.style.justifyContent = "flex-end";
+            showFilterAddress = true;
+        }
+        else {
+            filterAddress.style.display = "none";
+            showFilterAddress = false;
+        }
+    });
+
+    // filter the order by date
+    
 });
 // ------------ Edit ------------
 function editProduct(productElement) {
@@ -522,6 +621,7 @@ function deleteProduct(productElement) {
 }
 
 //--------------------------------- Order -----------------------------
+// Add order when the page is loaded
 function addOrdertoTable() {
     const orders = JSON.parse(localStorage.getItem("orders")) || [];
     let orderContent = "";
@@ -532,20 +632,13 @@ function addOrdertoTable() {
             productContent += `<tr>
                 <td class="order-detail-id">${product.ID}</td>
                 <td>
-                <div class="order-detail-product">
-                    <img
-                    src="${product.Img}"
-                    class="order-detail-img"
-                    />
-                    <div class="order-detail-name"
-                    >${product.Name}</
-                    >
-                </div>
+                    <div class="order-detail-product">
+                        <img src="${product.Img}" class="order-detail-img"/>
+                        <div class="order-detail-name">${product.Name}</div>
+                    </div>
                 </td>
                 <td>
-                <span class="order-detail-price"
-                    >${product.Price}</span
-                ><sup>đ</sup>
+                    <span class="order-detail-price">${product.Price}</span><sup>đ</sup>
                 </td>
                 <td class="order-detail-quantity">${product.Quantity}</td>
             </tr>`;
@@ -559,7 +652,8 @@ function addOrdertoTable() {
         else statusValue = "dh";
         const orderDate = new Date(order.OrderDate);
         const formattedDate = new Intl.DateTimeFormat("vi-VN").format(orderDate);
-        orderContent += `<tr>
+        orderContent += 
+        `<tr>
             <td class="order__id">${order.ID}</td>
             <td class="order__customer-id">${order.Customer.UserId}</td>
             <td class="order__price"><span class="order__price">${order.TotalPrice}</span><sup>đ</sup></td>

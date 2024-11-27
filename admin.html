@@ -36,7 +36,243 @@
             </div>
             <!-- Contain -->
             <div class="main">
-                <div id="statistic" class="statistic disable">Nothing</div>
+                <div id="statistic" class="statistic disable">
+                    <div class="container-statistics">
+                        <div id="menu-tke">
+                            <button id="items-btn">Thống kê mặt hàng</button>
+                            <button id="customers-btn">Thống kê khách hàng</button>
+                        </div>
+                        <div id="items-tke">
+                            <h2>Thống kê mặt hàng</h2>
+                            <div class="select-period-tke">
+                                Khoảng thời gian:
+                                <select name="select-preiod-tke" class="option-period-tke">
+                                    <option value="1">1 ngày</option>
+                                    <option value="7">7 ngày</option>
+                                    <option value="30">30 ngày</option>
+                                    <option value="60">60 ngày</option>
+                                </select>
+                            </div>
+                            <table class="items-table-tke">
+                                <thead>
+                                    <tr>
+                                        <th>Tên mặt hàng</th>
+                                        <th>Số lượng bán</th>
+                                        <th>Tổng thu</th>
+                                        <th>Xem hóa đơn</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Mặt hàng 1</td>
+                                        <td>0</td>
+                                        <td>0 VNĐ</td>
+                                        <td><button class="show-hoadon-mh">Xem</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mặt hàng 2</td>
+                                        <td>0</td>
+                                        <td>0 VNĐ</td>
+                                        <td><button class="show-hoadon-mh">Xem</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mặt hàng 3</td>
+                                        <td>0</td>
+                                        <td>0 VNĐ</td>
+                                        <td><button class="show-hoadon-mh">Xem</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                
+                            <div class="total-revenue-tke">
+                                Tổng doanh thu: <span id="amount-revenue-tke">0</span>VNĐ
+                            </div>
+                
+                            <table class="summary-table-tke">
+                                <thead>
+                                    <tr>
+                                        <th>Tiêu chí</th>
+                                        <th>Mặt hàng</th>
+                                        <th>Doanh thu</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Mặt hàng bán chạy nhất</td>
+                                        <td id="best-item">Mặt hàng 1</td>
+                                        <td id="best-item-revenue">0 VNĐ</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mặt hàng bán ế nhất</td>
+                                        <td id="worst-item">Mặt Hàng 2</td>
+                                        <td id="worst-item-revenue">0 VNĐ</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                
+                            <button id="back-btn-mh">Quay lại</button>
+                        </div>
+                
+                        <div id="customers-tke">
+                            <h2>Thống kê khách hàng</h2>
+                            <div class="select-period-tke">
+                                Khoảng thời gian:
+                                <select name="select-preiod-tke" class="option-period-tke">
+                                    <option value="1">1 ngày</option>
+                                    <option value="7">7 ngày</option>
+                                    <option value="30">30 ngày</option>
+                                    <option value="60">60 ngày</option>
+                                </select>
+                            </div>
+                            <table class="items-table-tke">
+                                <thead>
+                                    <tr>
+                                        <th>Tên khách hàng</th>
+                                        <th>Tổng doanh thu</th>
+                                        <th>Xem hóa đơn</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Khách hàng 1</td>
+                                        <td>0 VNĐ</td>
+                                        <td><button class="show-hoadon-kh">Xem</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Khách hàng 2</td>
+                                        <td>0 VNĐ</td>
+                                        <td><button class="show-hoadon-kh">Xem</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Khách hàng 3</td>
+                                        <td>0 VNĐ</td>
+                                        <td><button class="show-hoadon-kh">Xem</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button id="back-btn-kh">Quay lại</button>
+                        </div>
+                
+                        <!-- Hoa don -->
+                
+                        <div class="hoa-don-container" id="hoadon-customers">
+                            <button class="esc-hoadon-btn" id="esc-hoadon-btn-kh">X</button>
+                            <div class="hoa-don-header">
+                                <h1>Hóa đơn </h1>
+                
+                            </div>
+                            <div class="hoa-don-info">
+                                <div class="hoa-don-customer">
+                                    <h3>Thông tin khách hàng</h3>
+                                    <p>Họ tên: Nguyễn Văn A</p>
+                                    <p>Địa chỉ: 123 An Dương Vương</p>
+                                    <p>Số điện thoại:0912345678</p>
+                                    <p>Email:123@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="product-table-hd">
+                                <table class="product-table-info-hd">
+                                    <thead>
+                                        <tr class="table-header-hd">
+                                            <th>Tên sản phẩm</th>
+                                            <th>Số lượng </th>
+                                            <th>Đơn giá</th>
+                                            <th>Thành tiền</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Sản phẩm 1</td>
+                                            <td>1</td>
+                                            <td>20.000.000</td>
+                                            <td>20.000.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sản phẩm 2</td>
+                                            <td>2</td>
+                                            <td>30.000.000</td>
+                                            <td>60.000.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sản phẩm 3</td>
+                                            <td>1</td>
+                                            <td>40.000.000</td>
+                                            <td>40.000.000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="total-hd">
+                                <hr>
+                                <div class="total-container-hd">
+                
+                                    <p class="text">Tổng tiền:</p>
+                                    <p class="total-amount-hd">120.000.000</p>
+                
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="overlay-hd"></div>
+                
+                        <div class="hoa-don-container" id="hoadon-items">
+                            <button class="esc-hoadon-btn" id="esc-hoadon-btn-mh">X</button>
+                            <div class="hoa-don-header">
+                                <h1>Hóa đơn </h1>
+                            </div>
+                            <div class="hoa-don-info">
+                                <div class="hoa-don-mat-hang">
+                                    <h3>Thông tin sản phẩm</h3>
+                                    <p> Tên: Laptop ASUS Zephyrus</p>
+                                    <p>Hãng: ASUS</p>
+                                    <p>Nơi Bán: Nine Store</p>
+                
+                                </div>
+                            </div>
+                            <div class="product-table-hd">
+                                <table class="product-table-info-hd">
+                                    <thead>
+                                        <tr class="table-header-hd">
+                                            <th>Tên sản phẩm</th>
+                                            <th>Số lượng </th>
+                                            <th>Đơn giá</th>
+                                            <th>Thành tiền</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Khách hàng 1</td>
+                                            <td>1</td>
+                                            <td>20.000.000</td>
+                                            <td>20.000.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Khách hàng 2</td>
+                                            <td>2</td>
+                                            <td>30.000.000</td>
+                                            <td>60.000.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Khách hàng 3</td>
+                                            <td>1</td>
+                                            <td>40.000.000</td>
+                                            <td>40.000.000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="total-hd">
+                                <hr>
+                                <div class="total-container-hd">
+                
+                                    <p class="text-hd">Tổng tiền:</p>
+                                    <p class="total-amount-hd">120.000.000</p>
+                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!------------------- Product ----------------->
                 <div id="product" class="product disable">
                     <div class="product__header">
@@ -286,7 +522,7 @@
                                     <div class="form__row-right">
                                         <div class="form__row">
                                             <label for="form__admin-name">Họ tên người quản trị: </label>
-                                            <input type="text" id="form__admin-name" name="admin-name" required autofocus />
+                                            <input type="text" id="form__admin-name" name="admin-name"  required autofocus />
                                         </div>
                                         <div class="form__row">
                                             <label for="form__admin-phone">Số điện thoại: </label>
@@ -299,6 +535,14 @@
                                         <div class="form__row">
                                             <label for="form__admin-address">Địa chỉ: </label>
                                             <input type="text" id="form__admin-address" name="admin-address" required />
+                                        </div>    
+                                        <div class="form__row">
+                                            <label for="form__admin-address">Quận/Huyện </label>
+                                            <input type="text" id="form__admin-district" name="admin-district" required />
+                                        </div>    
+                                        <div class="form__row">
+                                            <label for="form__admin-address">Thành phố/Tỉnh thành: </label>
+                                            <input type="text" id="form__admin-province" name="admin-province" required />
                                         </div>    
                                     </div>
                                     <div class="form__row-right">
@@ -324,6 +568,29 @@
                     <div class="order__header">
                         <div class="order__title">Thông tin đơn hàng</div>
                     </div>
+                    <!-- làm các nút để truy cập chức năng lọc -->
+                    <div style="display: flex; justify-content: center;">
+                        <div style="display: flex; width: 90%; position: sticky; top: 0; background-color: white; margin-bottom: 20px;">
+                            <button type="button" id="order__filter-date">Lọc đơn hàng theo ngày</button>
+                            <button type="button" id="order__filter-address">Lọc đơn hàng theo địa chỉ</button>
+                        </div>    
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: center;">
+                            <div id="filter-date">
+                                <select name="filter__date" id="filter__date">
+                                    <option value="all" selected>Tất cả</option>
+                                    <option value="today">Hôm nay</option>
+                                    <option value="yesterday">Hôm qua</option>
+                                    <option value="this-week">Tuần này</option>
+                                    <option value="last-week">Tuần trước</option>
+                                    <option value="this-month">Tháng này</option>
+                                    <option value="last-month">Tháng trước</option>
+                                </select>
+                            </div>
+                            <div id="filter-address">messi</div>
+                        </div>
+                    </div>
                     <div>
                         <div id="order__list">
                             <table class="order-table">
@@ -338,75 +605,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="order__id">Mã đơn hàng</td>
-                                        <td class="order__customer-id">Mã khách hàng</td>
-                                        <td class="order__price">
-                                            <span class="order__price">12.000.0000</span><sup>đ</sup>
-                                        </td>
-                                        <td class="order__date">Ngày đặt</td>
-                                        <td class="order__status">Tình trạng</td>
-                                        <td>
-                                            <button class="order__detail" onclick="showOrderDetail(this)">Thao tác</button>
-                                            <div class="overlay" style="display: block">
-                                                <div class="order__detail-box">
-                                                    <i class="fa-solid fa-rectangle-xmark close"></i>
-                                                    <h2 class="history-heading">
-                                                        Các sản phẩm trong đơn
-                                                    </h2>
-                                                    <div class="history-table-list">
-                                                        <table class="history-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th style="width: 100px">Mã sản phẩm</th>
-                                                                    <th>Sản phẩm</th>
-                                                                    <th>Đơn giá</th>
-                                                                    <th>Số lượng</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td class="order-detail-id">123123</td>
-                                                                    <td>
-                                                                        <img src="./assets/imgs/dell1.jpg" class="order-detail-img" />
-                                                                        <span class="order-detail-name">Dell Inspiron 153520 i5</span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <span class="order-detail-price">16.000.000</span><sup>đ</sup>
-                                                                    </td>
-                                                                    <td class="order-detail-quantity">1</td>
-                                                                </tr>
-                                                            </tbody>
-                                                            <tfoot>
-                                                                <tr>
-                                                                    <td colspan="4" class="totalPrice">
-                                                                        Tổng cộng:
-                                                                        <span class="total-price-value">0</span><sup>đ</sup>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td colspan="4" class="order-detail-status">
-                                                                        <form style="background-color: #fff">
-                                                                            <label for="option-status">Tình trạng</label>
-                                                                            <select id="option-status" name="option-status" onchange="setOrderStatus(this)">
-                                                                                <option value="cxl">Chưa xử lý</option>
-                                                                                <option value="dxl">Đã xác nhận</option>
-                                                                                <option value="dg">Đã giao thành công</option>
-                                                                                <option value="dh">Đã hủy</option>
-                                                                            </select>
-                                                                            <button type="submit" class="order__submit-status">
-                                                                                Xác nhận thay đổi
-                                                                            </button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                            </tfoot>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>

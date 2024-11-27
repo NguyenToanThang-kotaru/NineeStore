@@ -34,26 +34,7 @@ function check() {
     con.checked = cha.checked;
   });
 }
-// chuyển 1 đối tượng thành html
-//         function chuyenDoiTuongItemGiaHangSangHTML(itemGioHang){
-//             var html = '        <tbody>\n'+
-// '            <tr>\n'+
-// '                <td><input type="checkbox" id="con"></td>\n'+
-// '                <td>ảnh<br>Thông tin</td>\n'+
-// '                <td id="buy">10000</td>\n'+
-// '                <td>\n'+
-// '                    <div class="quantity-control">\n'+
-// '                        <button onclick="down()">-</button>\n'+
-// '                        <input type="text" value="1" id="count">\n'+
-// '                        <button onclick="up()">+</button>\n'+
-// '                    </div>\n'+
-// '                </td>\n'+
-// '                <td id="sum">20000</td>\n'+
-// '                <td><button class="delete-btn" onclick="xoa()" >Xóa</button></td>\n'+
-// '            </tr>\n'+
-// '        </tbody>';
-//  return html;
-//         }
+
 function chuyenDanhSachItemGiaHangSangHTML(danhSachitemGioHang) {
   var htmlTong = "";
   for (var i = 0; i < danhSachitemGioHang.length; i++)
