@@ -138,6 +138,23 @@
         }
     }
     
+    function getDayToday() {
+        let year = new Date().getFullYear();
+        let month = new Date().getMonth();
+        let day = new Date().getDate();
+        return new Date(year, month, day);
+    }
+
+    function getDayDiff(date1, date2) {
+        console.log(date1.getDay() - date2.getDay());
+        return Math.abs(date1.getDay() - date2.getDay());
+    }
+
+    function getMonthDiff(date1, date2) {
+        let month1 = date1.getFullYear() * 12 + date1.getMonth();
+        let month2 = date2.getFullYear() * 12 + date2.getMonth();
+        return Math.abs(month1 - month2);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -482,26 +499,97 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     filterDate.addEventListener("change", function () {
+        addOrdertoTable();
         if (filterDate.value == "all") {
-            addOrdertoTable();
+            return;
         }
-        else if (filterDate.value == "today") {
-            let year = new Date().getFullYear();
-            let month = new Date().getMonth();
-            let day = new Date().getDate();
-            let today = new Date(year, month, day);
-            console.log(today);
-            const tableBody = document.querySelector(".order-table tbody");
-            const rows = tableBody.querySelectorAll("tr");
-            console.log(rows[0]);
-            for (let row of rows) {
-                let tmp = row.querySelector(".order__date").innerText;
-                console.log(tmp);
-                let [day, month, year] = tmp.split("/");
-                let date = new Date(year, month - 1, day);
-                console.log(date);
-                if (date !== today) {
-                    row.style.display = "none";
+        else {
+            let today = getDayToday();
+            const orderList = document.querySelector(".order-table tbody").querySelectorAll("tr");
+            if (filterDate.value == "today") {
+                for (let row of orderList) {
+                    if (row.querySelector(".order__date") === null) {
+                        continue;
+                    }
+                    let tmp = row.querySelector(".order__date").innerText;  
+                    console.log(tmp);
+                    let [day, month, year] = tmp.split("/");
+                    let date = new Date(year, month - 1, day);
+                    console.log(date);
+                    if (date.getDay() !== today.getDay()) {
+                        // row.style.display = "none";
+                        row.remove();
+                    }
+                }
+            }
+            else if (filterDate.value == "yesterday") {
+                for (let row of orderList) {
+                    if (row.querySelector(".order__date") === null) {
+                        continue;
+                    }
+                    let tmp = row.querySelector(".order__date").innerText;  
+                    let [day, month, year] = tmp.split("/");
+                    let date = new Date(year, month - 1, day);
+                    if (getDayDiff(today, date) !== 1) {
+                        // row.style.display = "none";
+                        row.remove();
+                    }
+                }
+            }
+            else if (filterDate.value == "three-days") {
+                for (let row of orderList) {
+                    if (row.querySelector(".order__date") === null) {
+                        continue;
+                    }
+                    let tmp = row.querySelector(".order__date").innerText;
+                    let [day, month, year] = tmp.split("/");
+                    let date = new Date(year, month - 1, day);
+                    if (getDayDiff(today, date) > 3) {
+                        // row.style.display = "none";
+                        row.remove();
+                    }
+                }
+            }
+            else if (filterDate.value == "this-week") {
+                for (let row of orderList) {
+                    if (row.querySelector(".order__date") === null) {
+                        continue;
+                    }
+                    let tmp = row.querySelector(".order__date").innerText;
+                    let [day, month, year] = tmp.split("/");
+                    let date = new Date(year, month - 1, day);
+                    if (getDayDiff(today, date) > 7) {
+                        // row.style.display = "none";
+                        row.remove();
+                    }
+                }
+            }
+            else if (filterDate.value == "this-month") {
+                for (let row of orderList) {
+                    if (row.querySelector(".order__date") === null) {
+                        continue;
+                    }
+                    let tmp = row.querySelector(".order__date").innerText;
+                    let [day, month, year] = tmp.split("/");
+                    let date = new Date(year, month - 1, day);
+                    if (today.getMonth() !== date.getMonth()) {
+                        // row.style.display = "none";
+                        row.remove();
+                    }
+                }
+            }
+            else if (filterDate.value == "last-month") {
+                for (let row of orderList) {
+                    if (row.querySelector(".order__date") === null) {
+                        continue;
+                    }
+                    let tmp = row.querySelector(".order__date").innerText;
+                    let [day, month, year] = tmp.split("/");
+                    let date = new Date(year, month - 1, day);
+                    if (date.getMonth() !== today.getMonth() - 1) {
+                        // row.style.display = "none";
+                        row.remove();
+                    }
                 }
             }
         }
