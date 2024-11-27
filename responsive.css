@@ -33,10 +33,11 @@
   .register-box,
   .detail-box,
   .history-box,
+  .payment-box,
   .cart-box,
   .info-box {
     width: 100%;
-    padding: 10px;
+    padding: 30px 10px 10px;
   }
   .detail-title {
     margin-left: 0;
@@ -49,6 +50,15 @@
   .cart-table thead th:nth-child(3),
   .cart-table tbody td:nth-child(3) {
     display: none;
+  }
+  .payment-container {
+    padding: 10px;
+  }
+  .order-summary {
+    padding: 10px;
+  }
+  .payment-container input {
+    border: 1px solid;
   }
 }
 
@@ -80,6 +90,7 @@
   .history-box,
   .cart-box,
   .info-box {
+    max-height: 100%;
     height: 100%;
     top: 0;
     left: 0;
@@ -166,5 +177,8 @@
     padding: 0;
     margin-top: 10px;
     text-align: center;
+  }
+  .order-history-btn {
+    width: 147px;
   }
 }
