@@ -1,6 +1,6 @@
 /* ------------------------------------- Register Page ------------------------------------ */
 .register-page {
-  z-index: 1000;
+  z-index: 10;
   height: 100vh;
 }
 .register-title {
@@ -128,7 +128,7 @@
   text-align: center;
   vertical-align: middle;
   transition: 1s;
-  z-index: 11;
+  z-index: 110;
 }
 .fa-circle-check {
   font-size: 50px;

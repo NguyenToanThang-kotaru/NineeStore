@@ -1,34 +1,33 @@
-.imageslide{
-    width: 100%;
-
+.imageslide {
+  width: 100%;
 }
-#slideshow{
-    margin-top: 60px;
-    width: 1000px;
-    text-align: center;
-    overflow: hidden;
-    position: relative;
+#slideshow {
+  margin-top: 60px;
+  max-width: 1000px;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
 }
-.imagelist{
-    display: flex; 
-    transition: 0.5s;
-    width: 1000px;
+.imagelist {
+  display: flex;
+  transition: 0.5s;
+  width: 100%;
 }
-.BTN{
-    position: absolute;
-    font-size: 30px;
-    color: grey;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: 0.5s;
-    cursor: pointer;
+.BTN {
+  position: absolute;
+  font-size: 30px;
+  color: grey;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 0.5s;
+  cursor: pointer;
 }
-.btn-left{
-    left: 10px;
+.btn-left {
+  left: 10px;
 }
-.btn-right{
-    right: 10px;
+.btn-right {
+  right: 10px;
 }
-.BTN :hover{
-    color: white;
+.BTN :hover {
+  color: white;
 }
