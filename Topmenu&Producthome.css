@@ -20,6 +20,7 @@ body{
     text-align: center;  
     align-items: center;
     cursor: pointer;
+
 }   
 #centermenu{
     list-style: none;
@@ -27,6 +28,10 @@ body{
     text-decoration: none;
     color: black;
     cursor: pointer;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
 }
 
 #leftmenu{

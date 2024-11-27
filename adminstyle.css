@@ -39,6 +39,7 @@ body {
   background-color: #d9d9d9;
 }
 
+
 /* icon position */
 .side-menu a {
   margin: 30px 0;
@@ -265,6 +266,7 @@ button:hover {
 }
 
 /* --------------- Order ------------ */
+
 .order__detail {
   background-color: #b6b6b6;
   width: 100px;
