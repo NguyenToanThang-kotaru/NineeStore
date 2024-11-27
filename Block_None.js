@@ -22,11 +22,24 @@ loginbtn.forEach((login) => {
     registerPage.style.display = "none";
     loginPage.style.display = "block";
     document.getElementById("email-login").focus();
+    
   });
 });
 
 function closeRL(closeElement) {
   closeElement.parentElement.parentElement.style.display = "none";
+  clearInput();
+}
+
+function clearInput(inputs) {
+  document.querySelector("#username").value="";
+  document.querySelector("#password").value="";
+  document.querySelector("#re-password").value="";
+  document.querySelector("#address").value="";
+  document.querySelector("#phone").value="";
+  document.querySelector("#fullname").value="";
+  document.querySelector("#password").value="";
+  document.querySelector("#email-login").value="";
 }
 
 function scrollHead() {

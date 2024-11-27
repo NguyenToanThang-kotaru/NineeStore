@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="./adminstyle.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter" />
     <link rel="stylesheet" href="loginadmin.css" />
+    <link rel="stylesheet" href="thongke.css">
     <title>Admin Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
@@ -19,476 +20,704 @@
     </div>
     <!-- Rest of the HTML code -->
     <div class="admin__page">
-        <div>
-            <!-- Side menu -->
-            <div class="side-menu">
-                <a href="#statistic" id="side-menu__menu-statistic">
-                    <i class="fa-solid fa-chart-simple fa-2xl"></i>
-                </a>
-                <a href="#product" id="side-menu__menu-sp" title="Sản phẩm">
-                    <i class="fa-solid fa-store fa-2xl"></i>
-                </a>
-                <a href="#customer" id="side-menu__menu-customer" title="Thông tin khách hàng">
-                    <i class="fa-solid fa-users fa-2xl"></i>
-                </a>
-                <a href="#order" id="side-menu__menu-order" title="Đơn hàng">
-                    <i class="fa-solid fa-receipt fa-2xl"></i>
-                </a>
-                <a href="admin" id="side-menu__account">
-                    <i class="fa-regular fa-user fa-2xl"></i>
-                </a>
-            </div>
-            <!-- Contain -->
-            <div class="main">
-                <div id="statistic" class="statistic disable">Nothing</div>
-                <!------------------- Product ----------------->
-                <div id="product" class="product disable">
-                    <div class="product__header">
-                        <div class="product__title">Thông tin sản phẩm</div>
+        <!-- Side menu -->
+        <div class="side-menu">
+            <a href="#statistic" id="side-menu__menu-statistic" title="Thống kê">
+                <i class="fa-solid fa-chart-simple fa-2xl"></i>
+            </a>
+            <a href="#product" id="side-menu__menu-sp" title="Sản phẩm">
+                <i class="fa-solid fa-store fa-2xl"></i>
+            </a>
+            <a href="#customer" id="side-menu__menu-customer" title="Thông tin khách hàng">
+                <i class="fa-solid fa-users fa-2xl"></i>
+            </a>
+            <a href="#order" id="side-menu__menu-order" title="Đơn hàng">
+                <i class="fa-solid fa-receipt fa-2xl"></i>
+            </a>
+            <a href="admin" id="side-menu__account">
+                <i class="fa-regular fa-user fa-2xl"></i>
+            </a>
+        </div>
+        <!-- Contain -->
+        <div class="main">
+            <div id="statistic" class="statistic disable">
+                <div id="statistics">
+                    <div id="menu-tke">
+                        <button id="items-btn">Thống kê mặt hàng</button>
+                        <button id="customers-btn">Thống kê khách hàng</button>
                     </div>
-                    <div style="overflow-x: auto">
-                        <table id="product__list">
+                    <div id="items-tke">
+                        <h2>Thống kê mặt hàng</h2>
+                        <div class="select-period-tke">
+                            Khoảng thời gian:
+                            <select name="select-preiod-tke" class="option-period-tke">
+                                <option value="1">1 ngày</option>
+                                <option value="7">7 ngày</option>
+                                <option value="30">30 ngày</option>
+                                <option value="60">60 ngày</option>
+                            </select>
+                        </div>
+                        <table class="items-table-tke">
                             <thead>
                                 <tr>
-                                    <th class="product__size-id">Mã sản phẩm</th>
-                                    <!-- <th class="product__size-id">Mã loại</th> -->
-                                    <th>Tên sản phẩm</th>
-                                    <th class="product__size-id">Số lượng</th>
-                                    <th style="width: 15%">Giá sản phẩm</th>
-                                    <th>Chi tiết</th>
-                                    <th style="width: 20%">Hình sản phẩm</th>
-                                    <th>Chức năng</th>
+                                    <th>Tên mặt hàng</th>
+                                    <th>Số lượng bán</th>
+                                    <th>Tổng thu</th>
+                                    <th>Xem hóa đơn</th>
                                 </tr>
                             </thead>
-                            <tbody id="product__list-body"></tbody>
+                            <tbody>
+                                <tr>
+                                    <td>Mặt hàng 1</td>
+                                    <td>0</td>
+                                    <td>0 VNĐ</td>
+                                    <td><button class="show-hoadon-mh">Xem</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Mặt hàng 2</td>
+                                    <td>0</td>
+                                    <td>0 VNĐ</td>
+                                    <td><button class="show-hoadon-mh">Xem</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Mặt hàng 3</td>
+                                    <td>0</td>
+                                    <td>0 VNĐ</td>
+                                    <td><button class="show-hoadon-mh">Xem</button></td>
+                                </tr>
+                            </tbody>
                         </table>
+            
+                        <div class="total-revenue-tke">
+                            Tổng doanh thu: <span id="amount-revenue-tke">0</span>VNĐ
+                        </div>
+            
+                        <table class="summary-table-tke">
+                            <thead>
+                                <tr>
+                                    <th>Tiêu chí</th>
+                                    <th>Mặt hàng</th>
+                                    <th>Doanh thu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mặt hàng bán chạy nhất</td>
+                                    <td id="best-item">Mặt hàng 1</td>
+                                    <td id="best-item-revenue">0 VNĐ</td>
+                                </tr>
+                                <tr>
+                                    <td>Mặt hàng bán ế nhất</td>
+                                    <td id="worst-item">Mặt Hàng 2</td>
+                                    <td id="worst-item-revenue">0 VNĐ</td>
+                                </tr>
+                            </tbody>
+                        </table>
+            
+                        <button id="back-btn-mh">Quay lại</button>
                     </div>
-                    <div class="product__btn-style">
-                        <button type="button" id="product__btn-add-item" onclick="showProductAdd()">
-                            Thêm sản phẩm
-                        </button>
+            
+                    <div id="customers-tke">
+                        <h2>Thống kê khách hàng</h2>
+                        <div class="select-period-tke">
+                            Khoảng thời gian:
+                            <select name="select-preiod-tke" class="option-period-tke">
+                                <option value="1">1 ngày</option>
+                                <option value="7">7 ngày</option>
+                                <option value="30">30 ngày</option>
+                                <option value="60">60 ngày</option>
+                            </select>
+                        </div>
+                        <table class="items-table-tke">
+                            <thead>
+                                <tr>
+                                    <th>Tên khách hàng</th>
+                                    <th>Tổng doanh thu</th>
+                                    <th>Xem hóa đơn</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Khách hàng 1</td>
+                                    <td>0 VNĐ</td>
+                                    <td><button class="show-hoadon-kh">Xem</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Khách hàng 2</td>
+                                    <td>0 VNĐ</td>
+                                    <td><button class="show-hoadon-kh">Xem</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Khách hàng 3</td>
+                                    <td>0 VNĐ</td>
+                                    <td><button class="show-hoadon-kh">Xem</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button id="back-btn-kh">Quay lại</button>
                     </div>
-                    <!-- ------------------------ Add ------------------------- -->
-                    <div class="overlay product__add">
-                        <div id="product__add-box">
-                            <i class="fa-solid fa-xmark close"></i>
-                            <form>
-                                <div class="form">
-                                    <div class="form__row-left">
+            
+                    <!-- Hoa don -->
+            
+                    <div class="hoa-don-container" id="hoadon-customers">
+                        <button class="esc-hoadon-btn" id="esc-hoadon-btn-kh">X</button>
+                        <div class="hoa-don-header">
+                            <h1>Hóa đơn </h1>
+            
+                        </div>
+                        <div class="hoa-don-info">
+                            <div class="hoa-don-customer">
+                                <h3>Thông tin khách hàng</h3>
+                                <p>Họ tên: Nguyễn Văn A</p>
+                                <p>Địa chỉ: 123 An Dương Vương</p>
+                                <p>Số điện thoại:0912345678</p>
+                                <p>Email:123@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="product-table-hd">
+                            <table class="product-table-info-hd">
+                                <thead>
+                                    <tr class="table-header-hd">
+                                        <th>Tên sản phẩm</th>
+                                        <th>Số lượng </th>
+                                        <th>Đơn giá</th>
+                                        <th>Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Sản phẩm 1</td>
+                                        <td>1</td>
+                                        <td>20.000.000</td>
+                                        <td>20.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sản phẩm 2</td>
+                                        <td>2</td>
+                                        <td>30.000.000</td>
+                                        <td>60.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sản phẩm 3</td>
+                                        <td>1</td>
+                                        <td>40.000.000</td>
+                                        <td>40.000.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="total-hd">
+                            <hr>
+                            <div class="total-container-hd">
+            
+                                <p class="text">Tổng tiền:</p>
+                                <p class="total-amount-hd">120.000.000</p>
+            
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="overlay-hd"></div>
+            
+                    <div class="hoa-don-container" id="hoadon-items">
+                        <button class="esc-hoadon-btn" id="esc-hoadon-btn-mh">X</button>
+                        <div class="hoa-don-header">
+                            <h1>Hóa đơn </h1>
+                        </div>
+                        <div class="hoa-don-info">
+                            <div class="hoa-don-mat-hang">
+                                <h3>Thông tin sản phẩm</h3>
+                                <p> Tên: Laptop ASUS Zephyrus</p>
+                                <p>Hãng: ASUS</p>
+                                <p>Nơi Bán: Nine Store</p>
+            
+                            </div>
+                        </div>
+                        <div class="product-table-hd">
+                            <table class="product-table-info-hd">
+                                <thead>
+                                    <tr class="table-header-hd">
+                                        <th>Tên sản phẩm</th>
+                                        <th>Số lượng </th>
+                                        <th>Đơn giá</th>
+                                        <th>Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Khách hàng 1</td>
+                                        <td>1</td>
+                                        <td>20.000.000</td>
+                                        <td>20.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Khách hàng 2</td>
+                                        <td>2</td>
+                                        <td>30.000.000</td>
+                                        <td>60.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Khách hàng 3</td>
+                                        <td>1</td>
+                                        <td>40.000.000</td>
+                                        <td>40.000.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="total-hd">
+                            <hr>
+                            <div class="total-container-hd">
+            
+                                <p class="text-hd">Tổng tiền:</p>
+                                <p class="total-amount-hd">120.000.000</p>
+            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <!------------------- Product ----------------->
+            <div id="product" class="product disable">
+                <div class="product__header">
+                    <div class="product__title">Thông tin sản phẩm</div>
+                </div>
+                <div style="overflow-x: auto">
+                    <table id="product__list">
+                        <thead>
+                            <tr>
+                                <th class="product__size-id">Mã sản phẩm</th>
+                                <!-- <th class="product__size-id">Mã loại</th> -->
+                                <th>Tên sản phẩm</th>
+                                <th class="product__size-id">Số lượng</th>
+                                <th style="width: 15%">Giá sản phẩm</th>
+                                <th>Chi tiết</th>
+                                <th style="width: 20%">Hình sản phẩm</th>
+                                <th>Chức năng</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product__list-body"></tbody>
+                    </table>
+                </div>
+                <div class="product__btn-style">
+                    <button type="button" id="product__btn-add-item" onclick="showProductAdd()">
+                        Thêm sản phẩm
+                    </button>
+                </div>
+                <!-- ------------------------ Add ------------------------- -->
+                <div class="overlay product__add">
+                    <div id="product__add-box">
+                        <i class="fa-solid fa-xmark close"></i>
+                        <form>
+                            <div class="form">
+                                <div class="form__row-left">
+                                    <div class="form__row">
+                                        <label for="form__sp-name">Tên sản phẩm: </label><br />
+                                        <input type="text" id="form__sp-name" name="sp-name" required autofocus />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__sp-brand">Tên thương hiệu: </label><br />
+                                        <input type="text" id="form__sp-brand" name="sp-brand" required autofocus />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__sp-quantity">Số lượng: </label><br />
+                                        <input type="text" id="form__sp-quantity" name="sp-quantity" required />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__sp-price">Giá sản phẩm: </label><br />
+                                        <input type="text" id="form__sp-price" name="sp-price" required />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__sp-img">Hình sản phẩm</label><br />
+                                        <input type="file" id="form__sp-img" name="sp-img" accept="image/*"
+                                            onchange="uploadImg(this)" required />
+                                        <!-- https://stackoverflow.com/questions/4328947/limit-file-format-when-using-input-type-file -->
+
+                                        <div
+                                            style="margin: 10px; display: flex; justify-content: center; align-items: center; width: 30%;">
+                                            <img src="./img/no-photo-or-blank-image.jpg" alt="blank image!"
+                                                class="form__preview" id="form__preview-img" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form__row-right">
+                                    <div class="form__sp-description" onclick="toggleMoreDetail()" style="width: 100px">
+                                        <span class="form__sp-detail">Chi tiết</span>
+                                        <i class="fa-solid fa-caret-down"></i>
+                                    </div>
+                                    <div class="form__sp-description-more">
                                         <div class="form__row">
-                                            <label for="form__sp-name">Tên sản phẩm: </label><br />
-                                            <input type="text" id="form__sp-name" name="sp-name" required autofocus />
+                                            <label for="form__sp-cpu">CPU: </label>
+                                            <input type="text" id="form__sp-cpu" name="sp-cpu" />
                                         </div>
                                         <div class="form__row">
-                                            <label for="form__sp-brand">Tên thương hiệu: </label><br />
-                                            <input type="text" id="form__sp-brand" name="sp-brand" required autofocus />
+                                            <label for="form__sp-screen">Màn hình: </label>
+                                            <input type="text" id="form__sp-screen" name="sp-screen" />
                                         </div>
                                         <div class="form__row">
-                                            <label for="form__sp-quantity">Số lượng: </label><br />
-                                            <input type="text" id="form__sp-quantity" name="sp-quantity" required />
+                                            <label for="form__sp-ram">RAM: </label>
+                                            <input type="text" id="form__sp-ram" name="sp-ram" />
                                         </div>
                                         <div class="form__row">
-                                            <label for="form__sp-price">Giá sản phẩm: </label><br />
-                                            <input type="text" id="form__sp-price" name="sp-price" required />
+                                            <label for="form__sp-rom">ROM: </label>
+                                            <input type="text" id="form__sp-rom" name="sp-rom" />
                                         </div>
                                         <div class="form__row">
-                                            <label for="form__sp-img">Hình sản phẩm</label><br />
-                                            <input type="file" id="form__sp-img" name="sp-img" accept="image/*"
-                                                onchange="uploadImg(this)" required />
+                                            <label for="form__sp-os">Hệ điều hành:</label>
+                                            <input type="text" id="form__sp-os" name="sp-os" />
+                                        </div>
+                                        <div class="form__row">
+                                            <label for="form__sp-card">Card màn hình:</label>
+                                            <input type="text" id="form__sp-card" name="sp-card" />
+                                        </div>
+                                        <div class="form__row">
+                                            <label for="form__sp-pin">Pin:</label>
+                                            <input type="text" id="form__sp-pin" name="sp-pin" />
+                                        </div>
+                                        <div class="form__row">
+                                            <label for="form__sp-network">Hỗ trợ kết nối:</label>
+                                            <input type="text" id="form__sp-network" name="sp-network" />
+                                        </div>
+                                        <div class="form__row">
+                                            <label for="form__sp-weight">Khối lượng:</label>
+                                            <input type="text" id="form__sp-weight" name="sp-weight" />
+                                        </div>
+                                        <div class="form__row" style="display: block">
+                                            <label for="form__sp-img" style="width: fit-content">Hình chi tiết sản
+                                                phẩm</label><br />
+                                            <input type="file" id="form__sp-detail-img" name="sp-img" accept="image/*"
+                                                onchange="uploadImg(this)" />
                                             <!-- https://stackoverflow.com/questions/4328947/limit-file-format-when-using-input-type-file -->
 
                                             <div
                                                 style="margin: 10px; display: flex; justify-content: center; align-items: center; width: 30%;">
                                                 <img src="./img/no-photo-or-blank-image.jpg" alt="blank image!"
-                                                    class="form__preview" id="form__preview-img" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form__row-right">
-                                        <div class="form__sp-description" onclick="toggleMoreDetail()"
-                                            style="width: 100px">
-                                            <span class="form__sp-detail">Chi tiết</span>
-                                            <i class="fa-solid fa-caret-down"></i>
-                                        </div>
-                                        <div class="form__sp-description-more">
-                                            <div class="form__row">
-                                                <label for="form__sp-cpu">CPU: </label>
-                                                <input type="text" id="form__sp-cpu" name="sp-cpu" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__sp-screen">Màn hình: </label>
-                                                <input type="text" id="form__sp-screen" name="sp-screen" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__sp-ram">RAM: </label>
-                                                <input type="text" id="form__sp-ram" name="sp-ram" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__sp-rom">ROM: </label>
-                                                <input type="text" id="form__sp-rom" name="sp-rom" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__sp-os">Hệ điều hành:</label>
-                                                <input type="text" id="form__sp-os" name="sp-os" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__sp-card">Card màn hình:</label>
-                                                <input type="text" id="form__sp-card" name="sp-card" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__sp-pin">Pin:</label>
-                                                <input type="text" id="form__sp-pin" name="sp-pin" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__sp-network">Hỗ trợ kết nối:</label>
-                                                <input type="text" id="form__sp-network" name="sp-network" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__sp-weight">Khối lượng:</label>
-                                                <input type="text" id="form__sp-weight" name="sp-weight" />
-                                            </div>
-                                            <div class="form__row" style="display: block">
-                                                <label for="form__sp-img" style="width: fit-content">Hình chi tiết sản
-                                                    phẩm</label><br />
-                                                <input type="file" id="form__sp-detail-img" name="sp-img"
-                                                    accept="image/*" onchange="uploadImg(this)" />
-                                                <!-- https://stackoverflow.com/questions/4328947/limit-file-format-when-using-input-type-file -->
-
-                                                <div
-                                                    style="margin: 10px; display: flex; justify-content: center; align-items: center; width: 30%;">
-                                                    <img src="./img/no-photo-or-blank-image.jpg" alt="blank image!"
-                                                        class="form__preview" id="form__preview-detail-img" />
-                                                </div>
+                                                    class="form__preview" id="form__preview-detail-img" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form__submit-style">
-                                    <button type="submit" class="form__submit-btn" id="form__add-submit">Thêm</button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="form__submit-style">
+                                <button type="submit" class="form__submit-btn" id="form__add-submit">Thêm</button>
+                            </div>
+                        </form>
                     </div>
-                    <!-- ---------------------------------- Edit ---------------------------- -->
-                    <div class="overlay product__edit">
-                        <div id="product__edit-box">
-                            <i class="fa-solid fa-xmark close"></i>
-                            <form>
-                                <div class="form">
-                                    <div class="form__row-left">
+                </div>
+                <!-- ---------------------------------- Edit ---------------------------- -->
+                <div class="overlay product__edit">
+                    <div id="product__edit-box">
+                        <i class="fa-solid fa-xmark close"></i>
+                        <form>
+                            <div class="form">
+                                <div class="form__row-left">
+                                    <div class="form__row">
+                                        <label for="form__edit-name">Tên sản phẩm: </label><br />
+                                        <input type="text" id="form__edit-name" name="edit-name" required autofocus />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__edit-brand">Tên thương hiệu: </label><br />
+                                        <input type="text" id="form__edit-brand" name="edit-brand" required autofocus />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__edit-quantity">Số lượng: </label><br />
+                                        <input type="text" id="form__edit-quantity" name="edit-quantity" required />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__edit-price">Giá sản phẩm: </label><br />
+                                        <input type="text" id="form__edit-price" name="edit-price" required />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__edit-img">Hình sản phẩm</label><br />
+                                        <input type="file" id="form__edit-img" name="edit-img" accept="image/*"
+                                            onchange="uploadImg(this)" />
+                                        <!-- https://stackoverflow.com/questions/4328947/limit-file-format-when-using-input-type-file -->
+
+                                        <div
+                                            style="margin: 10px; display: flex; justify-content: center; align-items: center; max-width: 200px;">
+                                            <img src="./img/no-photo-or-blank-image.jpg" alt="blank image!"
+                                                class="form__preview" id="form__edit-preview-img" style="width: 100%" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form__row-right">
+                                    <div class="form__edit-description" onclick="toggleMoreDetail()"
+                                        style="width: 100px">
+                                        <span class="form__edit-detail">Chi tiết:</span>
+                                    </div>
+                                    <div class="form__edit-description-more">
                                         <div class="form__row">
-                                            <label for="form__edit-name">Tên sản phẩm: </label><br />
-                                            <input type="text" id="form__edit-name" name="edit-name" required
-                                                autofocus />
+                                            <label for="form__edit-cpu">CPU: </label>
+                                            <input type="text" id="form__edit-cpu" name="edit-cpu" />
                                         </div>
                                         <div class="form__row">
-                                            <label for="form__edit-brand">Tên thương hiệu: </label><br />
-                                            <input type="text" id="form__edit-brand" name="edit-brand" required
-                                                autofocus />
+                                            <label for="form__edit-screen">Màn hình: </label>
+                                            <input type="text" id="form__edit-screen" name="edit-screen" />
                                         </div>
                                         <div class="form__row">
-                                            <label for="form__edit-quantity">Số lượng: </label><br />
-                                            <input type="text" id="form__edit-quantity" name="edit-quantity" required />
+                                            <label for="form__edit-ram">RAM: </label>
+                                            <input type="text" id="form__edit-ram" name="edit-ram" />
                                         </div>
                                         <div class="form__row">
-                                            <label for="form__edit-price">Giá sản phẩm: </label><br />
-                                            <input type="text" id="form__edit-price" name="edit-price" required />
+                                            <label for="form__edit-rom">ROM:</label>
+                                            <input type="text" id="form__edit-rom" name="edit-rom" />
                                         </div>
                                         <div class="form__row">
-                                            <label for="form__edit-img">Hình sản phẩm</label><br />
-                                            <input type="file" id="form__edit-img" name="edit-img" accept="image/*"
-                                                onchange="uploadImg(this)" />
+                                            <label for="form__edit-os">Hệ điều hành:</label>
+                                            <input type="text" id="form__edit-os" name="edit-os" />
+                                        </div>
+                                        <div class="form__row">
+                                            <label for="form__edit-card">Card màn hình:</label>
+                                            <input type="text" id="form__edit-card" name="edit-card" />
+                                        </div>
+                                        <div class="form__row">
+                                            <label for="form__edit-pin">Pin:</label>
+                                            <input type="text" id="form__edit-pin" name="edit-pin" />
+                                        </div>
+                                        <div class="form__row">
+                                            <label for="form__edit-network">Hỗ trợ kết nối:</label>
+                                            <input type="text" id="form__edit-network" name="edit-network" />
+                                        </div>
+                                        <div class="form__row">
+                                            <label for="form__edit-weight">Khối lượng:</label>
+                                            <input type="text" id="form__edit-weight" name="edit-weight" />
+                                        </div>
+                                        <div class="form__row" style="display: block">
+                                            <label for="form__edit-img" style="width: fit-content">Hình chi tiết sản
+                                                phẩm</label><br />
+                                            <input type="file" id="form__edit-detail-img" name="edit-img"
+                                                accept="image/*" onchange="uploadImg(this)" />
                                             <!-- https://stackoverflow.com/questions/4328947/limit-file-format-when-using-input-type-file -->
 
                                             <div
-                                                style="margin: 10px; display: flex; justify-content: center; align-items: center; max-width: 200px;">
+                                                style="margin: 10px; display: flex; justify-content: center; align-items: center; width: 30%;">
                                                 <img src="./img/no-photo-or-blank-image.jpg" alt="blank image!"
-                                                    class="form__preview" id="form__edit-preview-img"
+                                                    class="form__preview" id="form__edit-preview-detail-img"
                                                     style="width: 100%" />
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form__row-right">
-                                        <div class="form__edit-description" onclick="toggleMoreDetail()"
-                                            style="width: 100px">
-                                            <span class="form__edit-detail">Chi tiết:</span>
-                                        </div>
-                                        <div class="form__edit-description-more">
-                                            <div class="form__row">
-                                                <label for="form__edit-cpu">CPU: </label>
-                                                <input type="text" id="form__edit-cpu" name="edit-cpu" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__edit-screen">Màn hình: </label>
-                                                <input type="text" id="form__edit-screen" name="edit-screen" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__edit-ram">RAM: </label>
-                                                <input type="text" id="form__edit-ram" name="edit-ram" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__edit-rom">ROM:</label>
-                                                <input type="text" id="form__edit-rom" name="edit-rom" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__edit-os">Hệ điều hành:</label>
-                                                <input type="text" id="form__edit-os" name="edit-os" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__edit-card">Card màn hình:</label>
-                                                <input type="text" id="form__edit-card" name="edit-card" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__edit-pin">Pin:</label>
-                                                <input type="text" id="form__edit-pin" name="edit-pin" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__edit-network">Hỗ trợ kết nối:</label>
-                                                <input type="text" id="form__edit-network" name="edit-network" />
-                                            </div>
-                                            <div class="form__row">
-                                                <label for="form__edit-weight">Khối lượng:</label>
-                                                <input type="text" id="form__edit-weight" name="edit-weight" />
-                                            </div>
-                                            <div class="form__row" style="display: block">
-                                                <label for="form__edit-img" style="width: fit-content">Hình chi tiết sản
-                                                    phẩm</label><br />
-                                                <input type="file" id="form__edit-detail-img" name="edit-img"
-                                                    accept="image/*" onchange="uploadImg(this)" />
-                                                <!-- https://stackoverflow.com/questions/4328947/limit-file-format-when-using-input-type-file -->
-
-                                                <div
-                                                    style="margin: 10px; display: flex; justify-content: center; align-items: center; width: 30%;">
-                                                    <img src="./img/no-photo-or-blank-image.jpg" alt="blank image!"
-                                                        class="form__preview" id="form__edit-preview-detail-img"
-                                                        style="width: 100%" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div id="form__submit" class="form__submit-style">
-                                    <button type="submit" class="form__edit-submit-btn">Sửa</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- -------------------------------- Remove ----------------------------- -->
-                </div>
-                <!------------------- Customer ----------------->
-                <div id="customer" class="customer disable">
-                    <div class="customer__header">
-                        <div class="customer__title">Thông tin khách hàng</div>
-                    </div>
-                    <div>
-                        <div id="customer__list">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th class="customer__size-id">Mã KH</th>
-                                        <th>Tên KH</th>
-                                        <th>SĐT</th>
-                                        <th>Địa chỉ</th>
-                                        <th>Email</th>
-                                        <th>Trạng thái</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="customer__list-body"><!-- Customer lists will be here  --></tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="admin__btn-style">
-                        <button type="button" id="product__btn-add-item" onclick="showAdminAdd()">
-                            Thêm quản trị viên
-                        </button>
-                    </div>
-                    <div class="overlay admin__add">
-                        <div id="admin__add-box">
-                            <i class="fa-solid fa-xmark close"></i>
-                            <form>
-                                <div class="form">
-                                    <div class="form__row-right">
-                                        <div class="form__row">
-                                            <label for="form__admin-name">Họ tên người quản trị: </label>
-                                            <input type="text" id="form__admin-name" name="admin-name" required
-                                                autofocus />
-                                        </div>
-                                        <div class="form__row">
-                                            <label for="form__admin-phone">Số điện thoại: </label>
-                                            <input type="text" id="form__admin-phone" name="admin-phone" required
-                                                autofocus />
-                                        </div>
-                                        <div class="form__row">
-                                            <label for="form__admin-email">Email: </label>
-                                            <input type="text" id="form__admin-email" name="admin-email" required />
-                                        </div>
-                                        <div class="form__row">
-                                            <label for="form__admin-address">Địa chỉ: </label>
-                                            <input type="text" id="form__admin-address" name="admin-address" required />
-                                        </div>
-                                    </div>
-                                    <div class="form__row-right">
-                                        <div class="form__row">
-                                            <label for="form__admin-username">Tên đăng nhập: </label>
-                                            <input type="text" id="form__admin-username" name="admin-username"
-                                                required />
-                                        </div>
-                                        <div class="form__row">
-                                            <label for="form__admin-password">Password: </label>
-                                            <input type="password" id="form__admin-password" name="admin-password"
-                                                required />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form__submit-style">
-                                    <button type="submit" class="form__submit-btn" id="form__admin-submit">Thêm</button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div id="form__submit" class="form__submit-style">
+                                <button type="submit" class="form__edit-submit-btn">Sửa</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <!-- ==================================edit============================ -->
-                <div class="overlay admin__edit">
-                    <div id="admin__edit-box">
+                <!-- -------------------------------- Remove ----------------------------- -->
+            </div>
+            <!------------------- Customer ----------------->
+            <div id="customer" class="customer disable">
+                <div class="customer__header">
+                    <div class="customer__title">Thông tin khách hàng</div>
+                </div>
+                <div>
+                    <div id="customer__list">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="customer__size-id">Mã KH</th>
+                                    <th>Tên KH</th>
+                                    <th>SĐT</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Email</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customer__list-body"><!-- Customer lists will be here  --></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="admin__btn-style">
+                    <button type="button" id="product__btn-add-item" onclick="showAdminAdd()">
+                        Thêm quản trị viên
+                    </button>
+                </div>
+                <div class="overlay admin__add">
+                    <div id="admin__add-box">
                         <i class="fa-solid fa-xmark close"></i>
                         <form>
                             <div class="form">
                                 <div class="form__row-right">
                                     <div class="form__row">
-                                        <label for="form__edit-fullname">Họ tên khách hàng: </label>
-                                        <input type="text" id="form__edit-fullname" name="edit-fullname" required
+                                        <label for="form__admin-name">Họ tên người quản trị: </label>
+                                        <input type="text" id="form__admin-name" name="admin-name" required autofocus />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__admin-phone">Số điện thoại: </label>
+                                        <input type="text" id="form__admin-phone" name="admin-phone" required
                                             autofocus />
                                     </div>
                                     <div class="form__row">
-                                        <label for="form__edit-phone">Số điện thoại: </label>
-                                        <input type="text" id="form__edit-phone" name="edit-phone" required />
+                                        <label for="form__admin-email">Email: </label>
+                                        <input type="text" id="form__admin-email" name="admin-email" required />
                                     </div>
                                     <div class="form__row">
-                                        <label for="form__edit-email">Email: </label>
-                                        <input type="email" id="form__edit-email" name="edit-email" required />
+                                        <label for="form__admin-address">Địa chỉ: </label>
+                                        <input type="text" id="form__admin-address" name="admin-address" required />
+                                    </div>
+                                </div>
+                                <div class="form__row-right">
+                                    <div class="form__row">
+                                        <label for="form__admin-username">Tên đăng nhập: </label>
+                                        <input type="text" id="form__admin-username" name="admin-username" required />
                                     </div>
                                     <div class="form__row">
-                                        <label for="form__edit-address">Địa chỉ: </label>
-                                        <input type="text" id="form__edit-address" name="edit-address" required />
+                                        <label for="form__admin-password">Password: </label>
+                                        <input type="password" id="form__admin-password" name="admin-password"
+                                            required />
                                     </div>
-                                    <div class="form__row">
-                                        <label for="form__edit-userName">Tên đăng nhập: </label>
-                                        <input type="text" id="form__edit-userName" name="edit-userName" required />
-                                    </div>
-
                                 </div>
                             </div>
                             <div class="form__submit-style">
-                                <button type="submit" class="form__submit-btn" id="form__edit-submit">Lưu</button>
+                                <button type="submit" class="form__submit-btn" id="form__admin-submit">Thêm</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+            <!-- ==================================edit============================ -->
+            <div class="overlay admin__edit">
+                <div id="admin__edit-box">
+                    <i class="fa-solid fa-xmark close"></i>
+                    <form>
+                        <div class="form">
+                            <div class="form__row-right">
+                                <div class="form__row">
+                                    <label for="form__edit-fullname">Họ tên khách hàng: </label>
+                                    <input type="text" id="form__edit-fullname" name="edit-fullname" required
+                                        autofocus />
+                                </div>
+                                <div class="form__row">
+                                    <label for="form__edit-phone">Số điện thoại: </label>
+                                    <input type="text" id="form__edit-phone" name="edit-phone" required />
+                                </div>
+                                <div class="form__row">
+                                    <label for="form__edit-email">Email: </label>
+                                    <input type="email" id="form__edit-email" name="edit-email" required />
+                                </div>
+                                <div class="form__row">
+                                    <label for="form__edit-address">Địa chỉ: </label>
+                                    <input type="text" id="form__edit-address" name="edit-address" required />
+                                </div>
+                                <div class="form__row">
+                                    <label for="form__edit-userName">Tên đăng nhập: </label>
+                                    <input type="text" id="form__edit-userName" name="edit-userName" required />
+                                </div>
 
-        </div>
-        <!------------------- Order ----------------->
-        <div id="order" class="order disable">
-            <div class="order__header">
-                <div class="order__title">Thông tin đơn hàng</div>
+                            </div>
+                        </div>
+                        <div class="form__submit-style">
+                            <button type="submit" class="form__submit-btn" id="form__edit-submit">Lưu</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div>
-                <div id="order__list">
-                    <table class="order-table">
-                        <thead>
-                            <tr>
-                                <th class="order__width--small">Mã đơn hàng</th>
-                                <th>Mã khách hàng</th>
-                                <th class="order__width--small">Giá đơn</th>
-                                <th>Ngày đặt</th>
-                                <th>Tình trạng</th>
-                                <th class="order__width--small">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="order__id">Mã đơn hàng</td>
-                                <td class="order__customer-id">Mã khách hàng</td>
-                                <td class="order__price">
-                                    <span class="order__price">12.000.0000</span><sup>đ</sup>
-                                </td>
-                                <td class="order__date">Ngày đặt</td>
-                                <td class="order__status">Tình trạng</td>
-                                <td>
-                                    <button class="order__detail" onclick="showOrderDetail(this)">Thao tác</button>
-                                    <div class="overlay" style="display: block">
-                                        <div class="order__detail-box">
-                                            <i class="fa-solid fa-rectangle-xmark close"></i>
-                                            <h2 class="history-heading">
-                                                Các sản phẩm trong đơn
-                                            </h2>
-                                            <div class="history-table-list">
-                                                <table class="history-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width: 100px">Mã sản phẩm</th>
-                                                            <th>Sản phẩm</th>
-                                                            <th>Đơn giá</th>
-                                                            <th>Số lượng</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="order-detail-id">123123</td>
-                                                            <td>
-                                                                <img src="./assets/imgs/dell1.jpg"
-                                                                    class="order-detail-img" />
-                                                                <span class="order-detail-name">Dell Inspiron 153520
-                                                                    i5</span>
-                                                            </td>
-                                                            <td>
-                                                                <span
-                                                                    class="order-detail-price">16.000.000</span><sup>đ</sup>
-                                                            </td>
-                                                            <td class="order-detail-quantity">1</td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tfoot>
-                                                        <tr>
-                                                            <td colspan="4" class="totalPrice">
-                                                                Tổng cộng:
-                                                                <span class="total-price-value">0</span><sup>đ</sup>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td colspan="4" class="order-detail-status">
-                                                                <form style="background-color: #fff">
-                                                                    <label for="option-status">Tình trạng</label>
-                                                                    <select id="option-status" name="option-status"
-                                                                        onchange="setOrderStatus(this)">
-                                                                        <option value="cxl">Chưa xử lý</option>
-                                                                        <option value="dxl">Đã xác nhận</option>
-                                                                        <option value="dg">Đã giao thành công</option>
-                                                                        <option value="dh">Đã hủy</option>
-                                                                    </select>
-                                                                    <button type="submit" class="order__submit-status">
-                                                                        Xác nhận thay đổi
-                                                                    </button>
-                                                                </form>
-                                                            </td>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
+            <div id="order" class="order disable">
+                <div class="order__header">
+                    <div class="order__title">Thông tin đơn hàng</div>
+                </div>
+                <div>
+                    <div id="order__list">
+                        <table class="order-table">
+                            <thead>
+                                <tr>
+                                    <th class="order__width--small">Mã đơn hàng</th>
+                                    <th>Mã khách hàng</th>
+                                    <th class="order__width--small">Giá đơn</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Tình trạng</th>
+                                    <th class="order__width--small">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="order__id">Mã đơn hàng</td>
+                                    <td class="order__customer-id">Mã khách hàng</td>
+                                    <td class="order__price">
+                                        <span class="order__price">12.000.0000</span><sup>đ</sup>
+                                    </td>
+                                    <td class="order__date">Ngày đặt</td>
+                                    <td class="order__status">Tình trạng</td>
+                                    <td>
+                                        <button class="order__detail" onclick="showOrderDetail(this)">Thao tác</button>
+                                        <div class="overlay" style="display: block">
+                                            <div class="order__detail-box">
+                                                <i class="fa-solid fa-rectangle-xmark close"></i>
+                                                <h2 class="history-heading">
+                                                    Các sản phẩm trong đơn
+                                                </h2>
+                                                <div class="history-table-list">
+                                                    <table class="history-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 100px">Mã sản phẩm</th>
+                                                                <th>Sản phẩm</th>
+                                                                <th>Đơn giá</th>
+                                                                <th>Số lượng</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="order-detail-id">123123</td>
+                                                                <td>
+                                                                    <img src="./assets/imgs/dell1.jpg"
+                                                                        class="order-detail-img" />
+                                                                    <span class="order-detail-name">Dell Inspiron 153520
+                                                                        i5</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span
+                                                                        class="order-detail-price">16.000.000</span><sup>đ</sup>
+                                                                </td>
+                                                                <td class="order-detail-quantity">1</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <td colspan="4" class="totalPrice">
+                                                                    Tổng cộng:
+                                                                    <span class="total-price-value">0</span><sup>đ</sup>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="4" class="order-detail-status">
+                                                                    <form style="background-color: #fff">
+                                                                        <label for="option-status">Tình trạng</label>
+                                                                        <select id="option-status" name="option-status"
+                                                                            onchange="setOrderStatus(this)">
+                                                                            <option value="cxl">Chưa xử lý</option>
+                                                                            <option value="dxl">Đã xác nhận</option>
+                                                                            <option value="dg">Đã giao thành công</option>
+                                                                            <option value="dh">Đã hủy</option>
+                                                                        </select>
+                                                                        <button type="submit" class="order__submit-status">
+                                                                            Xác nhận thay đổi
+                                                                        </button>
+                                                                    </form>
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <!------------------- Order ----------------->
     
-    <div id="login-for-admin">
-        <div></div>
-    </div>
     <script src="./admin.js"></script>
 </body>
 
