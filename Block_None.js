@@ -11,7 +11,7 @@ registerbtn.forEach((register) => {
     e.preventDefault();
     registerPage.style.display = "block";
     loginPage.style.display = "none";
-    document.getElementById("name-register").focus();
+    document.getElementById("fullname").focus();
   });
 });
 

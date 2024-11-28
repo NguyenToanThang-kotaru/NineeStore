@@ -113,14 +113,16 @@ img {
 
 .product__header,
 .order__header,
-.customer__header {
+.customer__header,
+.admin__header {
   height: 100px;
   position: relative;
 }
 
 .product__title,
 .order__title,
-.customer__title {
+.customer__title,
+.admin__title {
   background-color: #d9d9d9;
   position: absolute;
   margin: 20px calc(50% - 30%);
@@ -176,7 +178,8 @@ table {
 
 .product__size-id,
 .order__size-id,
-.customer__size-id {
+.customer__size-id
+.admin__size-id {
   width: 10px;
 }
 
@@ -185,7 +188,7 @@ table {
 .admin__btn-style {
   display: flex;
   justify-content: center;
-  margin: 40px;
+  margin-bottom: 20px;
 }
 
 .order__width--small {
@@ -233,7 +236,8 @@ button:hover {
   background-color: rgb(255, 0, 0);
 }
 
-.customer__status {
+.customer__status,
+.admin__status {
   background-color: green;
   color: black;
 }
