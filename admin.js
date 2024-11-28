@@ -64,15 +64,7 @@
         return -1;
     }
 
-    // find ID
-    function findId(id, productArray) {
-        for (let x in productArray) {
-            if (productArray[x].id == id) {
-                return Number(x);
-            }
-        }
-        return -1;
-    }
+
 
     // handle image files upload from an input element
     function uploadImg(inputElement) {
@@ -132,12 +124,12 @@
                     }
                     return;
                 }
-            });    
+            });
         }
         else {
         }
     }
-    
+
     function getDayToday() {
         let year = new Date().getFullYear();
         let month = new Date().getMonth();
@@ -238,77 +230,236 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
         });
     }
-    
+
     // --------------------------------- Statistics-----------------------------
-const menu = document.querySelector('#menu-tke');
-const item_btn = document.querySelector('#items-btn');
-const customer_btn = document.querySelector('#customers-btn');
-const back1 = document.querySelector('#back-btn-mh');
-const back2 = document.querySelector('#back-btn-kh');
-const item_page = document.querySelector('#items-tke');
-const customer_page = document.querySelector('#customers-tke');
+    const menu = document.querySelector('#menu-tke');
+    const item_btn = document.querySelector('#items-btn');
+    const customer_btn = document.querySelector('#customers-btn');
+    const back1 = document.querySelector('#back-btn-mh');
+    const back2 = document.querySelector('#back-btn-kh');
+    const item_page = document.querySelector('#items-tke');
+    const customer_page = document.querySelector('#customers-tke');
 
-customer_btn.addEventListener('click',showCustomer);
-item_btn.addEventListener('click',showItems);
-back1.addEventListener('click',backMenu);
-back2.addEventListener('click',backMenu)
+    customer_btn.addEventListener('click', showCustomer);
+    item_btn.addEventListener('click', showItems);
+    back1.addEventListener('click', backMenu);
+    back2.addEventListener('click', backMenu)
 
-function showCustomer(){
-    customer_page.style.display = "block";
-    menu.style.display = "none";
-}
+    function showCustomer() {
+        customer_page.style.display = "block";
+        menu.style.display = "none";
+    }
 
-function showItems(){
-    item_page.style.display = "block";
-    menu.style.display = "none";
-}
+    function showItems() {
+        item_page.style.display = "block";
+        menu.style.display = "none";
+    }
 
-function backMenu(){
-    customer_page.style.display = "none";
-    item_page.style.display = "none";
-    menu.style.display = "block";
-}
+    function backMenu() {
+        customer_page.style.display = "none";
+        item_page.style.display = "none";
+        menu.style.display = "block";
+    }
 
-// Hoa don
 
-const hoadon_kh_btn = document.querySelectorAll('.show-hoadon-kh');
-const hoadon_mh_btn = document.querySelectorAll('.show-hoadon-mh');
-const hoadon_kh_page = document.querySelector('#hoadon-customers');
-const hoadon_mh_page = document.querySelector('#hoadon-items');
-const esc_hoadon1 = document.querySelector('#esc-hoadon-btn-kh');
-const esc_hoadon2 = document.querySelector('#esc-hoadon-btn-mh');
-const overlay = document.querySelector('.overlay-hd');
+    function ProductStatistics() {
+        const orders = JSON.parse(localStorage.getItem("orders")) || [];
+        const itemsTableBody = document.querySelector('.items-table-tke tbody');
+        const totalRevenueElement = document.getElementById('amount-revenue-tke');
+        const bestItemElement = document.getElementById('best-item');
+        const bestItemRevenueElement = document.getElementById('best-item-revenue');
+        const worstItemElement = document.getElementById('worst-item');
+        const worstItemRevenueElement = document.getElementById('worst-item-revenue');
+    
+        const itemStats = {};
+        let totalRevenue = 0;
+    
+        // Tính toán số lượng bán và tổng thu cho từng mặt hàng
+        orders.forEach(order => {
+            order.ProductList.forEach(product => {
+                const productName = product.Name;
+        
+                // Chuyển đổi Quantity và Price thành số
+                const quantity = Number(product.Quantity) || 0;
+                const price = product.Price.replace(/\./g, "")
+        
+                // Khởi tạo nếu chưa có
+                if (!itemStats[productName]) {
+                    itemStats[productName] = {
+                        quantity: 0,
+                        revenue: 0
+                    };
+                }
+                // Cập nhật số lượng và doanh thu
+                itemStats[productName].quantity += quantity;
+                itemStats[productName].revenue += price * quantity;
+                totalRevenue += price * quantity;
+            });
+        });
+        
+        // Cập nhật bảng thống kê mặt hàng
+        itemsTableBody.innerHTML = ''; // Xóa dữ liệu cũ
+        let bestItem = { name: '', quantity: 0 };
+        let worstItem = { name: '', quantity: Infinity };
+    
+        for (const [name, stats] of Object.entries(itemStats)) {
+            const row = `<tr>
+                            <td>${name}</td>
+                            <td>${stats.quantity}</td>
+                            <td>${stats.revenue.toLocaleString("de-DE")}VNĐ</td>
+                            <td><button class="show-hoadon-mh">Xem</button></td>
+                         </tr>`;
+            itemsTableBody.innerHTML += row;
+    
+            // Cập nhật mặt hàng bán chạy nhất và ế nhất
+            if (stats.quantity > bestItem.quantity) {
+                bestItem = { name, quantity: stats.quantity };
+            }
+            if (stats.quantity < worstItem.quantity) {
+                worstItem = { name, quantity: stats.quantity };
+            }
+        }
+    
+        // Cập nhật tổng doanh thu
+        totalRevenueElement.innerText = totalRevenue;
+    
+        // Cập nhật mặt hàng bán chạy nhất và ế nhất
+        bestItemElement.innerText = bestItem.name || 'Không có';
+        bestItemRevenueElement.innerText = bestItem.quantity > 0 ? bestItem.quantity + '' : '';
+        worstItemElement.innerText = worstItem.name || 'Không có';
+        worstItemRevenueElement.innerText = worstItem.quantity < Infinity ? worstItem.quantity + '':"";
 
-hoadon_kh_btn.forEach(button =>{
-    button.addEventListener('click',showHoaDonKH);
-});
 
-hoadon_mh_btn.forEach(button =>{
-    button.addEventListener('click',showHoaDonMH);
-});
 
-esc_hoadon1.addEventListener('click',closeHoadonKH);
-esc_hoadon2.addEventListener('click',closeHoadonMH);
+    }
+    
 
-function showHoaDonKH(){
-    overlay.style.display = "block";
-    hoadon_kh_page.style.display = "block";
-}
+    function updateCustomerStatistics() {
+        const orders = JSON.parse(localStorage.getItem("orders")) || [];
+        const customersTableBody = document.querySelector('#customers-tke tbody');
+        const customerStats = {};
+    
+        // Tính toán doanh thu cho từng khách hàng
+        orders.forEach(order => {
+            const customerId = order.Customer.UserId;
+            const customerName = order.Customer.FullName;
+            const orderTotal = parseFloat(order.TotalPrice.replace(/\./g, '').replace(',', '.'));
+    
+            // Nếu khách hàng chưa có trong thống kê, khởi tạo thông tin cho họ
+            if (!customerStats[customerId]) {
+                customerStats[customerId] = {
+                    name: customerName,
+                    revenue: 0
+                };
+            }
+            customerStats[customerId].revenue += orderTotal;
+        });
+    
+        // Cập nhật bảng thống kê khách hàng
+        customersTableBody.innerHTML = '';
+        for (const stats of Object.values(customerStats)) {
+            const row = `<tr>
+                            <td>${stats.name}</td>
+                            <td>${stats.revenue.toLocaleString("de-DE")} VNĐ</td>
+                            <td><button class="show-hoadon-kh">Xem</button></td>
+                         </tr>`;
+            customersTableBody.innerHTML += row;
+        }
+        // Thêm sự kiện cho nút "Xem"
+    const viewButtons = document.querySelectorAll('.show-hoadon-kh');
+    viewButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const customerId = button.getAttribute('data-id');
+            const customerOrders = customerStats[customerId].orders;
+            showInvoice(customerOrders[0]); // Hiển thị hóa đơn đầu tiên (hoặc chọn hóa đơn nào đó)
+        });
+    });
+    }
+    
+    function showInvoice(order) {
+        // Cập nhật thông tin hóa đơn
+        document.getElementById('customer-name').textContent += order.Customer.FullName;
+        document.getElementById('customer-address').textContent += order.Customer.Address || 'Chưa có';
+        document.getElementById('customer-phone').textContent += order.Customer.Phone || 'Chưa có';
+        document.getElementById('customer-email').textContent += order.Customer.Email || 'Chưa có';
+    
+        const orderItemsBody = document.getElementById('order-items-body');
+        orderItemsBody.innerHTML = ''; // Xóa dữ liệu cũ
+    
+        const orderTotal = parseFloat(order.TotalPrice.replace(/\./g, '').replace(',', '.'));
+        order.ProductList.forEach(product => {
+            const row = `<tr>
+                            <td>${product.Name}</td>
+                            <td>${product.Quantity}</td>
+                            <td>${product.Price} VNĐ</td>
+                            <td>${(product.Price * product.Quantity).toLocaleString("de-DE")} VNĐ</td>
+                         </tr>`;
+            orderItemsBody.innerHTML += row;
+        });
+    
+        document.getElementById('total-amount').textContent = orderTotal.toLocaleString("de-DE") + ' VNĐ';
+    
+        // Hiển thị modal
+        document.getElementById('hoadon-customers').style.display = 'block';
+    }
+    
+    // Đóng modal khi nhấn nút X
+    document.getElementById('esc-hoadon-btn-kh').addEventListener('click', () => {
+        document.getElementById('hoadon-customers').style.display = 'none';
+    });
+    
 
-function showHoaDonMH(){
-    overlay.style.display = "block";
-    hoadon_mh_page.style.display = "block";
-}
+    // Gọi hàm khi DOM đã sẵn sàng
+    document.addEventListener("DOMContentLoaded", updateCustomerStatistics);
+    // Gọi hàm để cập nhật thống kê khách hàng khi trang được tải
+    updateCustomerStatistics();
+    
 
-function closeHoadonMH(){
-    overlay.style.display = "none";
-    hoadon_mh_page.style.display = "none";
-}
+    // Gọi hàm để cập nhật thống kê khi trang được tải
+    ProductStatistics(); 
+    
 
-function closeHoadonKH(){
-    overlay.style.display = "none";
-    hoadon_kh_page.style.display = "none";
-}
+
+    // Hoa don
+
+    const hoadon_kh_btn = document.querySelectorAll('.show-hoadon-kh');
+    const hoadon_mh_btn = document.querySelectorAll('.show-hoadon-mh');
+    const hoadon_kh_page = document.querySelector('#hoadon-customers');
+    const hoadon_mh_page = document.querySelector('#hoadon-items');
+    const esc_hoadon1 = document.querySelector('#esc-hoadon-btn-kh');
+    const esc_hoadon2 = document.querySelector('#esc-hoadon-btn-mh');
+    const overlay = document.querySelector('.overlay-hd');
+
+    hoadon_kh_btn.forEach(button => {
+        button.addEventListener('click', showHoaDonKH);
+    });
+
+    hoadon_mh_btn.forEach(button => {
+        button.addEventListener('click', showHoaDonMH);
+    });
+
+    esc_hoadon1.addEventListener('click', closeHoadonKH);
+    esc_hoadon2.addEventListener('click', closeHoadonMH);
+
+    function showHoaDonKH() {
+        overlay.style.display = "block";
+        hoadon_kh_page.style.display = "block";
+    }
+
+    function showHoaDonMH() {
+        overlay.style.display = "block";
+        hoadon_mh_page.style.display = "block";
+    }
+
+    function closeHoadonMH() {
+        overlay.style.display = "none";
+        hoadon_mh_page.style.display = "none";
+    }
+
+    function closeHoadonKH() {
+        overlay.style.display = "none";
+        hoadon_kh_page.style.display = "none";
+    }
 
 
     //--------------------------------- Customer -----------------------------
@@ -353,7 +504,7 @@ function closeHoadonKH(){
     addProducttoTable();
 
     //Khi ấn vào submit thì thêm vào localStorage và thêm sp vào bảng (trường hợp chưa load trang)
-    document.querySelector(".form__submit-btn").addEventListener("click", function(event) {
+    document.querySelector(".form__submit-btn").addEventListener("click", function (event) {
         event.preventDefault();
         const name = document.getElementById("form__sp-name");
         const brand = document.getElementById("form__sp-brand");
@@ -558,7 +709,7 @@ function closeHoadonKH(){
             filterAddress.style.display = "none";
             filterDateContainer.style.display = "flex";
             filterDateContainer.style.justifyContent = "flex-end";
-            showFilterDate = true;    
+            showFilterDate = true;
         }
         else {
             filterDateContainer.style.display = "none";
@@ -582,7 +733,7 @@ function closeHoadonKH(){
                     if (row.querySelector(".order__date") === null) {
                         continue;
                     }
-                    let tmp = row.querySelector(".order__date").innerText;  
+                    let tmp = row.querySelector(".order__date").innerText;
                     console.log(tmp);
                     let [day, month, year] = tmp.split("/");
                     let date = new Date(year, month - 1, day);
@@ -598,7 +749,7 @@ function closeHoadonKH(){
                     if (row.querySelector(".order__date") === null) {
                         continue;
                     }
-                    let tmp = row.querySelector(".order__date").innerText;  
+                    let tmp = row.querySelector(".order__date").innerText;
                     let [day, month, year] = tmp.split("/");
                     let date = new Date(year, month - 1, day);
                     if (getTimeDiff(today, date) !== 1) {
@@ -682,7 +833,7 @@ function closeHoadonKH(){
     });
 
     // filter the order by date
-    
+
 });
 // ------------ Edit ------------
 function editProduct(productElement) {
@@ -811,8 +962,8 @@ function addOrdertoTable() {
         else statusValue = "dh";
         const orderDate = new Date(order.OrderDate);
         const formattedDate = new Intl.DateTimeFormat("vi-VN").format(orderDate);
-        orderContent += 
-        `<tr>
+        orderContent +=
+            `<tr>
             <td class="order__id">${order.ID}</td>
             <td class="order__customer-id">${order.Customer.UserId}</td>
             <td class="order__price"><span class="order__price">${order.TotalPrice}</span><sup>đ</sup></td>
@@ -991,7 +1142,7 @@ document.querySelector("#form__add-submit").addEventListener("click", function (
         localStorage.setItem("products", JSON.stringify(products));
 
         // make all the input empty
-        clearInput([name,brand,quantity,price,img,price,cpu,screen,ram,rom,os,card,pin,network,weight]);
+        clearInput([name, brand, quantity, price, img, price, cpu, screen, ram, rom, os, card, pin, network, weight]);
         document.querySelector("#form__preview-img").src = "./img/no-photo-or-blank-image.jpg";
         document.querySelector("#form__preview-detail-img").src = "./img/no-photo-or-blank-image.jpg";
     }
@@ -1005,7 +1156,7 @@ function editCustomer(customerElement) {
     const divCustomer = customerElement.parentElement.parentElement;
     const id = divCustomer.querySelector(".customer__userID").innerText;
 
-     const userNameField = document.getElementById("form__edit-userName");
+    const userNameField = document.getElementById("form__edit-userName");
     const namefullField = document.getElementById("form__edit-fullname");
     const phoneField = document.getElementById("form__edit-phone");
     const emailField = document.getElementById("form__edit-email");
@@ -1014,30 +1165,30 @@ function editCustomer(customerElement) {
 
     for (let i = 0; i < users.length; i++) {
         if (users[i].UserId == id) {
-           
+
             userNameField.value = users[i].UserName;
             namefullField.value = users[i].FullName;
             phoneField.value = users[i].Phone;
             emailField.value = users[i].Email;
             addressField.value = users[i].Address;
 
-          
+
             document.getElementById("form__edit-submit").addEventListener("click", function (event) {
                 event.preventDefault();
 
-              
-                 users[i].FullName = namefullField.value;
+
+                users[i].FullName = namefullField.value;
                 users[i].Phone = phoneField.value;
                 users[i].Email = emailField.value;
                 users[i].Address = addressField.value;
                 users[i].UserName = userNameField.value;
 
-               
+
                 localStorage.setItem("users", JSON.stringify(users));
 
-                
-        
-                 divCustomer.querySelector(".customer__userFullName").innerText = users[i].FullName;
+
+
+                divCustomer.querySelector(".customer__userFullName").innerText = users[i].FullName;
                 divCustomer.querySelector(".customer__userName").innerText = users[i].UserName;
                 divCustomer.querySelector(".customer__userPhone").innerText = users[i].Phone;
                 divCustomer.querySelector(".customer__userEmail").innerText = users[i].Email;
