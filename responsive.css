@@ -115,6 +115,7 @@
     padding: 0 20px;
   }
   .nav-mobile {
+    display: block;
     overflow: hidden;
     z-index: 110;
   }

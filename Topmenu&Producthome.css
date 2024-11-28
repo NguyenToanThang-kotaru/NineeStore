@@ -231,3 +231,6 @@ i.nav-bar {
   overflow: hidden;
   transition: all 0.5s ease;
 }
+.nav-mobile {
+  display: none;
+}
