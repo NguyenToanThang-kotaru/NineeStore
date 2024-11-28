@@ -145,9 +145,9 @@
         return new Date(year, month, day);
     }
 
-    function getDayDiff(date1, date2) {
-        console.log(date1.getDay() - date2.getDay());
-        return Math.abs(date1.getDay() - date2.getDay());
+    function getTimeDiff(date1, date2) {
+        // console.log(date1.getDay() - date2.getDay());
+        return Math.abs(date1.getTime() - date2.getTime()) / (1000 * 24 * 60 * 60);
     }
 
     function getMonthDiff(date1, date2) {
@@ -499,6 +499,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     filterDate.addEventListener("change", function () {
+        if (filterDate.value == ".") {
+            return;
+        }
         addOrdertoTable();
         if (filterDate.value == "all") {
             return;
@@ -516,8 +519,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     let [day, month, year] = tmp.split("/");
                     let date = new Date(year, month - 1, day);
                     console.log(date);
-                    if (date.getDay() !== today.getDay()) {
-                        // row.style.display = "none";
+                    if (getTimeDiff(today, date) !== 0) {
+                        console.log("remove" + date);
                         row.remove();
                     }
                 }
@@ -530,8 +533,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     let tmp = row.querySelector(".order__date").innerText;  
                     let [day, month, year] = tmp.split("/");
                     let date = new Date(year, month - 1, day);
-                    if (getDayDiff(today, date) !== 1) {
-                        // row.style.display = "none";
+                    if (getTimeDiff(today, date) !== 1) {
+                        console.log("remove" + date);
                         row.remove();
                     }
                 }
@@ -544,8 +547,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     let tmp = row.querySelector(".order__date").innerText;
                     let [day, month, year] = tmp.split("/");
                     let date = new Date(year, month - 1, day);
-                    if (getDayDiff(today, date) > 3) {
-                        // row.style.display = "none";
+                    if (getTimeDiff(today, date) > 3) {
+                        console.log("remove" + date);
                         row.remove();
                     }
                 }
@@ -558,8 +561,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     let tmp = row.querySelector(".order__date").innerText;
                     let [day, month, year] = tmp.split("/");
                     let date = new Date(year, month - 1, day);
-                    if (getDayDiff(today, date) > 7) {
-                        // row.style.display = "none";
+                    if (getTimeDiff(today, date) > 7) {
+                        console.log("remove" + date);
                         row.remove();
                     }
                 }
@@ -573,7 +576,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     let [day, month, year] = tmp.split("/");
                     let date = new Date(year, month - 1, day);
                     if (today.getMonth() !== date.getMonth()) {
-                        // row.style.display = "none";
+                        console.log("remove" + date);
                         row.remove();
                     }
                 }
@@ -587,7 +590,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     let [day, month, year] = tmp.split("/");
                     let date = new Date(year, month - 1, day);
                     if (date.getMonth() !== today.getMonth() - 1) {
-                        // row.style.display = "none";
+                        console.log("remove" + date);
                         row.remove();
                     }
                 }
