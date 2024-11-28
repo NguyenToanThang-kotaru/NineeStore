@@ -1,7 +1,7 @@
 const adminAccount = {
   UserName: "admin",
   Password: "admin123",
-  UserType: "admin"
+  UserType: "admin",
 };
 const loginSubmit = document.querySelector(".login-submit");
 loginSubmit.addEventListener("click", (event) => {
@@ -53,18 +53,14 @@ function reloadPage() {
   window.location.href = "Nineshop.html";
 }
 if (isLogin) {
-  document.querySelector("li.login-btn").style.display =
-    "none";
-  document.querySelector("li.register-btn").style.display =
-    "none";
-  if (isAdmin) {
-    document.querySelector(".admin-item").style.display = "block";
-  }
+  document.querySelector("li.login-btn").style.display = "none";
+  document.querySelector("li.register-btn").style.display = "none";
+  // if (JSON.parse(localStorage.getItem(userlogin)).Username == 'admin') {
+  //   document.querySelector(".admin-item").style.display = "block";
+  // }
 } else {
-  document.querySelector("li.info-btn").style.display =
-    "none";
-  document.querySelector("li.logout-btn").style.display =
-    "none";
+  document.querySelector("li.info-btn").style.display = "none";
+  document.querySelector("li.logout-btn").style.display = "none";
 }
 function logOut() {
   localStorage.removeItem("userLogin");

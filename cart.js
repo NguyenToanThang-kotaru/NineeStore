@@ -95,7 +95,7 @@ function addToCart(cartElement) {
   const productPrice = productItem.querySelector(".product-price").innerText;
   const productQuantity = productItem.querySelector(
     ".detail-quantity-value"
-  ).value;
+  ).innerText;
   const productStorage = productItem.querySelector('.product-quantity-value').innerText
   for (let i = 0; i < orders.length; i++) {
     if (orders[i].innerText == productID) {
@@ -114,7 +114,7 @@ function addToCart(cartElement) {
         <td>
                           <div class="detail-quantity">
                               <i class="fa-solid fa-circle-minus desc-quantity" onclick="decreaseQuantity(this); cartTotal()"></i>
-                              <input type="number" class="detail-quantity-value order-quantity" value="${productQuantity}" min="1" ></input>
+                              <div class="detail-quantity-value order-quantity">${productQuantity}</div>
                               <i class="fa-solid fa-circle-plus plus-quantity" onclick="increaseQuantity(this, ${productStorage}); cartTotal()" ></i>
                           </div>
         </td>
@@ -159,7 +159,7 @@ function cartTotal() {
   let totalPrice = 0;
   for (let i = 0; i < cartListChecked.length; i++) {
     const quantityValue = Number(
-      cartListChecked[i].querySelector(".order-quantity").value
+      cartListChecked[i].querySelector(".order-quantity").innerText
     );
     const orderPrice = Number(
       cartListChecked[i]
@@ -229,7 +229,7 @@ function displayTotalQuantityCart() {
   if (cartList.length > 0) {
     for (var i = 0; i < cartList.length; i++) {
       var quantityValue = Number(
-        cartList[i].querySelector(".order-quantity").value
+        cartList[i].querySelector(".order-quantity").innerText
       );
       totalQuantity = totalQuantity + quantityValue;
     }
@@ -258,7 +258,7 @@ function submitOrder() {
       product = {
         ID: cart.querySelector(".order-product-id").innerText,
         Name: cart.querySelector(".order-product-name").innerText,
-        Quantity: cart.querySelector(".order-quantity").value,
+        Quantity: cart.querySelector(".order-quantity").innerText,
         Price: cart.querySelector(".order-price").innerText,
         Img: cart.querySelector(".order-img").src,
       };
