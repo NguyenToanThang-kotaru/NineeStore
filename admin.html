@@ -677,279 +677,190 @@
                         />
                         <!-- https://stackoverflow.com/questions/4328947/limit-file-format-when-using-input-type-file -->
 
-                        <div
-                          style="
-                            margin: 10px;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            width: 30%;
-                          "
-                        >
-                          <img
-                            src="./img/no-photo-or-blank-image.jpg"
-                            alt="blank image!"
-                            class="form__preview"
-                            id="form__edit-preview-detail-img"
-                            style="width: 100%"
-                          />
+                                            <div
+                                                style="margin: 10px; display: flex; justify-content: center; align-items: center; width: 30%;">
+                                                <img src="./img/no-photo-or-blank-image.jpg" alt="blank image!"
+                                                    class="form__preview" id="form__edit-preview-detail-img"
+                                                    style="width: 100%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="form__submit" class="form__submit-style">
+                                <button type="submit" class="form__edit-submit-btn">Sửa</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- -------------------------------- Remove ----------------------------- -->
+            </div>
+            <!------------------- Customer ----------------->
+            <div id="customer" class="customer disable">
+                <div class="customer__header">
+                    <div class="customer__title">Thông tin khách hàng</div>
+                </div>
+                <div>
+                    <div id="customer__list">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="customer__size-id">Mã KH</th>
+                                    <th>Tên KH</th>
+                                    <th>SĐT</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Email</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customer__list-body">
+                                <!-- Customer lists will be here  -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="admin__btn-style">
+                    <button type="button" id="product__btn-add-item" onclick="showAdminAdd()">
+                        Thêm quản trị viên
+                    </button>
+                </div>
+                <div class="overlay admin__add">
+                    <div id="admin__add-box">
+                        <i class="fa-solid fa-xmark close"></i>
+                        <form>
+                            <div class="form">
+                                <div class="form__row-right">
+                                    <div class="form__row">
+                                        <label for="form__admin-name">Họ tên người quản
+                                            trị: </label>
+                                        <input type="text" id="form__admin-name" name="admin-name" required autofocus />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__admin-phone">Số điện thoại:
+                                        </label>
+                                        <input type="text" id="form__admin-phone" name="admin-phone" required
+                                            autofocus />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__admin-email">Email: </label>
+                                        <input type="text" id="form__admin-email" name="admin-email" required />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__admin-address">Địa chỉ:
+                                        </label>
+                                        <input type="text" id="form__admin-address" name="admin-address" required />
+                                    </div>
+                                </div>
+                                <div class="form__row-right">
+                                    <div class="form__row">
+                                        <label for="form__admin-username">Tên đăng nhập:
+                                        </label>
+                                        <input type="text" id="form__admin-username" name="admin-username" required />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__admin-password">Password:
+                                        </label>
+                                        <input type="password" id="form__admin-password" name="admin-password"
+                                            required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form__submit-style">
+                                <button type="submit" class="form__submit-btn" id="form__admin-submit">Thêm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- ==================================edit============================ -->
+            <div class="overlay admin__edit">
+                <div id="admin__edit-box">
+                    <i class="fa-solid fa-xmark close"></i>
+                    <form>
+                        <div class="form">
+                            <div class="form__row-right">
+                                <div class="form__row">
+                                    <label for="form__edit-fullname">Họ tên khách hàng: </label>
+                                    <input type="text" id="form__edit-fullname" name="edit-fullname" required
+                                        autofocus />
+                                </div>
+                                <div class="form__row">
+                                    <label for="form__edit-phone">Số điện thoại: </label>
+                                    <input type="text" id="form__edit-phone" name="edit-phone" required />
+                                </div>
+                                <div class="form__row">
+                                    <label for="form__edit-email">Email: </label>
+                                    <input type="email" id="form__edit-email" name="edit-email" required />
+                                </div>
+                                <div class="form__row">
+                                    <label for="form__edit-address">Địa chỉ: </label>
+                                    <input type="text" id="form__edit-address" name="edit-address" required />
+                                </div>
+                                <div class="form__row">
+                                    <label for="form__edit-userName">Tên đăng nhập: </label>
+                                    <input type="text" id="form__edit-userName" name="edit-userName" required />
+                                </div>
+
+                            </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
+                        <div class="form__submit-style">
+                            <button type="submit" class="form__submit-btn" id="form__edit-submit">Lưu</button>
+                        </div>
+                    </form>
                 </div>
-                <div id="form__submit" class="form__submit-style">
-                  <button type="submit" class="form__edit-submit-btn">
-                    Sửa
-                  </button>
-                </div>
-              </form>
             </div>
-          </div>
-          <!-- -------------------------------- Remove ----------------------------- -->
+            <!------------------- Order ----------------->
+            <div id="order" class="order disable">
+                <div class="order__header">
+                    <div class="order__title">Thông tin đơn hàng</div>
+                </div>
+                <!-- làm các nút để truy cập chức năng lọc -->
+                <div style="display: flex; justify-content: center;">
+                    <div
+                        style="display: flex; width: 90%; position: sticky; top: 0; background-color: white; margin-bottom: 20px;">
+                        <button type="button" id="order__filter-date">Lọc đơn hàng theo
+                            ngày</button>
+                        <button type="button" id="order__filter-address">Lọc đơn hàng
+                            theo địa chỉ</button>
+                    </div>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: center;">
+                        <div id="filter-date">
+                            <select name="filter__date" id="filter__date">
+                                <option value="." selected>Chọn thông tin</option>
+                                <option value="all">Tất cả</option>
+                                <option value="today">Hôm nay</option>
+                                <option value="yesterday">Hôm qua</option>
+                                <option value="three-days">Trong vòng 3 ngày</option>
+                                <option value="this-week">Trong vòng 7 ngày</option>
+                                <option value="this-month">Trong tháng này</option>
+                                <option value="last-month">Tháng trước</option>
+                            </select>
+                        </div>
+                        <div id="filter-address">messi</div>
+                    </div>
+                </div>
+                <div>
+                    <div id="order__list">
+                        <table class="order-table">
+                            <thead>
+                                <tr>
+                                    <th class="order__width--small">Mã đơn hàng</th>
+                                    <th>Mã khách hàng</th>
+                                    <th class="order__width--small">Giá đơn</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Tình trạng</th>
+                                    <th class="order__width--small">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!------------------- Customer ----------------->
-        <div id="customer" class="customer disable">
-          <div class="customer__header">
-            <div class="customer__title">Thông tin khách hàng</div>
-          </div>
-          <div>
-            <div id="customer__list">
-              <table>
-                <thead>
-                  <tr>
-                    <th class="customer__size-id">Mã KH</th>
-                    <th>Tên KH</th>
-                    <th>SĐT</th>
-                    <th>Địa chỉ</th>
-                    <th>Email</th>
-                    <th>Trạng thái</th>
-                  </tr>
-                </thead>
-                <tbody id="customer__list-body">
-                  <!-- Customer lists will be here  -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="admin__btn-style">
-            <button
-              type="button"
-              id="product__btn-add-item"
-              onclick="showAdminAdd()"
-            >
-              Thêm quản trị viên
-            </button>
-          </div>
-          <div class="overlay admin__add">
-            <div id="admin__add-box">
-              <i class="fa-solid fa-xmark close"></i>
-              <form>
-                <div class="form">
-                  <div class="form__row-right">
-                    <div class="form__row">
-                      <label for="form__admin-name"
-                        >Họ tên người quản trị:
-                      </label>
-                      <input
-                        type="text"
-                        id="form__admin-name"
-                        name="admin-name"
-                        required
-                        autofocus
-                      />
-                    </div>
-                    <div class="form__row">
-                      <label for="form__admin-phone">Số điện thoại: </label>
-                      <input
-                        type="text"
-                        id="form__admin-phone"
-                        name="admin-phone"
-                        required
-                        autofocus
-                      />
-                    </div>
-                    <div class="form__row">
-                      <label for="form__admin-email">Email: </label>
-                      <input
-                        type="text"
-                        id="form__admin-email"
-                        name="admin-email"
-                        required
-                      />
-                    </div>
-                    <div class="form__row">
-                      <label for="form__admin-address">Địa chỉ: </label>
-                      <input
-                        type="text"
-                        id="form__admin-address"
-                        name="admin-address"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="form__row-right">
-                    <div class="form__row">
-                      <label for="form__admin-username">Tên đăng nhập: </label>
-                      <input
-                        type="text"
-                        id="form__admin-username"
-                        name="admin-username"
-                        required
-                      />
-                    </div>
-                    <div class="form__row">
-                      <label for="form__admin-password">Password: </label>
-                      <input
-                        type="password"
-                        id="form__admin-password"
-                        name="admin-password"
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="form__submit-style">
-                  <button
-                    type="submit"
-                    class="form__submit-btn"
-                    id="form__admin-submit"
-                  >
-                    Thêm
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <!-- ==================================edit============================ -->
-        <div class="overlay admin__edit">
-          <div id="admin__edit-box">
-            <i class="fa-solid fa-xmark close"></i>
-            <form>
-              <div class="form">
-                <div class="form__row-right">
-                  <div class="form__row">
-                    <label for="form__edit-fullname">Họ tên khách hàng: </label>
-                    <input
-                      type="text"
-                      id="form__edit-fullname"
-                      name="edit-fullname"
-                      required
-                      autofocus
-                    />
-                  </div>
-                  <div class="form__row">
-                    <label for="form__edit-phone">Số điện thoại: </label>
-                    <input
-                      type="text"
-                      id="form__edit-phone"
-                      name="edit-phone"
-                      required
-                    />
-                  </div>
-                  <div class="form__row">
-                    <label for="form__edit-email">Email: </label>
-                    <input
-                      type="email"
-                      id="form__edit-email"
-                      name="edit-email"
-                      required
-                    />
-                  </div>
-                  <div class="form__row">
-                    <label for="form__edit-address">Địa chỉ: </label>
-                    <input
-                      type="text"
-                      id="form__edit-address"
-                      name="edit-address"
-                      required
-                    />
-                  </div>
-                  <div class="form__row">
-                    <label for="form__edit-userName">Tên đăng nhập: </label>
-                    <input
-                      type="text"
-                      id="form__edit-userName"
-                      name="edit-userName"
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="form__submit-style">
-                <button
-                  type="submit"
-                  class="form__submit-btn"
-                  id="form__edit-submit"
-                >
-                  Lưu
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-        <!------------------- Order ----------------->
-        <div id="order" class="order disable">
-          <div class="order__header">
-            <div class="order__title">Thông tin đơn hàng</div>
-          </div>
-          <!-- làm các nút để truy cập chức năng lọc -->
-          <div style="display: flex; justify-content: center">
-            <div
-              style="
-                display: flex;
-                width: 90%;
-                position: sticky;
-                top: 0;
-                background-color: white;
-                margin-bottom: 20px;
-              "
-            >
-              <button type="button" id="order__filter-date">
-                Lọc đơn hàng theo ngày
-              </button>
-              <button type="button" id="order__filter-address">
-                Lọc đơn hàng theo địa chỉ
-              </button>
-            </div>
-          </div>
-          <div>
-            <div style="display: flex; justify-content: center">
-              <div id="filter-date">
-                <select name="filter__date" id="filter__date">
-                  <option value="." selected>Chọn thông tin</option>
-                  <option value="all">Tất cả</option>
-                  <option value="today">Hôm nay</option>
-                  <option value="yesterday">Hôm qua</option>
-                  <option value="three-days">Trong vòng 3 ngày</option>
-                  <option value="this-week">Trong vòng 7 ngày</option>
-                  <option value="this-month">Trong tháng này</option>
-                  <option value="last-month">Tháng trước</option>
-                </select>
-              </div>
-              <div id="filter-address">messi</div>
-            </div>
-          </div>
-          <div>
-            <div id="order__list">
-              <table class="order-table">
-                <thead>
-                  <tr>
-                    <th class="order__width--small">Mã đơn hàng</th>
-                    <th>Mã khách hàng</th>
-                    <th class="order__width--small">Giá đơn</th>
-                    <th>Ngày đặt</th>
-                    <th>Tình trạng</th>
-                    <th class="order__width--small">Thao tác</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     <script src="./admin.js"></script>
     <script src="./loginAdmin.js"></script>

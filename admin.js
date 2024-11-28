@@ -324,6 +324,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td class="customer__userAddress">${user.Address}</td>
                 <td class="customer__userEmail">${user.Email}</td>
                 <td><button type="button" class="customer__status" title="Nhấp chuột để thay đổi trạng thái">Hoạt động</button></td>
+                <td>
+                    <i class="fa-regular fa-pen-to-square edit-icon" onclick="editCustomer(this)"></i>
+                </td>
             </tr>`;
     });
     customerList.innerHTML = customerContent;
