@@ -234,4 +234,10 @@
   .order-history-btn {
     width: 147px;
   }
+  .type-item {
+    width: 80px;
+  }
+  .type-list {
+    gap: 5px;
+  }
 }

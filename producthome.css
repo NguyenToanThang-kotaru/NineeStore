@@ -10,9 +10,25 @@
   justify-content: start;
   gap: 10px;
 }
+.show-all-product {
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid;
+  margin-right: 20px;
+}
 .type-item {
   width: 100px;
   height: 100px;
+  object-fit: contain;
+}
+.type-button:hover {
+  background: #d3d3d3;
+}
+.type-button {
+  background: #fff;
+}
+.type-button.active {
+  background: #d3d3d3;
 }
 .all-product-list {
   margin-top: 25px;
@@ -304,9 +320,6 @@
 .filter-product select {
   font-size: 14px;
   padding: 5px;
-}
-.search-product-item {
-  display: none;
 }
 .filter-submit {
   display: flex;

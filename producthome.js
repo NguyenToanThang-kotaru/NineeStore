@@ -220,20 +220,45 @@ function createListPage(arr) {
   listPage.innerHTML = s;
 }
 
-function showDELL() {
+function showDELL(typeElement) {
   thisPage = 1;
   displayProduct(dellList);
   localStorage.setItem("productFilter", JSON.stringify(dellList));
+  const typeButton = document.querySelectorAll(".type-button");
+  typeButton.forEach((type) => {
+    type.classList.remove("active");
+  });
+  typeElement.classList.add("active");
 }
-function showASUS() {
+function showASUS(typeElement) {
   thisPage = 1;
   displayProduct(asusList);
   localStorage.setItem("productFilter", JSON.stringify(asusList));
+  const typeButton = document.querySelectorAll(".type-button");
+  typeButton.forEach((type) => {
+    type.classList.remove("active");
+  });
+  typeElement.classList.add("active");
 }
-function showMac() {
+function showMac(typeElement) {
   thisPage = 1;
   displayProduct(macList);
   localStorage.setItem("productFilter", JSON.stringify(macList));
+  const typeButton = document.querySelectorAll(".type-button");
+  typeButton.forEach((type) => {
+    type.classList.remove("active");
+  });
+  typeElement.classList.add("active");
+}
+function showAll(typeElement) {
+  thisPage = 1;
+  displayProduct(productList);
+  localStorage.setItem("productFilter", JSON.stringify(productList));
+  const typeButton = document.querySelectorAll(".type-button");
+  typeButton.forEach((type) => {
+    type.classList.remove("active");
+  });
+  typeElement.classList.add("active");
 }
 
 function changePage(page) {
@@ -263,7 +288,7 @@ function buyNow(buyElement) {
   displayPayment([product], []);
 }
 // ---------------------- Search--------------------
-function searchProduct(arr) {
+function searchProduct(inputElement) {
   let valueSearchInput = document.querySelector("#search-product-input").value;
   const products = JSON.parse(localStorage.getItem("productFilter")) || [];
   let productSearch = Array.from(products).filter((value) => {
@@ -271,6 +296,18 @@ function searchProduct(arr) {
     return productName.includes(valueSearchInput.toUpperCase());
   });
   displayProduct(productSearch);
+
+  inputElement.addEventListener("keydown", function (event) {
+    // Kiểm tra nếu phím Enter được nhấn
+    if (event.key === "Enter") {
+      event.preventDefault(); // Ngăn hành động mặc định (submit form nếu có)
+
+      // Cuộn đến phần tử sản phẩm
+      document
+        .querySelector("#all-product")
+        .scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  });
 }
 // ---------------------- Filter--------------------
 function toggleDisplayFilter(event, filterElement) {
@@ -367,6 +404,10 @@ function filterProduct() {
       products.splice(i, 1); // Xóa phần tử không phù hợp
     }
   }
+  const typeButton = document.querySelectorAll(".type-button");
+  typeButton.forEach((type) => {
+    type.classList.remove("active");
+  });
   displayProduct(products, 1);
   localStorage.setItem("productFilter", JSON.stringify(products));
 }

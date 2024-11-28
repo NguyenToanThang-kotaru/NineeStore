@@ -57,7 +57,7 @@
                   type="text"
                   id="search-product-input"
                   placeholder="Nhập sản phẩm tìm kiếm"
-                  oninput="searchProduct()"
+                  oninput="searchProduct(this)"
                 />
               </div>
             </li>
@@ -249,7 +249,7 @@
                 </li>
               </ul>
             </div>
-            <div class="search-product-item">
+            <!-- <div class="search-product-item">
               <label for="search-product-input"
                 ><i class="fa-solid fa-magnifying-glass"></i
               ></label>
@@ -259,24 +259,30 @@
                 placeholder="Nhập sản phẩm tìm kiếm"
                 oninput="searchProduct()"
               />
-            </div>
+            </div> -->
           </div>
           <div class="type-list">
-            <button onclick="showDELL()" class="type-button">
+            <button
+              onclick="showAll(this)"
+              class="show-all-product type-button active"
+            >
+              Tất cả
+            </button>
+            <button onclick="showDELL(this)" class="type-button">
               <img
                 src="./img/brand_icon/dell.png"
                 class="type-item"
                 alt="DELL"
               />
             </button>
-            <button onclick="showASUS()" class="type-button">
+            <button onclick="showASUS(this)" class="type-button">
               <img
-                src="./img/brand_icon/asus.jpg"
+                src="./img/brand_icon/asus.png"
                 class="type-item"
                 alt="ASUS"
               />
             </button>
-            <button class="type-button" onclick="showMac()">
+            <button class="type-button" onclick="showMac(this)">
               <img src="./img/brand_icon/mac.png" class="type-item" alt="hp" />
             </button>
           </div>
