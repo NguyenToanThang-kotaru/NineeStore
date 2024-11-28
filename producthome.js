@@ -74,7 +74,7 @@ if (!localStorage.getItem("products")) {
   localStorage.setItem("products", JSON.stringify(products));
 }
 // Hiển thị sản phẩm đã lưu vào localStorage
-function displayProduct(arr) {
+function displayProduct(arr, thisPageValue) {
   //Xóa sản phẩm đang hiển thị trước đó nếu nó tồn tại
   const productListRemove = document.querySelector(".all-product-list-remove");
   if (productListRemove) productListRemove.remove();
@@ -85,6 +85,7 @@ function displayProduct(arr) {
   productList.classList.add("all-product-list-remove");
   productList.id = "product-list";
   //Những sản phẩm xuất hiện bắt đầu và kết thúc ở vị trí nào trong mảng
+  if (thisPageValue) thisPage = thisPageValue;
   const start = (thisPage - 1) * amountProduct1Page;
   const end = thisPage * amountProduct1Page;
 
@@ -211,9 +212,9 @@ function createListPage(arr) {
     else if (arr === macList) type = "mac";
 
     if (i === thisPage) {
-      s += `<button onclick="changePage(${i}, '${type}')" class="numberlist active">${i}</button>`;
+      s += `<button onclick="changePage(${i})" class="numberlist active">${i}</button>`;
     } else {
-      s += `<button onclick="changePage(${i}, '${type}')" class="numberlist">${i}</button>`;
+      s += `<button onclick="changePage(${i})" class="numberlist">${i}</button>`;
     }
   }
   listPage.innerHTML = s;
@@ -235,16 +236,10 @@ function showMac() {
   localStorage.setItem("productFilter", JSON.stringify(macList));
 }
 
-function changePage(page, type) {
+function changePage(page) {
   thisPage = page;
-  if (type === "dell") {
-    displayProduct(dellList);
-  } else if (type === "asus") {
-    displayProduct(asusList);
-  } else if (type === "mac") {
-    displayProduct(macList);
-  } else;
-  displayProduct(productList);
+  const productFilter = JSON.parse(localStorage.getItem("productFilter"));
+  displayProduct(productFilter);
 }
 // --------------------- Mua ngay -------------------------
 function buyNow(buyElement) {
@@ -284,25 +279,87 @@ function toggleDisplayFilter(event, filterElement) {
   if (currentDisplay === "none") {
     event.stopPropagation(); // Ngăn chặn khi vừa mở Div đã tắt
     filterBox.style.display = "block";
-    closeDiv(filterBox, filterElement)
+    closeDiv(filterBox, filterElement);
   }
 }
+
 function filterProduct() {
-  const brand = document.querySelector("#filter-brand").value;
-  const ram = document.querySelector("#filter-ram").value;
-  const rom = document.querySelector("#filter-rom").value;
+  const brandChecked = document.querySelectorAll(
+    'input[name="filter-brand"]:checked'
+  );
+  let brand = [];
+  brandChecked.forEach((checked) => {
+    brand.push(checked.value);
+  });
+  const ramChecked = document.querySelectorAll(
+    'input[name="filter-ram"]:checked'
+  );
+  let ram = [];
+  ramChecked.forEach((checked) => {
+    ram.push(checked.value);
+  });
+  const romChecked = document.querySelectorAll(
+    'input[name="filter-rom"]:checked'
+  );
+  let rom = [];
+  romChecked.forEach((checked) => {
+    rom.push(checked.value);
+  });
+  console.log(brand, ram, rom);
   const priceStart = document.querySelector("#filter-price-start").value;
   const priceEnd = document.querySelector("#filter-price-end").value;
-  const products = JSON.parse(localStorage.getItem("products")) || [];
+  const products = JSON.parse(localStorage.getItem("products"));
   const ramRegex = /(\d+)\s?GB/; // Lấy số dính với GB
+
+  // Lọc mảng
+  if (brand.length > 0) {
+    for (let i = products.length - 1; i >= 0; i--) {
+      let flag = false; // Đánh dấu nếu sản phẩm khớp với brand nào đó
+      for (let j = 0; j < brand.length; j++) {
+        if (products[i].Brand == brand[j]) {
+          flag = true; // Nếu khớp, đánh dấu sản phẩm này
+          break; // Thoát vòng lặp kiểm tra
+        }
+      }
+      if (!flag) {
+        products.splice(i, 1); // Xóa sản phẩm không khớp với bất kỳ brand nào
+      }
+    }
+  }
+  if (ram.length > 0)
+    for (let i = products.length - 1; i >= 0; i--) {
+      let flag = false;
+      for (let j = 0; j < ram.length; j++) {
+        if (products[i].Detail.RAM.match(ramRegex)[0] == ram[j]) {
+          // lấy số trước GB và GB
+          flag = true;
+          break;
+        }
+      }
+      if (!flag) {
+        products.splice(i, 1);
+      }
+    }
+  if (rom.length > 0)
+    for (let i = products.length - 1; i >= 0; i--) {
+      let flag = false;
+      for (let j = 0; j < ram.length; j++) {
+        if (products[i].Detail.RAM.match(ramRegex)[0] == ram[j]) {
+          // lấy số trước GB và GB
+          flag = true;
+          break;
+        }
+      }
+      if (!flag) {
+        products.splice(i, 1);
+      }
+    }
+
   for (let i = products.length - 1; i >= 0; i--) {
     // duyệt lùi vì khi duyệt tiến xóa phần tử thì i không cập nhật dẫn đến bị sót
 
     const ramValue = products[i].Detail.RAM.match(ramRegex)[1]; // lấy số đằng trước ram
     if (
-      (brand !== "" && products[i].Brand !== brand) ||
-      (ram !== "" && ramValue != ram.replace("GB", "")) ||
-      (rom !== "" && !products[i].Detail.ROM.includes(rom)) ||
       (priceStart !== "" &&
         products[i].Price.replace(/\./g, "") < priceStart) ||
       (priceEnd !== "" && products[i].Price.replace(/\./g, "") > priceEnd)
@@ -310,7 +367,7 @@ function filterProduct() {
       products.splice(i, 1); // Xóa phần tử không phù hợp
     }
   }
-  displayProduct(products);
+  displayProduct(products, 1);
   localStorage.setItem("productFilter", JSON.stringify(products));
 }
 // Khi ấn lọc
@@ -318,7 +375,9 @@ function submitFilter(event) {
   event.preventDefault();
   filterProduct();
   document.querySelector(".filter-box").style.display = "none";
-  document.querySelector('#all-product').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  document
+    .querySelector("#all-product")
+    .scrollIntoView({ behavior: "smooth", block: "center" });
 }
 // ----------------------- Sort ----------------------
 function toggleDisplaySort(event, sortElement) {
@@ -327,46 +386,45 @@ function toggleDisplaySort(event, sortElement) {
   if (currentDisplay === "none") {
     event.stopPropagation(); // Ngăn chặn khi vừa mở Div đã tắt
     sortList.style.display = "block";
-    closeDiv(sortList, sortElement)
+    closeDiv(sortList, sortElement);
   } else {
     sortList.style.display = "none";
   }
 }
-function sortProductIncrease(){
+function sortProductIncrease() {
   const products = JSON.parse(localStorage.getItem("productFilter")) || [];
   products.sort((a, b) => {
     const priceA = parseInt(a.Price.replace(/\./g, ""));
     const priceB = parseInt(b.Price.replace(/\./g, ""));
     return priceA - priceB; // Giá tăng dần
   });
-  displayProduct(products);
+  displayProduct(products, 1);
   localStorage.setItem("productFilter", JSON.stringify(products));
 }
-function sortProductDecrease(){
+function sortProductDecrease() {
   const products = JSON.parse(localStorage.getItem("productFilter")) || [];
   products.sort((a, b) => {
     const priceA = parseInt(a.Price.replace(/\./g, ""));
     const priceB = parseInt(b.Price.replace(/\./g, ""));
     return priceB - priceA; // Giá giảm dần
   });
-  displayProduct(products);
+  displayProduct(products, 1);
   localStorage.setItem("productFilter", JSON.stringify(products));
 }
 
-function closeDiv(myDiv, openBtn){
-  document.addEventListener('click', function(event) {
+function closeDiv(myDiv, openBtn) {
+  document.addEventListener("click", function (event) {
     // Kiểm tra xem người dùng có nhấn vào div hay không
     if (!myDiv.contains(event.target) && event.target !== openBtn) {
-      myDiv.style.display = 'none'; // Ẩn div nếu nhấn ngoài
+      myDiv.style.display = "none"; // Ẩn div nếu nhấn ngoài
     }
   });
 }
 
-function focusSearch(){
-  const searchInput = document.querySelector('#search-product-input')
-  searchInput.focus()
-  searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
+function focusSearch() {
+  const searchInput = document.querySelector("#search-product-input");
+  searchInput.focus();
+  searchInput.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 // ---------------------- Khi load trang --------------------
 window.onload = function () {

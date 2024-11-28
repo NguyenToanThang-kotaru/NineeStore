@@ -1,0 +1,234 @@
+/* Lap */
+@media (min-width: 992px) {
+}
+
+/* Tablet & mobile */
+@media (max-width: 991.98px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+  #slideshow {
+    width: 100%;
+  }
+  #all-product {
+    height: 1300px;
+  }
+  .all-product-list {
+    margin-top: 25px;
+    width: 100%;
+    gap: 5px;
+    position: relative;
+  }
+  .product {
+    width: calc(50% - 5px);
+    padding: 5px;
+    word-wrap: break-word;
+    text-align: center;
+  }
+  .listPage {
+    top: 1300px;
+  }
+  .login-box,
+  .register-box,
+  .detail-box,
+  .history-box,
+  .payment-box,
+  .cart-box,
+  .info-box {
+    width: 100%;
+    padding: 30px 10px 10px;
+  }
+  .detail-title {
+    margin-left: 0;
+    padding-top: 20px;
+  }
+  .cart-table {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .cart-table thead th:nth-child(3),
+  .cart-table tbody td:nth-child(3) {
+    display: none;
+  }
+  .payment-container {
+    padding: 10px;
+  }
+  .order-summary {
+    padding: 10px;
+  }
+  .payment-container input {
+    border: 1px solid;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991.98px) {
+}
+
+/* Mobile rotate and mobile*/
+@media (max-width: 767.98px) {
+  #all-product {
+    height: 1350px;
+  }
+  .listPage {
+    top: 1300px;
+  }
+  .detail-title {
+    margin-left: 30px;
+    text-align: left;
+  }
+  .buy-btn {
+    margin-top: 5px;
+  }
+  #centermenu {
+    display: none;
+  }
+  .login-box,
+  .register-box,
+  .detail-box,
+  .history-box,
+  .cart-box,
+  .info-box {
+    max-height: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transform: translate(0, 0);
+    z-index: 100;
+    padding: 2px;
+    overflow: auto;
+  }
+  .cart-table {
+    margin: 20px 0;
+  }
+  .detail-title {
+    margin: 0;
+  }
+  .detail-quantity-value {
+    padding: 2px 0;
+    margin: 0;
+  }
+  i.nav-bar {
+    display: block;
+  }
+  .nav-mobile{
+    overflow: hidden;
+  }
+  .overlay-nav {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 11;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .overlay-nav.show {
+    visibility: visible;
+    opacity: 1;
+  }
+  .mobile-menu {
+    position: fixed;
+    inset: 0 50% 0 0;
+    background: rgb(255, 255, 255); /* Nền mờ màu đen */
+    z-index: 11;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .menu-mobile-item {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  #menu-list-mobile li:hover {
+    opacity: 0.6;
+  }
+  .menudacap-mobile {
+    padding-left: 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s linear;
+  }
+  .menudacap-mobile.open {
+    max-height: 100px; /* Đảm bảo đủ để hiển thị toàn bộ mục */
+  }
+  .child-menu-lap {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  .mobile-menu.show {
+    transform: translateX(0);
+    transition: all 0.5s ease; 
+  }
+}
+/* Mobile no rotate*/
+@media (max-width: 499.8px) {
+  #all-product {
+    height: 1500px;
+  }
+  .listPage {
+    top: 1450px;
+  }
+  .footer {
+    flex-direction: column;
+  }
+  #Subscribe {
+    flex-direction: column;
+  }
+  .filter-box {
+    width: 90vw;
+    padding: 10px;
+  }
+  .filter-box .filter-row:nth-child(4) {
+    display: flex;
+    flex-direction: column;
+  }
+  .filter-box .filter-row:nth-child(4) select {
+    width: 200px;
+  }
+  .detail-head {
+    flex-direction: column;
+  }
+  .detail-img {
+    width: 100%;
+  }
+  .detail-title {
+    margin-left: 0;
+  }
+  .cart-table th,
+  .cart-table td {
+    padding: 2px;
+  }
+  .cart-table thead th:nth-child(2),
+  .cart-table tbody td:nth-child(2) {
+    display: none;
+  }
+  .cart-table .desc-quantity,
+  .cart-table .plus-quantity {
+    font-size: 20px;
+  }
+  .form-register-top {
+    flex-direction: column;
+    align-items: center;
+  }
+  .form-register-right,
+  .form-register-left {
+    margin: 0;
+    border: none;
+  }
+  .form-register-foot {
+    flex-direction: column;
+    align-items: center;
+  }
+  .register-submit-background {
+    padding: 0;
+  }
+  .login-inregister {
+    padding: 0;
+    margin-top: 10px;
+    text-align: center;
+  }
+  .order-history-btn {
+    width: 147px;
+  }
+}

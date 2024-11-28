@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="cart.css" />
     <link rel="stylesheet" href="payment.css" />
     <link rel="stylesheet" href="info.css" />
+    <link rel="stylesheet" href="responsive.css" />
   </head>
 
   <body>
@@ -30,6 +31,7 @@
       <!-- Topmenu -->
       <div id="container">
         <div id="Topmenu">
+          <i class="fa-solid fa-bars nav-bar" onclick="toggleOverlayNav()"></i>
           <a href="Nineshop.html" id="leftmenu">
             <img src="./img/download.jpg" width="130px" alt="logo" ah />
           </a>
@@ -38,19 +40,19 @@
               <a href="Nineshop.html">Laptop</a>
               <ul id="menudacap">
                 <li class="asus_Product">Asus</li>
-                <li class="mac_Product3">Macbook</li>
                 <li class="dell_Product">Dell</li>
               </ul>
             </li>
             <li class="mac_Product">MacBook</li>
             <li>Sản phẩm cũ</li>
             <li>Đang giảm giá</li>
-            <li>More</li>
           </ul>
           <ul id="rightmenu">
             <li>
               <div class="search-product-item">
-                <label for="search-product-input"><i class="fa-solid fa-magnifying-glass"></i></label>
+                <label for="search-product-input"
+                  ><i class="fa-solid fa-magnifying-glass"></i
+                ></label>
                 <input
                   type="text"
                   id="search-product-input"
@@ -87,6 +89,7 @@
           </ul>
         </div>
       </div>
+
       <!-- Slideshow -->
       <div id="Slideshow" style="display: flex; justify-content: center">
         <div id="slideshow">
@@ -111,7 +114,10 @@
         <div class="container">
           <div class="search-product">
             <div class="filter-product">
-              <div class="filter-item" onclick="toggleDisplayFilter(event, this)">
+              <div
+                class="filter-item"
+                onclick="toggleDisplayFilter(event, this)"
+              >
                 <i class="fa-solid fa-filter filter-icon"></i>
                 <span class="filter-title">Lọc</span>
               </div>
@@ -119,30 +125,75 @@
                 <form class="filter-form">
                   <div class="filter-row">
                     <label for="filter-brand">Hãng:</label>
-                    <select name="filter-brand" id="filter-brand">
-                      <option value="" selected>Chọn hãng</option>
-                      <option value="Dell">Dell</option>
-                      <option value="Asus">Asus</option>
-                      <option value="Mac">Macbook</option>
-                    </select>
+                    <input
+                      type="checkbox"
+                      name="filter-brand"
+                      value="Dell"
+                      id="filter-dell"
+                    />
+                    <label for="filter-dell">Dell</label>
+                    <input
+                      type="checkbox"
+                      name="filter-brand"
+                      value="Asus"
+                      id="filter-asus"
+                    />
+                    <label for="filter-asus">Asus</label>
+                    <input
+                      type="checkbox"
+                      name="filter-brand"
+                      value="Mac"
+                      id="filter-mac"
+                    />
+                    <label for="filter-mac">Macbook</label>
                   </div>
                   <div class="filter-row">
                     <label for="filter-ram">RAM:</label>
-                    <select name="filter-ram" id="filter-ram">
-                      <option value="" selected>Chọn RAM</option>
-                      <option value="8GB">8GB</option>
-                      <option value="16GB">16GB</option>
-                      <option value="32GB">32GB</option>
-                    </select>
+                    <input
+                      type="checkbox"
+                      name="filter-ram"
+                      value="8GB"
+                      id="filter-8GB"
+                    />
+                    <label for="filter-8GB">8GB</label>
+                    <input
+                      type="checkbox"
+                      name="filter-ram"
+                      value="16GB"
+                      id="filter-16GB"
+                    />
+                    <label for="filter-16GB">16GB</label>
+                    <input
+                      type="checkbox"
+                      name="filter-ram"
+                      value="32GB"
+                      id="filter-32GB"
+                    />
+                    <label for="filter-32GB">32GB</label>
                   </div>
                   <div class="filter-row">
                     <label for="filter-rom">Bộ nhớ trong:</label>
-                    <select name="filter-rom" id="filter-rom">
-                      <option value="" selected>Chọn bộ nhớ trong</option>
-                      <option value="256GB">256GB</option>
-                      <option value="512GB">512GB</option>
-                      <option value="1TB">1TB</option>
-                    </select>
+                    <input
+                      type="checkbox"
+                      name="filter-rom"
+                      value="256GB"
+                      id="filter-256GB"
+                    />
+                    <label for="filter-256GB">256GB</label>
+                    <input
+                      type="checkbox"
+                      name="filter-rom"
+                      value="512GB"
+                      id="filter-512GB"
+                    />
+                    <label for="filter-512GB">512GB</label>
+                    <input
+                      type="checkbox"
+                      name="filter-rom"
+                      value="1TB"
+                      id="filter-1TB"
+                    />
+                    <label for="filter-1TB">1TB</label>
                   </div>
                   <div class="filter-row">
                     <span for="filter-price">Giá:</span>
@@ -176,19 +227,39 @@
                 </form>
               </div>
             </div>
-            <div class="sort-product-item" >
-              <div class="sort-product-title" onclick="toggleDisplaySort(event, this)">Sắp xếp theo <i class="fa-solid fa-sort"></i></div>
+            <div class="sort-product-item">
+              <div
+                class="sort-product-title"
+                onclick="toggleDisplaySort(event, this)"
+              >
+                Sắp xếp theo <i class="fa-solid fa-sort"></i>
+              </div>
               <ul class="sort-product-list">
                 <li>
-                  <div class="sort-price-inc" onclick="sortProductIncrease()">Giá tăng dần <i class="fa-solid fa-arrow-up-wide-short"></i></div>
+                  <div class="sort-price-inc" onclick="sortProductIncrease()">
+                    Giá tăng dần <i class="fa-solid fa-arrow-up-wide-short"></i>
+                  </div>
                 </li>
-                
+
                 <li>
-                  <div class="sort-price-desc" onclick="sortProductDecrease()">Giá giảm dần <i class="fa-solid fa-arrow-down-wide-short"></i></div>
+                  <div class="sort-price-desc" onclick="sortProductDecrease()">
+                    Giá giảm dần
+                    <i class="fa-solid fa-arrow-down-wide-short"></i>
+                  </div>
                 </li>
               </ul>
             </div>
-            
+            <div class="search-product-item">
+              <label for="search-product-input"
+                ><i class="fa-solid fa-magnifying-glass"></i
+              ></label>
+              <input
+                type="text"
+                id="search-product-input"
+                placeholder="Nhập sản phẩm tìm kiếm"
+                oninput="searchProduct()"
+              />
+            </div>
           </div>
           <div class="type-list">
             <button onclick="showDELL()" class="type-button">
@@ -2037,13 +2108,27 @@
         </footer>
       </div>
     </div>
+    <!-- Nav mobile -->
+    <div class="nav-mobile">
+      <div class="overlay-nav" onclick="toggleOverlayNav()"></div>
+      <div class="mobile-menu">
+        <ul id="menu-list-mobile">
+          <li class="menu-mobile-item" onclick="toggleMenu()">Laptop</li>
+          <ul class="menudacap-mobile">
+            <li class="child-menu-lap">Asus</li>
+            <li class="child-menu-lap">Dell</li>
+          </ul>
+          <li class="menu-mobile-item">MacBook</li>
+          <li class="menu-mobile-item">Sản phẩm cũ</li>
+          <li class="menu-mobile-item">Đang giảm giá</li>
+        </ul>
+      </div>
+    </div>
     <!---------------------------- register ------------------------->
-
-
 
     <div class="register-page overlay">
       <div class="register-box" style="position: relative">
-        <div class="esc-register" onclick="closeRL(this)" >
+        <div class="esc-register" onclick="closeRL(this)">
           <i class="fa-solid fa-x"></i>
         </div>
         <h1 class="register-title">Đăng ký</h1>
@@ -2173,9 +2258,6 @@
       </div>
     </div>
     <!---------------------------- login ------------------------->
-
-
-
 
     <div class="login-page overlay">
       <div class="login-box">
