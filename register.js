@@ -63,6 +63,19 @@ function checkEmailError(input) {
   }
   return isEmailError || isEmailSame;
 }
+function checkUserNameError(input) {
+  let isUserNameSame = false;
+  const usersLocal = JSON.parse(localStorage.getItem("users")) || [];
+  usersLocal.forEach((user) => {
+    if (user.UserName === input.value) isUserNameSame = true;
+  });
+  if (!isUserNameSame) {
+    showSuccess(input);
+  } else {
+    showError(input, "Tên đăng nhập này đã được đăng ký");
+  }
+  return isUserNameSame;
+}
 function checkMatchPasswordError(passwordInput, rePasswordInput) {
   if (passwordInput.value !== rePasswordInput.value)
     showError(rePasswordInput, "Mật khẩu không khớp");
@@ -84,7 +97,7 @@ formRegister.addEventListener("submit", (event) => {
   let isPhoneLengthError = true;
   let isEmailError = true;
   let isMatchError = true;
-  if (!isUsernameEmptyError) {
+  if (!isUsernameEmptyError && !checkUserNameError(username)) {
     isUsernameLengthError = checkLengthError(username, 5);
   }
   if (!isEmailEmptyError) {
@@ -123,7 +136,7 @@ formRegister.addEventListener("submit", (event) => {
       Email: email.value,
       Password: password.value,
       OrderHistory: [],
-      UserType: "customer"
+      UserType: "customer",
     };
     userLocal.push(user);
     localStorage.setItem("users", JSON.stringify(userLocal));
