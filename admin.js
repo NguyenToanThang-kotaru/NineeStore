@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // check if the account logged in is an admin
     const user = JSON.parse(localStorage.getItem("userLogin"));
     if (user.UserType == "admin") {
-        document.querySelector(".image__cannot-go-in").style.display = "none";
+        document.querySelector(".form__cannot-go-in").style.display = "none";
         document.querySelector("#loginFromadmin").style.display = "none";
         document.querySelector(".admin__page").style.display = "block";
     } else {

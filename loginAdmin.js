@@ -11,19 +11,27 @@ loginFromAdmin.addEventListener("click", (event) => {
     const passwordLogin = document.getElementById("password-login");
     
     
-    if (
-        adminAccount.UserName === emailLogin.value &&
-        adminAccount.Password === passwordLogin.value
-    ) {
+    if (adminAccount.UserName === emailLogin.value && adminAccount.Password === passwordLogin.value) {
       localStorage.setItem("userLogin", JSON.stringify(adminAccount));
-      document.querySelector("#loginFromadmin").style.display="none"
-      document.querySelector(".image__cannot-go-in").style.display="none"
+      document.querySelector("#loginFromadmin").style.display="none";
+      document.querySelector(".form__cannot-go-in").style.display="none";
       document.querySelector(".admin__page").style.display = "block";    
       reloadPage()  
     }
     else
     {
-        alert("Vui lòng kiểm tra lại tài khoản hoặc mật khẩu")
+        const users = JSON.parse(localStorage.getItem("users"));
+        for (let user of users) {
+            if (user.UserType === "admin" && user.UserName === emailLogin.value && user.Password === passwordLogin.value) {
+                localStorage.setItem("userLogin", JSON.stringify(user));
+                document.querySelector("#loginFromadmin").style.display="none";
+                document.querySelector(".form__cannot-go-in").style.display="none";
+                document.querySelector(".admin__page").style.display = "block";
+                reloadPage();
+                return;
+            }
+        }
+        alert("Vui lòng kiểm tra lại tài khoản hoặc mật khẩu");
     }
 });
 function reloadPage() {

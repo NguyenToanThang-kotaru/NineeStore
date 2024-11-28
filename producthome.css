@@ -1,3 +1,9 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
 #all-product {
     height: 1150px;
   }
@@ -122,7 +128,6 @@
   position: absolute;
   top: -40px;
   left: 50%;
-  font-family: Arial, Helvetica, sans-serif;
   white-space: nowrap;
   transform: translate(-50%, -50%);
   font-weight: 300;
