@@ -162,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const user = JSON.parse(localStorage.getItem("userLogin"));
     if (user.UserType == "admin") {
         document.querySelector(".image__cannot-go-in").style.display = "none";
+        document.querySelector("#loginFromadmin").style.display = "none";
         document.querySelector(".admin__page").style.display = "block";
     } else {
         document.querySelector(".admin__page").style.display = "none";
@@ -237,7 +238,78 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
         });
     }
-    // check if the pay and the ship is checked => its background will be green
+    
+    // --------------------------------- Statistics-----------------------------
+const menu = document.querySelector('#menu-tke');
+const item_btn = document.querySelector('#items-btn');
+const customer_btn = document.querySelector('#customers-btn');
+const back1 = document.querySelector('#back-btn-mh');
+const back2 = document.querySelector('#back-btn-kh');
+const item_page = document.querySelector('#items-tke');
+const customer_page = document.querySelector('#customers-tke');
+
+customer_btn.addEventListener('click',showCustomer);
+item_btn.addEventListener('click',showItems);
+back1.addEventListener('click',backMenu);
+back2.addEventListener('click',backMenu)
+
+function showCustomer(){
+    customer_page.style.display = "block";
+    menu.style.display = "none";
+}
+
+function showItems(){
+    item_page.style.display = "block";
+    menu.style.display = "none";
+}
+
+function backMenu(){
+    customer_page.style.display = "none";
+    item_page.style.display = "none";
+    menu.style.display = "block";
+}
+
+// Hoa don
+
+const hoadon_kh_btn = document.querySelectorAll('.show-hoadon-kh');
+const hoadon_mh_btn = document.querySelectorAll('.show-hoadon-mh');
+const hoadon_kh_page = document.querySelector('#hoadon-customers');
+const hoadon_mh_page = document.querySelector('#hoadon-items');
+const esc_hoadon1 = document.querySelector('#esc-hoadon-btn-kh');
+const esc_hoadon2 = document.querySelector('#esc-hoadon-btn-mh');
+const overlay = document.querySelector('.overlay-hd');
+
+hoadon_kh_btn.forEach(button =>{
+    button.addEventListener('click',showHoaDonKH);
+});
+
+hoadon_mh_btn.forEach(button =>{
+    button.addEventListener('click',showHoaDonMH);
+});
+
+esc_hoadon1.addEventListener('click',closeHoadonKH);
+esc_hoadon2.addEventListener('click',closeHoadonMH);
+
+function showHoaDonKH(){
+    overlay.style.display = "block";
+    hoadon_kh_page.style.display = "block";
+}
+
+function showHoaDonMH(){
+    overlay.style.display = "block";
+    hoadon_mh_page.style.display = "block";
+}
+
+function closeHoadonMH(){
+    overlay.style.display = "none";
+    hoadon_mh_page.style.display = "none";
+}
+
+function closeHoadonKH(){
+    overlay.style.display = "none";
+    hoadon_kh_page.style.display = "none";
+}
+
 
     //--------------------------------- Customer -----------------------------
     // add customer to the table when the page is loaded
@@ -249,7 +321,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td class="customer__userID">${user.UserId}</td>
                 <td class="customer__userName">${user.UserName}</td>
                 <td class="customer__userPhone">${user.Phone}</td>
-                <td class="customer__userAddress">${user.Address}, ${user.District}, ${user.Province}</td>
+                <td class="customer__userAddress">${user.Address}</td>
                 <td class="customer__userEmail">${user.Email}</td>
                 <td><button type="button" class="customer__status" title="Nhấp chuột để thay đổi trạng thái">Hoạt động</button></td>
             </tr>`;
@@ -406,8 +478,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const phone = document.getElementById("form__admin-phone");
         const email = document.getElementById("form__admin-email");
         const address = document.getElementById("form__admin-address");
-        const district = document.getElementById("form__admin-district");
-        const province = document.getElementById("form__admin-province");
         const userName = document.getElementById("form__admin-username");
         const password = document.getElementById("form__admin-password");
 
@@ -456,8 +526,6 @@ document.addEventListener("DOMContentLoaded", function () {
             FullName: name.value,
             Phone: phone.value,
             Address: address.value,
-            District: district.value,    
-            Province: province.value,
             UserName: userName.value,
             Email: email.value,
             Password: password.value,
@@ -469,7 +537,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <td class="customer__userID">${user.UserId}</td>
             <td class="customer__userName">${user.FullName} (Admin)</td>
             <td class="customer__userPhone">${user.Phone}</td>
-            <td class="customer__userAddress">${user.Address}, ${user.District}, ${user.Province}</td>
+            <td class="customer__userAddress">${user.Address}</td>
             <td class="customer__userEmail">${user.Email}</td>
             <td><button type="button" class="customer__status" title="Nhấp chuột để thay đổi trạng thái">Hoạt động</button></td>
         </tr>`;
@@ -929,3 +997,60 @@ document.querySelector("#form__add-submit").addEventListener("click", function (
     }
 });
 // edit and remove product: at the function section
+
+//editCustomer 
+function editCustomer(customerElement) {
+    console.log("hhahahahahahahhah");
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const divCustomer = customerElement.parentElement.parentElement;
+    const id = divCustomer.querySelector(".customer__userID").innerText;
+
+     const userNameField = document.getElementById("form__edit-userName");
+    const namefullField = document.getElementById("form__edit-fullname");
+    const phoneField = document.getElementById("form__edit-phone");
+    const emailField = document.getElementById("form__edit-email");
+    const addressField = document.getElementById("form__edit-address");
+
+
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].UserId == id) {
+           
+            userNameField.value = users[i].UserName;
+            namefullField.value = users[i].FullName;
+            phoneField.value = users[i].Phone;
+            emailField.value = users[i].Email;
+            addressField.value = users[i].Address;
+
+          
+            document.getElementById("form__edit-submit").addEventListener("click", function (event) {
+                event.preventDefault();
+
+              
+                 users[i].FullName = namefullField.value;
+                users[i].Phone = phoneField.value;
+                users[i].Email = emailField.value;
+                users[i].Address = addressField.value;
+                users[i].UserName = userNameField.value;
+
+               
+                localStorage.setItem("users", JSON.stringify(users));
+
+                
+        
+                 divCustomer.querySelector(".customer__userFullName").innerText = users[i].FullName;
+                divCustomer.querySelector(".customer__userName").innerText = users[i].UserName;
+                divCustomer.querySelector(".customer__userPhone").innerText = users[i].Phone;
+                divCustomer.querySelector(".customer__userEmail").innerText = users[i].Email;
+                divCustomer.querySelector(".customer__userAddress").innerText = users[i].Address;
+
+                // Close the modal
+                document.querySelector(".admin__edit").style.display = "none";
+            });
+
+            break;
+        }
+    }
+
+    // Show the edit modal
+    document.querySelector(".admin__edit").style.display = "block";
+}

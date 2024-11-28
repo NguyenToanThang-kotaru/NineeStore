@@ -12,7 +12,7 @@
 .imagelist{
     display: flex; 
     transition: 0.5s;
-    width: 1000px;
+    width: 100%;
 }
 .BTN{
     position: absolute;

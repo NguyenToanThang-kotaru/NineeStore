@@ -20,6 +20,7 @@
 .order-summary {
   background: #fff;
   padding: 30px;
+  height: fit-content;
   border: 2px solid #796af8;
   box-shadow: 0 0 3px #074c77;
   border-radius: 8px;

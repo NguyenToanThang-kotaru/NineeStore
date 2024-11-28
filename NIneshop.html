@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="cart.css" />
     <link rel="stylesheet" href="payment.css" />
     <link rel="stylesheet" href="info.css" />
+    <link rel="stylesheet" href="responsive.css" />
   </head>
 
   <body>
@@ -30,29 +31,36 @@
       <!-- Topmenu -->
       <div id="container">
         <div id="Topmenu">
+            <i class="fa-solid fa-bars nav-bar" onclick="toggleOverlayNav()"></i>
           <a href="Nineshop.html" id="leftmenu">
             <img src="./img/download.jpg" width="130px" alt="logo" ah />
           </a>
           <ul id="centermenu">
             <li>
-              <a href="Nineshop.html">Laptop</a>
+            <div class="lap-menu">Laptop</div>
               <ul id="menudacap">
                 <li class="asus_Product">Asus</li>
-                <li class="mac_Product3">Macbook</li>
                 <li class="dell_Product">Dell</li>
               </ul>
             </li>
             <li class="mac_Product">MacBook</li>
             <li>Sản phẩm cũ</li>
             <li>Đang giảm giá</li>
-            <li>More</li>
           </ul>
           <ul id="rightmenu">
-            <li
-              style="padding: 0 15px"
-              class="fa-solid fa-magnifying-glass"
-              onclick="focusSearch()"
-            ></li>
+            <li>
+                <div class="search-product-item">
+                  <label for="search-product-input"
+                    ><i class="fa-solid fa-magnifying-glass"></i
+                  ></label>
+                  <input
+                    type="text"
+                    id="search-product-input"
+                    placeholder="Nhập sản phẩm tìm kiếm"
+                    oninput="searchProduct(this)"
+                  />
+                </div>
+              </li>
             <li
               style="padding: 0 15px; position: relative"
               class="fa-solid fa-user"
@@ -113,31 +121,76 @@
                 <form class="filter-form">
                   <div class="filter-row">
                     <label for="filter-brand">Hãng:</label>
-                    <select name="filter-brand" id="filter-brand">
-                      <option value="" selected>Chọn hãng</option>
-                      <option value="Dell">Dell</option>
-                      <option value="Asus">Asus</option>
-                      <option value="Mac">Macbook</option>
-                    </select>
+                    <input
+                      type="checkbox"
+                      name="filter-brand"
+                      value="Dell"
+                      id="filter-dell"
+                    />
+                    <label for="filter-dell">Dell</label>
+                    <input
+                      type="checkbox"
+                      name="filter-brand"
+                      value="Asus"
+                      id="filter-asus"
+                    />
+                    <label for="filter-asus">Asus</label>
+                    <input
+                      type="checkbox"
+                      name="filter-brand"
+                      value="Mac"
+                      id="filter-mac"
+                    />
+                    <label for="filter-mac">Macbook</label>
                   </div>
                   <div class="filter-row">
                     <label for="filter-ram">RAM:</label>
-                    <select name="filter-ram" id="filter-ram">
-                      <option value="" selected>Chọn RAM</option>
-                      <option value="8GB">8GB</option>
-                      <option value="16GB">16GB</option>
-                      <option value="32GB">32GB</option>
-                    </select>
+                    <input
+                      type="checkbox"
+                      name="filter-ram"
+                      value="8GB"
+                      id="filter-8GB"
+                    />
+                    <label for="filter-8GB">8GB</label>
+                    <input
+                      type="checkbox"
+                      name="filter-ram"
+                      value="16GB"
+                      id="filter-16GB"
+                    />
+                    <label for="filter-16GB">16GB</label>
+                    <input
+                      type="checkbox"
+                      name="filter-ram"
+                      value="32GB"
+                      id="filter-32GB"
+                    />
+                    <label for="filter-32GB">32GB</label>
                   </div>
                   <div class="filter-row">
                     <label for="filter-rom">Bộ nhớ trong:</label>
-                    <select name="filter-rom" id="filter-rom">
-                      <option value="" selected>Chọn bộ nhớ trong</option>
-                      <option value="256GB">256GB</option>
-                      <option value="512GB">512GB</option>
-                      <option value="1TB">1TB</option>
-                    </select>
-                  </div>
+                    <input
+                      type="checkbox"
+                      name="filter-rom"
+                      value="256GB"
+                      id="filter-256GB"
+                    />
+                    <label for="filter-256GB">256GB</label>
+                    <input
+                      type="checkbox"
+                      name="filter-rom"
+                      value="512GB"
+                      id="filter-512GB"
+                    />
+                    <label for="filter-512GB">512GB</label>
+                    <input
+                      type="checkbox"
+                      name="filter-rom"
+                      value="1TB"
+                      id="filter-1TB"
+                    />
+                    <label for="filter-1TB">1TB</label>              
+                </div>
                   <div class="filter-row">
                     <span for="filter-price">Giá:</span>
                     <label for="filter-price-start">từ</label>
@@ -170,44 +223,63 @@
                 </form>
               </div>
             </div>
-            <div class="sort-product-item" >
-              <div class="sort-product-title" onclick="toggleDisplaySort(event, this)">Sắp xếp theo <i class="fa-solid fa-sort"></i></div>
-              <ul class="sort-product-list">
-                <li>
-                  <div class="sort-price-inc" onclick="sortProductIncrease()">Giá tăng dần <i class="fa-solid fa-arrow-up-wide-short"></i></div>
-                </li>
-                <li>
-                  <div class="sort-price-desc" onclick="sortProductDecrease()">Giá giảm dần <i class="fa-solid fa-arrow-down-wide-short"></i></div>
-                </li>
-              </ul>
+            <div class="sort-product-item">
+                <div
+                  class="sort-product-title"
+                  onclick="toggleDisplaySort(event, this)"
+                >
+                  Sắp xếp theo <i class="fa-solid fa-sort"></i>
+                </div>
+                <ul class="sort-product-list">
+                  <li>
+                    <div class="sort-price-inc" onclick="sortProductIncrease()">
+                      Giá tăng dần <i class="fa-solid fa-arrow-up-wide-short"></i>
+                    </div>
+                  </li>
+  
+                  <li>
+                    <div class="sort-price-desc" onclick="sortProductDecrease()">
+                      Giá giảm dần
+                      <i class="fa-solid fa-arrow-down-wide-short"></i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <!-- <div class="search-product-item">
+                <label for="search-product-input"
+                  ><i class="fa-solid fa-magnifying-glass"></i
+                ></label>
+                <input
+                  type="text"
+                  id="search-product-input"
+                  placeholder="Nhập sản phẩm tìm kiếm"
+                  oninput="searchProduct()"
+                />
+              </div> -->
             </div>
-            <div class="search-product-item">
-              <label for="search-product-input"><i class="fa-solid fa-magnifying-glass"></i></label>
-              <input
-                type="text"
-                id="search-product-input"
-                placeholder="Nhập sản phẩm tìm kiếm"
-                oninput="searchProduct()"
-              />
-            </div>
-          </div>
-          <div class="type-list">
-            <button onclick="showDELL()" class="type-button">
-              <img
-                src="./img/brand_icon/dell.png"
-                class="type-item"
-                alt="DELL"
-              />
-            </button>
-            <button onclick="showASUS()" class="type-button">
-              <img
-                src="./img/brand_icon/asus.jpg"
-                class="type-item"
-                alt="ASUS"
-              />
-            </button>
-            <button class="type-button" onclick="showMac()">
-              <img src="./img/brand_icon/mac.png" class="type-item" alt="hp" />
+            <div class="type-list">
+              <button
+                onclick="showAll(this)"
+                class="show-all-product type-button active"
+              >
+                Tất cả
+              </button>
+              <button onclick="showDELL(this)" class="type-button">
+                <img
+                  src="./img/brand_icon/dell.png"
+                  class="type-item"
+                  alt="DELL"
+                />
+              </button>
+              <button onclick="showASUS(this)" class="type-button">
+                <img
+                  src="./img/brand_icon/asus.png"
+                  class="type-item"
+                  alt="ASUS"
+                />
+              </button>
+              <button class="type-button" onclick="showMac(this)">
+                <img src="./img/brand_icon/mac.png" class="type-item" alt="hp" />
             </button>
           </div>
           <!-- Sản phẩm có sẵn để lấy thông tin (ẩn) -->
@@ -2038,11 +2110,27 @@
         </footer>
       </div>
     </div>
+       <!-- Nav mobile -->
+       <div class="nav-mobile">
+        <div class="overlay-nav" onclick="toggleOverlayNav()"></div>
+        <div class="mobile-menu">
+          <ul id="menu-list-mobile">
+            <li class="menu-mobile-item" onclick="toggleMenu()">Laptop</li>
+            <ul class="menudacap-mobile">
+              <li class="child-menu-lap">Asus</li>
+              <li class="child-menu-lap">Dell</li>
+            </ul>
+            <li class="menu-mobile-item">MacBook</li>
+            <li class="menu-mobile-item">Sản phẩm cũ</li>
+            <li class="menu-mobile-item">Đang giảm giá</li>
+          </ul>
+        </div>
+      </div>
     <!---------------------------- register ------------------------->
     <div class="register-page overlay">
       <div class="register-box" style="position: relative">
-        <div class="esc-register">
-          <i class="fa-solid fa-x"></i>
+        <div class="esc-register" onclick="closeRL(this)">
+            <i class="fa-solid fa-x"></i>
         </div>
         <h1 class="register-title">Đăng ký</h1>
         <form class="form-register">
@@ -2210,95 +2298,6 @@
           <i class="fa-regular fa-circle-check"></i>
           <h2 class="success-title">Đăng nhập thành công</h2>
           <h2 class="success-btn" onclick="reloadPage()">Quay về trang chủ</h2>
-        </div>
-      </div>
-    </div>
-    <!---------------------------- Product_Macbook-Menu ------------------------->
-    <div id="container_Mac">
-      <div id="BigTitle_Mac">Macbook</div>
-      <div id="captalog_mac">
-        <div id="filter">
-          <div class="just_space_right">
-            <i class="fa-solid fa-filter"></i> Lọc sản phẩm
-          </div>
-          <div style="position: absolute; right: 0px; display: flex">
-            <div class="just_space">
-              <i class="fa-solid fa-down-long"></i>Giá từ cao đến thấp
-            </div>
-            <div class="just_space">
-              <i class="fa-solid fa-up-long"></i>Giá từ thấp đến cao
-            </div>
-          </div>
-        </div>
-
-        <div id="show_item">
-          <div class="Mac_Item">
-            <img
-              class="item"
-              src=".\img\macbook\1682044807859_thumb_macbook_air_m1_8gb_256gb_didongviet.webp"
-              alt=""
-            />
-            <div class="name_Product">Macbook Air M1</div>
-            <div class="price_Product">16.900.000</div>
-          </div>
-
-          <div class="Mac_Item">
-            <img
-              class="item"
-              src=".\img\macbook\1682044807859_thumb_macbook_air_m1_8gb_256gb_didongviet.webp"
-              alt=""
-            />
-            <div class="name_Product">Macbook Air M1</div>
-            <div class="price_Product">16.900.000</div>
-          </div>
-
-          <div class="Mac_Item">
-            <img
-              class="item"
-              src=".\img\macbook\1682044807859_thumb_macbook_air_m1_8gb_256gb_didongviet.webp"
-              alt=""
-            />
-            <div class="name_Product">Macbook Air M1</div>
-            <div class="price_Product">16.900.000</div>
-          </div>
-
-          <div class="Mac_Item">
-            <img
-              class="item"
-              src=".\img\macbook\1682044807859_thumb_macbook_air_m1_8gb_256gb_didongviet.webp"
-              alt=""
-            />
-            <div class="name_Product">Macbook Air M1</div>
-            <div class="price_Product">16.900.000</div>
-          </div>
-
-          <div class="Mac_Item">
-            <img
-              class="item"
-              src=".\img\macbook\1682044807859_thumb_macbook_air_m1_8gb_256gb_didongviet.webp"
-              alt=""
-            />
-            <div class="name_Product">Macbook Air M1</div>
-            <div class="price_Product">16.900.000</div>
-          </div>
-
-          <div class="Mac_Item">
-            <img
-              class="item"
-              src=".\img\macbook\1682044807859_thumb_macbook_air_m1_8gb_256gb_didongviet.webp"
-              alt=""
-            />
-            <div class="name_Product">Macbook Air M1</div>
-            <div class="price_Product">16.900.000</div>
-          </div>
-        </div>
-
-        <div class="page-button">
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>...</button>
-          <button>></button>
         </div>
       </div>
     </div>
