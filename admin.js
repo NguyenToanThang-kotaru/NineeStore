@@ -852,7 +852,7 @@ function addOrdertoTable() {
     let dxnSelected = "";
     let dgSelected = "";
     let dhSelected = "";
-    if (order.Status == "Chưa xử lý") cxlSelected = 'selected';
+    if (order.Status == "Chưa xử lý") cxlSelected = "selected";
     else if (order.Status == "Đã xác nhận") dxnSelected = "selected";
     else if (order.Status == "Đã giao thành công") dgSelected = "selected";
     else dhSelected = "selected";
@@ -1027,4 +1027,129 @@ function editCustomer(customerElement) {
 
   // Show the edit modal
   document.querySelector(".admin__edit").style.display = "block";
+
+  // filterAddress.addEventListener("change", function () {
+  //     console.log("kkkkkkkkk");
+  //     if (filterAddress.value == ".") {
+  //         return;
+  //     }
+  //     addOrdertoTable();
+  //     if (filterAddress.value == "all") {
+  //         return;
+  //     }
+  //     else {
+  //         const orderList = document.querySelector(".order-table tbody").querySelectorAll("tr");
+  //         if (filterAddress.value == "quan1") {
+  //                 for (let row of orderList) {
+  //                     if (row.querySelector(".order__customer-address") === null) {
+  //                         continue;
+  //                     }
+  //                     let tmp = row.querySelector(".order__customer-address").innerText;
+  //                     console.log(tmp);
+  //                     if (tmp != "quận 1") {
+  //                         console.log("remove" + tmp);
+  //                         row.remove();
+  //                     }
+  //                 }
+  //         }
+  //         if (filterAddress.value == "quan2") {
+  //             for (let row of orderList) {
+  //                 if (row.querySelector(".order__customer-address") === null) {
+  //                     continue;
+  //                 }
+  //                 let tmp = row.querySelector(".order__customer-address").innerText;
+  //                 console.log(tmp);
+  //                 if (tmp == "undefined") {
+  //                     console.log("remove" + tmp);
+  //                     row.remove();
+  //                 }
+  //             }
+  //     }
+  //     }
+
+  // });
+  // filter the order by date
+
+  // lọc theo trạng thái
+  const filterDate = document.getElementById("filter__date");
+  const filterDateContainer = document.getElementById("filter-date");
+  const filterAddressContainer = document.getElementById("filter-address");
+  const filterAddress = document.getElementById("filter__address");
+  let showFilterDate = false;
+  let showFilterAddress = false;
+  filterAddress.addEventListener("change", function () {
+    console.log("kkkkkkkkk");
+    if (filterAddress.value == ".") {
+      return;
+    }
+    addOrdertoTable();
+    if (filterAddress.value == "all") {
+      return;
+    } else {
+      const orderList = document
+        .querySelector(".order-table tbody")
+        .querySelectorAll("tr");
+      if (filterAddress.value == "chuaxuly") {
+        for (let row of orderList) {
+          if (row.querySelector(".order__status") === null) {
+            continue;
+          }
+          let tmp = row.querySelector(".order__status").innerText;
+          console.log(tmp);
+          if (tmp != "Chưa xử lý") {
+            row.remove();
+          }
+        }
+      }
+      if (filterAddress.value == "dagiao") {
+        for (let row of orderList) {
+          if (row.querySelector(".order__status") === null) {
+            continue;
+          }
+          let tmp = row.querySelector(".order__status").innerText;
+          console.log(tmp);
+          if (tmp != "Đã giao") {
+            row.remove();
+          }
+        }
+      }
+      if (filterAddress.value == "dahuy") {
+        for (let row of orderList) {
+          if (row.querySelector(".order__status") === null) {
+            continue;
+          }
+          let tmp = row.querySelector(".order__status").innerText;
+          console.log(tmp);
+          if (tmp != "Đã hủy") {
+            row.remove();
+          }
+        }
+      }
+      if (filterAddress.value == "daxacnhan") {
+        for (let row of orderList) {
+          if (row.querySelector(".order__status") === null) {
+            continue;
+          }
+          let tmp = row.querySelector(".order__status").innerText;
+          console.log(tmp);
+          if (tmp != "Đã xác nhận") {
+            row.remove();
+          }
+        }
+      }
+    }
+  });
+  document
+    .getElementById("order__filter-address")
+    .addEventListener("click", function () {
+      if (showFilterAddress == false) {
+        filterDateContainer.style.display = "none";
+        filterAddressContainer.style.display = "flex";
+        filterAddressContainer.style.justifyContent = "flex-end";
+        showFilterAddress = true;
+      } else {
+        filterAddressContainer.style.display = "none";
+        showFilterAddress = false;
+      }
+    });
 }
