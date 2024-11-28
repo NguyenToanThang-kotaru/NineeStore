@@ -1,29 +1,29 @@
-// ---------------------------------None Block Register & Login-------------------------
-// const homePage = document.querySelector("#home-page");
-// const registerbtn = document.querySelectorAll(".register-btn");
-// const loginPage = document.querySelector(".login-page");
-// const registerPage = document.querySelector(".register-page");
-// const userLocal = JSON.parse(localStorage.getItem("users")) || [];
-// const closeRegis = document.querySelectorAll(".esc-register");
+//---------------------------------None Block Register & Login-------------------------
+const homePage = document.querySelector("#home-page");
+const registerbtn = document.querySelectorAll(".register-btn");
+const loginPage = document.querySelector(".login-page");
+const registerPage = document.querySelector(".register-page");
+const userLocal = JSON.parse(localStorage.getItem("users")) || [];
+const closeRegis = document.querySelectorAll(".esc-register");
 
-// registerbtn.forEach((register) => {
-//   register.addEventListener("click", (e) => {
-//     e.preventDefault();
-//     registerPage.style.display = "block";
-//     loginPage.style.display = "none";
-//     document.getElementById("name-register").focus();
-//   });
-// });
+registerbtn.forEach((register) => {
+  register.addEventListener("click", (e) => {
+    e.preventDefault();
+    registerPage.style.display = "block";
+    loginPage.style.display = "none";
+    document.getElementById("name-register").focus();
+  });
+});
 
-// const loginbtn = document.querySelectorAll(".login-btn");
-// loginbtn.forEach((login) => {
-//   login.addEventListener("click", (e) => {
-//     e.preventDefault();
-//     registerPage.style.display = "none";
-//     loginPage.style.display = "block";
-//     document.getElementById("email-login").focus();
-//   });
-// });
+const loginbtn = document.querySelectorAll(".login-btn");
+loginbtn.forEach((login) => {
+  login.addEventListener("click", (e) => {
+    e.preventDefault();
+    registerPage.style.display = "none";
+    loginPage.style.display = "block";
+    document.getElementById("email-login").focus();
+  });
+});
 
 function closeRL(closeElement) {
   closeElement.parentElement.parentElement.style.display = "none";
