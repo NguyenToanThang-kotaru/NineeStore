@@ -135,6 +135,12 @@ th.payment-heading {
   width: 200px;
 }
 
+/* AI */
+.payment select {
+  padding: 5px;
+  width: 200px;
+}
+
 .payment textarea {
   resize: none;
   height: 100px;

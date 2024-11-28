@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td class="customer__userID">${user.UserId}</td>
                 <td class="customer__userName">${user.UserName}</td>
                 <td class="customer__userPhone">${user.Phone}</td>
-                <td class="customer__userAddress">${user.Address}</td>
+                <td class="customer__userAddress">${user.Address}, Phường ${user.Ward}, Quận ${user.District}, ${user.City}</td>
                 <td class="customer__userEmail">${user.Email}</td>
                 <td><button type="button" class="customer__status" title="Nhấp chuột để thay đổi trạng thái">Hoạt động</button></td>
                 <td>
@@ -357,7 +357,63 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td class="product__name">${product.Name}</td>
                 <td class="product__quantity">${product.Quantity}</td>
                 <td class="product__price">${product.Price}<sup>₫</sup></td>
-                <td>Chi tiết</td>
+                  <td>
+                    <div class="admin-detail-product">
+                      <button class="show-detail-btn" onclick="showDetailProductAdmin(this)">Chi tiết</button>
+                      <div class="overlay detail-admin" >
+                        <div class="detail-box">
+                            <i class="fa-solid fa-rectangle-xmark close"></i>
+                            <section class="detail-head">
+                              <img src="${product.Detail.Img}" class="detail-img">
+                              <div class="detail-title">
+                                <h2 class="detail-heading">${product.Name}</h2>
+                                <span class="detail-price">${product.Price}</span><sup class="sale-price">₫</sup>
+                                <div class="product-quantity">Kho: <span class="product-quantity-value">${product.Quantity}</span></div>
+                              </div>
+                            </section>
+                            <h3 class="detail-heading">Thông tin chi tiết</h3>
+                            <table class="detail-table">
+                              <tr>
+                                <td>Bộ xử lý:</td>
+                                <td class="CPU">${product.Detail.CPU}</td>
+                              </tr>
+                              <tr>
+                                <td>Card màn hình:</td>
+                                <td class="card">${product.Detail.Card}</td>
+                              </tr>
+                              <tr>
+                                <td>Màn hình:</td>
+                                <td class="screen">${product.Detail.Screen}</td>
+                              </tr>
+                              <tr>
+                                <td>RAM:</td>
+                                <td class="RAM">${product.Detail.RAM}</td>
+                              </tr>
+                              <tr>
+                                <td>Bộ nhớ trong</td>
+                                <td class="ROM">${product.Detail.ROM}</td>
+                              </tr>
+                              <tr>
+                                <td>Hệ điều hành:</td>
+                                <td class="OS">${product.Detail.OS}</td>
+                              </tr>
+                              <tr>
+                                <td>Hỗ trợ kết nối:</td>
+                                <td class="network">${product.Detail.Network}</td>
+                              </tr>
+                              <tr>
+                                <td>Pin:</td>
+                                <td class="pin">${product.Detail.Pin}</td>
+                              </tr>
+                              <tr>
+                                <td>Khối lượng:</td>
+                                <td class="weight">${product.Detail.Weight}</td>
+                              </tr>
+                            </table>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
                 <td class="product__img"><img src="${product.Img}" /></td>
                 <td>
                     <i class="fa-regular fa-pen-to-square edit-icon" onclick="editProduct(this)"></i>
@@ -366,6 +422,10 @@ document.addEventListener("DOMContentLoaded", function () {
             </tr>`;
         });
         document.querySelector("#product__list-body").innerHTML = productContent;
+      hideOverlay();
+    }
+    function showDetailProductAdmin(btnElement) {
+      btnElement.parentElement.querySelector(".overlay").style.display = "block";
     }
     addProducttoTable();
     //Khi ấn vào submit thì thêm vào localStorage và thêm sp vào bảng (trường hợp chưa load trang)
@@ -429,7 +489,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td class="product__name">${product.Name}</td>
                 <td class="product__quantity">${product.Quantity}<sup>₫</sup></td>
                 <td class="product__price">${product.Price}</td>
-                <td>Chi tiết</td>
+                  <td><button class="show-detail-btn">Chi tiết</button></td>
                 <td class="product__img"><img src="${product.Img}"/></td>
                 <td>
                     <i class="fa-regular fa-pen-to-square edit-icon" onclick="editProduct(this)"></i>
@@ -443,29 +503,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 const products = JSON.parse(localStorage.getItem("products")) || [];
                 products.push(product);
                 localStorage.setItem("products", JSON.stringify(products));
-
+          showDetailProductAdmin();
                 // make all the input empty
-                clearInput([
-                    name,
-                    brand,
-                    quantity,
-                    price,
-                    img,
-                    price,
-                    cpu,
-                    screen,
-                    ram,
-                    rom,
-                    os,
-                    card,
-                    pin,
-                    network,
-                    weight,
-                ]);
-                document.querySelector("#form__preview-img").src =
-                    "./img/no-photo-or-blank-image.jpg";
-                document.querySelector("#form__preview-detail-img").src =
-                    "./img/no-photo-or-blank-image.jpg";
+                clearInput([name, brand, quantity, price, img, price, cpu, screen, ram, rom, os, card, pin, network, weight]);
+                document.querySelector("#form__preview-img").src = "./img/no-photo-or-blank-image.jpg";
+                document.querySelector("#form__preview-detail-img").src = "./img/no-photo-or-blank-image.jpg";
             }
         });
 
@@ -516,6 +558,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const phone = document.getElementById("form__admin-phone");
             const email = document.getElementById("form__admin-email");
             const address = document.getElementById("form__admin-address");
+            const ward = document.getElementById("form__admin-ward");
+            const district = document.getElementById("form__admin-district");
+            const city = document.getElementById("form__admin-city");
             const userName = document.getElementById("form__admin-username");
             const password = document.getElementById("form__admin-password");
 
@@ -536,8 +581,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 password.focus();
                 return false;
             } else {
-                // check if the information is already in the database
+                // check if the information is already in the user database
                 const users = JSON.parse(localStorage.getItem("users")) || [];
+                const admins = JSON.parse(localStorage.getItem("admins")) || [];
                 for (let i = 0; i < users.length; i++) {
                     if (users[i].Email == email.value) {
                         alert("Email này đã được đăng ký.");
@@ -555,6 +601,24 @@ document.addEventListener("DOMContentLoaded", function () {
                         return false;
                     }
                 }
+
+                for (let admin of admins) {
+                    if (admin.Email == email.value) {
+                        alert("Email này đã được đăng ký.");
+                        email.focus();
+                        return false;
+                    }
+                    if (admin.Phone == phone.value) {
+                        alert("Số điện thoại này đã được đăng ký.");
+                        phone.focus();
+                        return false;
+                    }
+                    if (admin.UserName == userName.value) {
+                        alert("Tên đăng nhập này đã được đăng ký.");
+                        userName.focus();
+                        return false;
+                    }
+                }
             }
 
             // bring values into table
@@ -563,7 +627,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 UserId: Math.ceil(Math.random() * 10000000000),
                 FullName: name.value,
                 Phone: phone.value,
-                Address: address.value,
+                Address: `${address.value}, Phường ${ward.value}, Quận ${district.value}, ${city.value}`,
                 UserName: userName.value,
                 Email: email.value,
                 Password: password.value,
@@ -581,12 +645,11 @@ document.addEventListener("DOMContentLoaded", function () {
         </tr>`;
             adminList.innerHTML += adminInfo;
             // store data into localStorage
-            const admins = JSON.parse(localStorage.getItem("admins")) || [];
             admins.push(admin);
             localStorage.setItem("admins", JSON.stringify(admins));
 
             // make all the input empty
-            clearInput([name, phone, email, address, userName, password]);
+            clearInput([name, phone, email, address, ward, district, city, userName, password]);
         });
 
     // ------------ Add admin when the page is loaded ------------
@@ -1144,3 +1207,6 @@ function editCustomer(customerElement) {
             }
         });
 }
+  function showDetailProductAdmin(btnElement){
+    btnElement.parentElement.querySelector('.detail-admin').style.display = 'block'
+  }

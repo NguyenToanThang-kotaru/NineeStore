@@ -5,6 +5,9 @@ const repassword = document.querySelector("#re-password");
 const fullname = document.querySelector("#fullname");
 const phone = document.querySelector("#phone");
 const address = document.querySelector("#address");
+const ward = document.querySelector("#ward");
+const district = document.querySelector("#district");
+const city = document.querySelector("#city");
 const formRegister = document.querySelector(".form-register");
 
 // Lấy dữ liệu từ localStorage
@@ -63,6 +66,19 @@ function checkEmailError(input) {
   }
   return isEmailError || isEmailSame;
 }
+function checkUserNameError(input) {
+  let isUserNameSame = false;
+  const usersLocal = JSON.parse(localStorage.getItem("users")) || [];
+  usersLocal.forEach((user) => {
+    if (user.UserName === input.value) isUserNameSame = true;
+  });
+  if (!isUserNameSame) {
+    showSuccess(input);
+  } else {
+    showError(input, "Tên đăng nhập này đã được đăng ký");
+  }
+  return isUserNameSame;
+}
 function checkMatchPasswordError(passwordInput, rePasswordInput) {
   if (passwordInput.value !== rePasswordInput.value)
     showError(rePasswordInput, "Mật khẩu không khớp");
@@ -74,6 +90,9 @@ formRegister.addEventListener("submit", (event) => {
   let isFullNameEmptyError = checkEmptyError(fullname);
   let isPhoneEmptyError = checkEmptyError(phone);
   let isAddressEmptyError = checkEmptyError(address);
+  let isWardEmptyError = checkEmptyError(ward);
+  let isDistrictEmptyError = checkEmptyError(district);
+  let isCityEmptyError = checkEmptyError(city);
   let isUsernameEmptyError = checkEmptyError(username);
   let isEmailEmptyError = checkEmptyError(email);
   let isPasswordEmptyError = checkEmptyError(password);
@@ -84,7 +103,7 @@ formRegister.addEventListener("submit", (event) => {
   let isPhoneLengthError = true;
   let isEmailError = true;
   let isMatchError = true;
-  if (!isUsernameEmptyError) {
+  if (!isUsernameEmptyError && !checkUserNameError(username)) {
     isUsernameLengthError = checkLengthError(username, 5);
   }
   if (!isEmailEmptyError) {
@@ -106,7 +125,10 @@ formRegister.addEventListener("submit", (event) => {
     isPasswordLengthError ||
     isPhoneLengthError ||
     isFullNameEmptyError ||
-    isAddressEmptyError
+    isAddressEmptyError ||
+    isWardEmptyError ||
+    isDistrictEmptyError ||
+    isCityEmptyError
   ) {
     //do nothing
   } else {
@@ -119,6 +141,9 @@ formRegister.addEventListener("submit", (event) => {
       FullName: fullname.value,
       Phone: phone.value,
       Address: address.value,
+      Ward: ward.value,
+      District: district.value,
+      City: city.value,
       UserName: username.value,
       Email: email.value,
       Password: password.value,

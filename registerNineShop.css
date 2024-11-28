@@ -77,9 +77,23 @@ body {
   border: 2px solid #fff;
   transition: 0.3s;
 }
+
+/* AI */
+/* .register-box select {
+  margin-top: 10px;
+  display: flex;
+  width: 200px;
+  height: 32px;
+  padding: 16px;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid #fff;
+  transition: 0.3s;
+} */
+
 .form-register-right,
 .form-register-left {
-  width: 50%;
+  width: 45%;
   margin-left: 50px;
 }
 .form-register-left {

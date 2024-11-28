@@ -555,6 +555,7 @@
                                     <th>Địa chỉ</th>
                                     <th>Email</th>
                                     <th>Trạng thái</th>
+                                    <th>Chức năng</th>
                                 </tr>
                             </thead>
                             <tbody id="customer__list-body">
@@ -699,35 +700,45 @@
                                     <div class="form__row">
                                         <label for="form__admin-name">Họ tên người quản
                                             trị: </label>
-                                        <input type="text" id="form__admin-name" name="admin-name" required autofocus />
+                                        <input type="text" id="form__admin-name" name="admin-name" placeholder="Nhập họ tên" required autofocus />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-phone">Số điện thoại:
                                         </label>
-                                        <input type="text" id="form__admin-phone" name="admin-phone" required
-                                            autofocus />
+                                        <input type="text" id="form__admin-phone" name="admin-phone" placeholder="Nhập số điện thoại" required autofocus />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-email">Email: </label>
-                                        <input type="text" id="form__admin-email" name="admin-email" required />
+                                        <input type="text" id="form__admin-email" name="admin-email" placeholder="Nhập email" required />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-address">Địa chỉ:
                                         </label>
-                                        <input type="text" id="form__admin-address" name="admin-address" required />
+                                        <input type="text" id="form__admin-address" name="admin-address" placeholder="Nhập địa chỉ" required />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__admin-ward">Phường:</label>
+                                        <input type="text" id="form__admin-ward" name="admin-ward" placeholder="Nhập phường (Vd: 1, 2)" required />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__admin-district">Quận:</label>
+                                        <input type="text" id="form__admin-district" name="admin-district" placeholder="Nhập quận (Vd: 7, 8)" required />
+                                    </div>
+                                    <div class="form__row">
+                                        <label for="form__admin-city">Thành phố:</label>
+                                        <input type="text" id="form__admin-city" name="admin-city" placeholder="Ghi cả chữ 'Thành phố' hoặc 'Tỉnh'" required />
                                     </div>
                                 </div>
                                 <div class="form__row-right">
                                     <div class="form__row">
                                         <label for="form__admin-username">Tên đăng nhập:
                                         </label>
-                                        <input type="text" id="form__admin-username" name="admin-username" required />
+                                        <input type="text" id="form__admin-username" name="admin-username" placeholder="Nhập tên đăng nhập" required />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-password">Password:
                                         </label>
-                                        <input type="password" id="form__admin-password" name="admin-password"
-                                            required />
+                                        <input type="password" id="form__admin-password" name="admin-password" placeholder="Nhập mật khẩu" required />
                                     </div>
                                 </div>
                             </div>
