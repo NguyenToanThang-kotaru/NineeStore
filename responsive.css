@@ -29,6 +29,10 @@
   .listPage {
     top: 1300px;
   }
+  .login-page,
+  .register-page {
+    z-index: 12;
+  }
   .login-box,
   .register-box,
   .detail-box,
@@ -59,6 +63,21 @@
   }
   .payment-container input {
     border: 1px solid;
+  }
+  .search-product-item {
+    position: relative;
+    padding: 0 15px;
+  }
+  #search-product-input {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    border: 1px solid;
+    transform: translate(-50%, -50%);
+    display: none;
+  }
+  #search-product-input:hover {
+    display: block;
   }
 }
 

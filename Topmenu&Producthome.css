@@ -1,193 +1,191 @@
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
-body{
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: Arial, Helvetica, sans-serif;
-}                               
-#Topmenu{  
-    position: fixed;
-    top: 0; 
-    left: 0; 
-    width: 100%;
-    background-color: #f0f0f0; 
-    padding: 0px; 
-    z-index: 100; 
-    display: flex;    
-    justify-content: space-between;       
-    text-align: center;  
-    align-items: center;
-    cursor: pointer;
-}   
-#centermenu{
-    list-style: none;
-    display: flex;
-    text-decoration: none;
-    color: black;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+#Topmenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f0f0f0;
+  padding: 0px;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+}
+#centermenu {
+  list-style: none;
+  display: flex;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 i.nav-bar {
   display: none;
 }
 
-#leftmenu{
-    padding: 0;
-    display: flex;
-    align-items: center;      
-    text-align: center;  
-    text-decoration: none;
-    color: black;
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+#leftmenu {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+#leftmenu img {
+  margin: 0px;
+}
 
+#leftmenu img:hover {
+  background-color: rgb(223, 218, 218);
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
-#leftmenu img{
-    margin: 0px;
+#centermenu li {
+  display: flex;
+  padding: 0 15px;
 }
-
-#leftmenu img:hover{
-    background-color: rgb(223, 218, 218);
-    transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-
-}
-#centermenu li{
-    display: flex;
-    padding: 0 15px;
-}
-#centermenu li a{
-    color: black;
-    text-decoration: none;
+#centermenu li a {
+  color: black;
+  text-decoration: none;
 }
 .lap-menu {
-    position: relative;
-  }
-#menudacap{
-    position: absolute;
-    left: 0px;
-    padding: 0px;
-    padding-right: 0px;
-    padding-left: 0px;
-    padding-bottom: 0px;
-    background-color: rgb(204, 202, 202);
-    display: none;
+  position: relative;
 }
-#menudacap li{
-    padding: 5px;
-    padding-left: 15px;
-    padding-right: 100px;
-    text-align: left;
-    border-bottom: 1px solid#111010 ;
-    cursor: pointer;
+#menudacap {
+  position: absolute;
+  left: 0px;
+  padding: 0px;
+  padding-right: 0px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  background-color: rgb(204, 202, 202);
+  display: none;
 }
-#container #Topmenu #centermenu li:hover #menudacap{
-    display: block;
+#menudacap li {
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 100px;
+  text-align: left;
+  border-bottom: 1px solid#111010;
+  cursor: pointer;
 }
-#rightmenu{
-    display: flex;
-    cursor: pointer;
+#container #Topmenu #centermenu li:hover #menudacap {
+  display: block;
 }
-#rightmenu li{
-    list-style-type: none;
+#rightmenu {
+  display: flex;
+  cursor: pointer;
 }
-#rightmenu li a{
-    text-decoration: none;
-    color: black;
+#rightmenu li {
+  list-style-type: none;
 }
-#menudacap2{
-    position: absolute;
-    right: 0px;
-    bottom: -57px;
-    padding: 0px;
-    width: 150px;
-    list-style: none;
-    background-color: rgb(204, 202, 202);
-    display: none;
+#rightmenu li a {
+  text-decoration: none;
+  color: black;
 }
-#menudacap2 li{
-    padding: 5.5px;
-    border-bottom: 1px solid black;
+#menudacap2 {
+  position: absolute;
+  right: 0px;
+  bottom: -57px;
+  padding: 0px;
+  width: 150px;
+  list-style: none;
+  background-color: rgb(204, 202, 202);
+  display: none;
 }
-#menudacap2 li a{
-    color: black;
-    text-decoration: none;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 16px;
+#menudacap2 li {
+  padding: 5.5px;
+  border-bottom: 1px solid black;
 }
-#container #Topmenu #rightmenu li:hover #menudacap2{
-    display: block;
+#menudacap2 li a {
+  color: black;
+  text-decoration: none;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
 }
-
-#Topmenu li{
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+#container #Topmenu #rightmenu li:hover #menudacap2 {
+  display: block;
 }
 
-#Topmenu li:hover{
-    background-color: rgb(204, 202, 202);
-    transform: scale(1.05); 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    display: block;
-} 
-
-.container{
-    padding: 4rem;
+#Topmenu li {
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
-#ProductHome{
-    width: 100%;
-    display: flexbox;
-    justify-content: left;
-    color: red;
-    font-size: x-large;
-}
-.StartProducts{
-    display: flex;
-    text-align: center;
-    list-style-type: none;
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+#Topmenu li:hover {
+  background-color: rgb(204, 202, 202);
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  display: block;
 }
 
-.StartProducts li img:hover{
-    background-color: rgb(223, 218, 218);
-    transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-.StartProducts p{
-    color: black;
-}
-.StartProducts li{
-    padding: 30px;
+.container {
+  padding: 4rem;
 }
 
-.mac_Product{
-    cursor: pointer;
+#ProductHome {
+  width: 100%;
+  display: flexbox;
+  justify-content: left;
+  color: red;
+  font-size: x-large;
+}
+.StartProducts {
+  display: flex;
+  text-align: center;
+  list-style-type: none;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.StartProducts li img:hover {
+  background-color: rgb(223, 218, 218);
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+.StartProducts p {
+  color: black;
+}
+.StartProducts li {
+  padding: 30px;
+}
+
+.mac_Product {
+  cursor: pointer;
 }
 /* Footer */
-#Footer{
-    width:100%;
-    background-color: #312f2f;
+#Footer {
+  width: 100%;
+  background-color: #312f2f;
 }
-#Subscribe{
-    display: flex ;
-    justify-content: space-between;   
-    background-color: #312f2f;
-    width: 100%;
+#Subscribe {
+  display: flex;
+  justify-content: space-between;
+  background-color: #312f2f;
+  width: 100%;
 }
-#Subscribe div{
-    color:white;
-    font-size: x-large;
-    padding: 15px;
+#Subscribe div {
+  color: white;
+  font-size: x-large;
+  padding: 15px;
 }
-#InputFooter{
-    color:rgb(12, 12, 12);
-    font-size: x-large;
-    padding: 0%;
+#InputFooter {
+  color: rgb(12, 12, 12);
+  font-size: x-large;
+  padding: 0%;
 }
 .page-button button {
   background-color: #141c24;
@@ -198,33 +196,32 @@ i.nav-bar {
   margin: 0 5px;
   cursor: pointer;
   transition: background-color 0.3s;
-  
 }
-.page-button{
+.page-button {
   display: flex;
   justify-content: center;
   margin: 0 auto;
   margin-bottom: 5px;
 }
-.page-button button:hover{
+.page-button button:hover {
   background-color: white;
   color: #141c24;
   transition: 0.3s;
 }
-.cart-menu{
-    position: relative;
+.cart-menu {
+  position: relative;
 }
 .total-quantity-cart {
-    width: 20px;
-    font-size: 15px;
-    position: absolute;
-    color: #fff;
-    top: -5px;
-    right: 0px;
-    background-color: #dd2f2c;
-    border-radius: 50%;
-    border-left: none;
-    font-family: 'Courier New', Courier, monospace;
+  width: 20px;
+  font-size: 15px;
+  position: absolute;
+  color: #fff;
+  top: -5px;
+  right: 0px;
+  background-color: #dd2f2c;
+  border-radius: 50%;
+  border-left: none;
+  font-family: "Courier New", Courier, monospace;
 }
 .overlay-nav {
   -webkit-tap-highlight-color: transparent;
@@ -241,4 +238,4 @@ i.nav-bar {
 }
 .nav-mobile {
   display: none;
-  }
+}

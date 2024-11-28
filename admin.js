@@ -121,10 +121,9 @@
         if (order.Status == "Đã giao") {
           const timeDiff = (now - new Date(order.OrderDate)) / 1000 / 60;
           if (timeDiff > 5) {
-            const orderList = document
-              .querySelector(".order-table tbody")
-              .querySelectorAll("tr");
-            for (let list of orderList) {
+            const orderList =
+              document.querySelector(".order-table tbody").children;
+            for (let list of Array.from(orderList)) {
               if (list.querySelector(".order__id").innerText == order.ID) {
                 // remove that row
                 list.remove();
@@ -849,11 +848,14 @@ function addOrdertoTable() {
     });
     //order
     //Đặt trạng thái cho bảng
-    let statusValue = "";
-    if (order.Status == "Chưa xử lý") statusValue = "cxl";
-    else if (order.Status == "Đã xác nhận") statusValue = "dxn";
-    else if (order.Status == "Đã giao thành công") statusValue = "dg";
-    else statusValue = "dh";
+    let cxlSelected = "";
+    let dxnSelected = "";
+    let dgSelected = "";
+    let dhSelected = "";
+    if (order.Status == "Chưa xử lý") cxlSelected = 'selected';
+    else if (order.Status == "Đã xác nhận") dxnSelected = "selected";
+    else if (order.Status == "Đã giao thành công") dgSelected = "selected";
+    else dhSelected = "selected";
     const orderDate = new Date(order.OrderDate);
     const formattedDate = new Intl.DateTimeFormat("vi-VN").format(orderDate);
     orderContent +=
@@ -894,14 +896,14 @@ function addOrdertoTable() {
                                 <tr>
                                     <td colspan="4" class="order-detail-status">
                                     <form style="background-color: #fff;">
-                                        <label for="option-status">Tình trạng:</label>
-                                        <select id="option-status" name="option-status" value="${statusValue}" onchange="setOrderStatus(this)">
-                                            <option value="cxl">Chưa xử lý</option>
-                                            <option value="dxn">Đã xác nhận</option>
-                                            <option value="dg">Đã giao</option>
-                                            <option value="dh">Đã hủy</option>
+                                        <label for="option-status-${order.ID}">Tình trạng:</label>
+                                        <select id="option-status-${order.ID}" name="option-status" onchange="setOrderStatus(this)">
+                                            <option value="cxl" ${cxlSelected}>Chưa xử lý</option>
+                                            <option value="dxn" ${dxnSelected}>Đã xác nhận</option>
+                                            <option value="dg" ${dgSelected}>Đã giao</option>
+                                            <option value="dh" ${dhSelected}>Đã hủy</option>
                                         </select>
-                                        <button type="submit" class="order__submit-status" disabled>Xác nhận thay đổi</button>
+                                        <button type="submit" class="order__submit-status" onclick="submitStatus(this,event)" disabled>Xác nhận thay đổi</button>
                                     </form>
                                     </td>
                                 </tr>
@@ -923,30 +925,38 @@ function showOrderDetail(orderElement) {
 }
 // Set Status
 function setOrderStatus(statusElement) {
-  const orderStatus = statusElement.value;
-  const orderStatusSubmit = document.querySelector(".order__submit-status");
+  const orderStatusSubmit = statusElement.parentElement.querySelector(
+    ".order__submit-status"
+  );
   orderStatusSubmit.disabled = false;
   orderStatusSubmit.style.opacity = 1;
-  orderStatusSubmit.addEventListener("click", (event) => {
-    event.preventDefault();
-    const orders = JSON.parse(localStorage.getItem("orders")) || [];
-    const orderDiv =
-      orderStatusSubmit.parentElement.parentElement.parentElement.parentElement
-        .parentElement.parentElement.parentElement.parentElement.parentElement
-        .parentElement;
-    const orderID = orderDiv.querySelector(".order__id").innerText;
-    const statusText =
-      statusElement.options[statusElement.selectedIndex].innerText; // Lấy text của thẻ option đang được chọn
-    for (let i = 0; i < orders.length; i++)
-      if (orders[i].ID == orderID) {
-        orders[i].Status = statusText;
-        break;
-      }
-    orderDiv.querySelector(".order__status").innerText = statusText;
-    localStorage.setItem("orders", JSON.stringify(orders));
-    setStatusColor();
-    alert("Đã cập nhật trạng thái thành công!");
-  });
+}
+function submitStatus(submitElement, event) {
+  event.preventDefault();
+  const orderStatusSubmit = submitElement.parentElement.querySelector(
+    ".order__submit-status"
+  );
+  const selectElement = (statusElement =
+    submitElement.parentElement.querySelector("select"));
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  const orderDiv =
+    submitElement.parentElement.parentElement.parentElement.parentElement
+      .parentElement.parentElement.parentElement.parentElement.parentElement
+      .parentElement;
+  const orderID = orderDiv.querySelector(".order__id").innerText;
+  const statusText =
+    selectElement.options[statusElement.selectedIndex].innerText; // Lấy text của thẻ option đang được chọn
+  for (let i = 0; i < orders.length; i++)
+    if (orders[i].ID == orderID) {
+      orders[i].Status = statusText;
+      break;
+    }
+  orderDiv.querySelector(".order__status").innerText = statusText;
+  localStorage.setItem("orders", JSON.stringify(orders));
+  setStatusColor();
+  alert("Đã cập nhật trạng thái thành công!");
+  orderStatusSubmit.disabled = true;
+  orderStatusSubmit.style.opacity = 0.5;
 }
 function setStatusColor() {
   const orderStatus = document.querySelectorAll(".order__status");
@@ -955,7 +965,7 @@ function setStatusColor() {
       orderStatus[i].style.color = "#565555";
     else if (orderStatus[i].innerText == "Đã xác nhận")
       orderStatus[i].style.color = "#4a81e1";
-    else if (orderStatus[i].innerText == "Đã giao thành công")
+    else if (orderStatus[i].innerText == "Đã giao")
       orderStatus[i].style.color = "#00bb4bda";
     else if (orderStatus[i].innerText == "Đã hủy")
       orderStatus[i].style.color = "#ff0000da";
