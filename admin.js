@@ -284,6 +284,346 @@ document.addEventListener("DOMContentLoaded", function () {
         item_page.style.display = "none";
         menu.style.display = "block";
     }
+  
+    //--------------------------------Thong ke----------------------------
+    document
+      .querySelector(".option-period-tke")
+      .addEventListener("change", (event) => {
+        const selectedValue = event.target.value;
+        console.log(selectedValue);
+        const today = new Date();
+        const orders = JSON.parse(localStorage.getItem("orders")) || [];
+        for (let i = orders.length - 1; i > 0; i--) {
+          orderDate = new Date(orders[i].OrderDate);
+          const diffTime = today.getTime() - orderDate.getTime(); // Khoảng cách thời gian (mili-giây)
+          const diffDays = diffTime / (1000 * 60 * 60 * 24); // Chuyển sang ngày
+          if (diffDays > selectedValue) {
+            orders.splice(i, 1);
+          }
+        }
+        statisticProduct(orders);
+      });
+    function statisticProduct(orders) {
+      const productSaleList = [];
+      // product = {ID, Quantity, Order}
+      for (let i = 0; i < orders.length; i++) {
+        for (let j = 0; j < orders[i].ProductList.length; j++) {
+          const currentProduct = orders[i].ProductList[j];
+          let found = false;
+  
+          // Kiểm tra xem sản phẩm đã tồn tại trong danh sách chưa
+          for (let k = 0; k < productSaleList.length; k++) {
+            if (currentProduct.ID === productSaleList[k].ID) {
+              productSaleList[k].Quantity += Number(currentProduct.Quantity);
+              productSaleList[k].Order.push(orders[i]);
+              found = true;
+              break;
+            }
+          }
+  
+          // Nếu sản phẩm chưa tồn tại, thêm mới vào danh sách
+          if (!found) {
+            const product = {
+              ID: currentProduct.ID,
+              Quantity: Number(currentProduct.Quantity),
+              Order: [orders[i]],
+            };
+            productSaleList.push(product);
+          }
+        }
+      }
+  
+      //Đếm số lượng đã mua của khách hàng
+      // const CustomerBuyList = [];
+      // // customer = {customer, Quantity,}
+      // for (let i = 0; i < productSaleList.length; i++) {
+      //   for (let j = 0; j < productSaleList[i].Order.length; j++) {
+      //     const currentProduct = productSaleList[i].Order[j];
+      //     let found = false;
+  
+      //     // Kiểm tra xem khách hàng đã tồn tại trong danh sách chưa
+      //     for (let k = 0; k < CustomerBuyList.length; k++) {
+      //       if (currentProduct.Customer.ID === CustomerBuyList[k].Customer.ID) {
+      //         const buyQuantity = currentProduct.ProductList.find(
+      //           (item) => (item.ID = productSaleList[i].ID)
+      //         ).Quantity;
+      //         productSaleList[k].Quantity += Number(buyQuantity);
+      //         found = true;
+      //         break;
+      //       }
+      //     }
+  
+      //     // Nếu khách hàng chưa tồn tại, thêm mới vào danh sách
+      //     if (!found) {
+      //       const user = {
+      //         Customer: productSaleList[i].Order[j].Customer,
+      //         Quantity: Number(
+      //           currentProduct.ProductList.find(
+      //             (item) => (item.ID = productSaleList[i].ID)
+      //           ).Quantity
+      //         ),
+      //       };
+      //       CustomerBuyList.push(user);
+      //     }
+      //   }
+      // }
+      // console.log(CustomerBuyList);
+      // Thêm vào bảng
+      const bodyTable = document.querySelector(".items-tbody-tke");
+      let bodyContent = "";
+      let totalRevenue = 0;
+      productSaleList.forEach((product) => {
+        let productName = "";
+        let productPrice = 0;
+        let CustomerBuyList = [];
+        for (let i = 0; i < product.Order[0].ProductList.length; i++) {
+          if (product.Order[0].ProductList[i].ID == product.ID) {
+            productName = product.Order[0].ProductList[i].Name;
+            productPrice = Number(
+              product.Order[0].ProductList[i].Price.replace(/\./g, "")
+            );
+            break;
+          }
+        }
+        product.Order.forEach((order) => {
+          const customer = {
+            Name: order.Customer.FullName,
+            QuantityBuy: order.ProductList.find((item) => item.ID == product.ID)
+              .Quantity,
+          };
+          CustomerBuyList.push(customer);
+        });
+        let hdContent = "";
+        CustomerBuyList.forEach((customer) => {
+          hdContent += `
+              <tr>
+                                                                  <td>${
+                                                                    customer.Name
+                                                                  }</td>
+                                                                  <td>${
+                                                                    customer.QuantityBuy
+                                                                  }</td>
+                                                                  <td>${(
+                                                                    productPrice *
+                                                                    Number(
+                                                                      customer.QuantityBuy
+                                                                    )
+                                                                  ).toLocaleString(
+                                                                    "de-DE"
+                                                                  )}</td>
+                                                              </tr>
+          `;
+        });
+        bodyContent +=
+          `<tr>
+                                      <td>${productName}</td>
+                                      <td><span class="product-tke-quantity-value">${
+                                        product.Quantity
+                                      }</span></td>
+                                      <td><span class="product-tke-price-value">${(
+                                        productPrice * product.Quantity
+                                      ).toLocaleString(
+                                        "de-DE"
+                                      )}</span><sup>₫</sup></td>
+                                      <td>
+                                          <button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
+                                          <div class='overlay'>
+                                              <div class="hoa-don-container" id="hoadon-items">
+                                                  <i class="fa-solid fa-rectangle-xmark close"></i>
+                                                  <div class="hoa-don-header">
+                                                      <h1>Hóa đơn</h1>
+                                                  </div>
+                                                  <div class="hoa-don-info">
+                                                      <div class="hoa-don-mat-hang">
+                                                          <h3>Thông tin sản phẩm</h3>
+                                                          <p>Mã: ${
+                                                            product.ID
+                                                          }5</p>
+                                                          <p>Tên: ${productName}</p>
+                                                          <p>Nơi Bán: Nine Store</p>
+                                                      </div>
+                                                  </div>
+                                                  <div class="product-table-hd">
+                                                      <table class="product-table-info-hd">
+                                                          <thead>
+                                                              <tr class="table-header-hd">
+                                                                  <th>Tên khách hàng</th>
+                                                                  <th>Số lượng</th>
+                                                                  <th>Đã chi</th>
+                                                              </tr>
+                                                          </thead>
+                                                          <tbody>` +
+          hdContent +
+          `</tbody>
+                                                      </table>
+                                                  </div>
+                                                  <div class="total-hd">
+                                                      <hr />
+                                                      <div class="total-container-hd">
+                                                          <p class="text-hd">Tổng tiền:</p>
+                                                          <p class="total-amount-hd">120.000.000</p>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </td>
+                                  </tr>`;
+        totalRevenue += productPrice * product.Quantity;
+      });
+      bodyTable.innerHTML = bodyContent;
+      document.querySelector("#amount-revenue-tke").innerText =
+        totalRevenue.toLocaleString("de-DE");
+  
+      //Sắp xếp để in ra tiêu chí
+      productSaleList.sort((a, b) => b.Quantity - a.Quantity); // từ lớn đến nhỏ
+      console.log(productSaleList);
+      let productNameBest = "";
+      let productPriceBest = 0;
+      for (let i = 0; i < productSaleList[0].Order[0].ProductList.length; i++) {
+        if (
+          productSaleList[0].Order[0].ProductList[i].ID == productSaleList[0].ID
+        ) {
+          productNameBest = productSaleList[0].Order[0].ProductList[i].Name;
+          productPriceBest = Number(
+            productSaleList[0].Order[0].ProductList[i].Price.replace(/\./g, "")
+          );
+          break;
+        }
+      }
+      let productNameWorst = "";
+      let productPriceWorst = 0;
+      for (
+        let i = 0;
+        i <
+        productSaleList[productSaleList.length - 1].Order[0].ProductList.length;
+        i++
+      ) {
+        if (
+          productSaleList[productSaleList.length - 1].Order[0].ProductList[i]
+            .ID == productSaleList[productSaleList.length - 1].ID
+        ) {
+          productNameWorst =
+            productSaleList[productSaleList.length - 1].Order[0].ProductList[i]
+              .Name;
+          productPriceWorst = Number(
+            productSaleList[productSaleList.length - 1].Order[0].ProductList[
+              i
+            ].Price.replace(/\./g, "")
+          );
+          break;
+        }
+      }
+      document.querySelector(".summary-table-tke tbody").innerHTML = `
+      <tr>
+                                      <td>Mặt hàng bán chạy nhất</td>
+                                      <td id="best-item">${productNameBest}</td>
+                                      <td id="best-item-revenue"><span class="product-tke-price-value">${(
+                                        productPriceBest *
+                                        productSaleList[0].Quantity
+                                      ).toLocaleString(
+                                        "de-DE"
+                                      )}</span><sup>₫</sup></td>
+                                  </tr>
+                                  <tr>
+                                      <td>Mặt hàng bán ế nhất</td>
+                                      <td id="worst-item">${productNameWorst}</td>
+                                      <td id="worst-item-revenue"><span class="product-tke-price-value">${(
+                                        productPriceWorst *
+                                        productSaleList[
+                                          productSaleList.length - 1
+                                        ].Quantity
+                                      ).toLocaleString(
+                                        "de-DE"
+                                      )}</span><sup>₫</sup></td>
+                                  </tr>
+      `;
+      hideOverlay();
+    }
+    statisticProduct(JSON.parse(localStorage.getItem("orders")) || []);
+    //   const top3_productList = document.getElementById("top3-productList");
+    //   const bestItemElement = document.getElementById("best-item");
+    //   const bestItemRevenueElement = document.getElementById("best-item-revenue");
+    //   const worstItemElement = document.getElementById("worst-item");
+    //   const worstItemRevenueElement = document.getElementById("worst-item-revenue");
+    //   const totalRevenueElement = document.getElementById("amount-revenue-tke");
+    //   const Hoadon_product = document.getElementsByClassName("Hoadon-product");
+  
+    //   const allProducts = [];
+  
+    //   orders.forEach((order) => {
+    //     if (Array.isArray(order.ProductList)) {
+    //       allProducts.push(
+    //         ...order.ProductList.map((product) => ({
+    //           ...product,
+    //           Customer: order.Customer, // Thêm thông tin khách hàng
+    //         }))
+    //       );
+    //     }
+    //   });
+  
+    //   // Lọc và sắp xếp các sản phẩm
+    //   const sortedProducts = allProducts
+    //     .filter((product) => product.Quantity) // Lọc ra những sản phẩm có Quantity
+    //     .map((product) => ({
+    //       ...product,
+    //       Quantity: Number(product.Quantity), // Chuyển đổi từ chuỗi sang số
+    //     }))
+    //     .sort((a, b) => b.Quantity - a.Quantity); // Sắp xếp theo số lượng giảm dần
+  
+    //   const top3Products = sortedProducts.slice(0, 3);
+  
+    //   let amount = 0;
+  
+    //   function addTop3Product() {
+    //     let thongke_product = "";
+    //     let hoadon_product = "";
+  
+    //     top3Products.forEach((producttop3) => {
+    //       const quantity = Number(producttop3.Quantity);
+    //       const priceStr = producttop3.Price.replace(/\./g, "")
+    //         .replace("VNĐ", "")
+    //         .trim();
+    //       const price = parseFloat(priceStr);
+    //       const totalPrice = price * quantity;
+    //       amount += totalPrice;
+  
+    //       thongke_product += `<tr>
+    //             <td>${producttop3.Name}</td>
+    //             <td>${producttop3.Quantity}</td>
+    //             <td>${totalPrice.toLocaleString("de-DE")} VNĐ</td>
+    //             <td><button class="show-hoadon-mh" data-name="${producttop3.Name}"
+    //             data-quantity="${producttop3.Quantity}">Xem</button></td>
+    //         </tr>`;
+    //     });
+  
+    //     // top3_productList.innerHTML = thongke_product;
+    //     totalRevenueElement.innerText = amount.toLocaleString("de-DE");
+  
+    //     // Thêm sự kiện lắng nghe cho các nút "Xem"
+    //     document.querySelectorAll(".show-hoadon-mh").forEach((button) => {
+    //       button.addEventListener("click", function () {
+    //         const productName = this.getAttribute("data-name");
+    //         const productQuantity = this.getAttribute("data-quantity");
+  
+    //         // Cập nhật nội dung hóa đơn
+    //         document.getElementById(
+    //           "Ten_SP-tke"
+    //         ).innerHTML = `<strong>${productName}</strong>`;
+    //         document.getElementById("Ten_SP-quantity").innerText = productQuantity;
+    //       });
+    //     });
+    //   }
+  
+    //   // Sản phẩm tốt nhất và tồi nhất
+    //   const best = sortedProducts[0];
+    //   const worst = sortedProducts[sortedProducts.length - 1]; // Lấy sản phẩm cuối cùng
+  
+    //   bestItemElement.innerText = best.Name || "Không có";
+    //   bestItemRevenueElement.innerText = best.Quantity;
+    //   worstItemElement.innerText = worst.Name || "Không có";
+    //   worstItemRevenueElement.innerText = worst.Quantity;
+  
+    //   addTop3Product();
 
     // Hoa don
 
@@ -295,36 +635,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const esc_hoadon2 = document.querySelector("#esc-hoadon-btn-mh");
     const overlay = document.querySelector(".overlay-hd");
 
-    hoadon_kh_btn.forEach((button) => {
-        button.addEventListener("click", showHoaDonKH);
-    });
-
-    hoadon_mh_btn.forEach((button) => {
-        button.addEventListener("click", showHoaDonMH);
-    });
-
-    esc_hoadon1.addEventListener("click", closeHoadonKH);
-    esc_hoadon2.addEventListener("click", closeHoadonMH);
-
-    function showHoaDonKH() {
-        overlay.style.display = "block";
-        hoadon_kh_page.style.display = "block";
-    }
-
-    function showHoaDonMH() {
-        overlay.style.display = "block";
-        hoadon_mh_page.style.display = "block";
-    }
-
-    function closeHoadonMH() {
-        overlay.style.display = "none";
-        hoadon_mh_page.style.display = "none";
-    }
-
-    function closeHoadonKH() {
-        overlay.style.display = "none";
-        hoadon_kh_page.style.display = "none";
-    }
 
     //--------------------------------- Customer -----------------------------
     // add customer to the table when the page is loaded
@@ -423,10 +733,10 @@ document.addEventListener("DOMContentLoaded", function () {
             </tr>`;
         });
         document.querySelector("#product__list-body").innerHTML = productContent;
-      hideOverlay();
+        hideOverlay();
     }
     function showDetailProductAdmin(btnElement) {
-      btnElement.parentElement.querySelector(".overlay").style.display = "block";
+        btnElement.parentElement.querySelector(".overlay").style.display = "block";
     }
     addProducttoTable();
     //Khi ấn vào submit thì thêm vào localStorage và thêm sp vào bảng (trường hợp chưa load trang)
@@ -504,7 +814,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const products = JSON.parse(localStorage.getItem("products")) || [];
                 products.push(product);
                 localStorage.setItem("products", JSON.stringify(products));
-          showDetailProductAdmin();
+                showDetailProductAdmin();
                 // make all the input empty
                 clearInput([name, brand, quantity, price, img, price, cpu, screen, ram, rom, os, card, pin, network, weight]);
                 document.querySelector("#form__preview-img").src = "./img/no-photo-or-blank-image.jpg";
@@ -677,7 +987,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .getElementById("order__filter-date")
         .addEventListener("click", function () {
             if (showFilterDate == false) {
-                filterAddress.style.display = "none";
+                filterAddressContainer.style.display = "none";
                 filterDateContainer.style.display = "flex";
                 filterDateContainer.style.justifyContent = "flex-end";
                 showFilterDate = true;
@@ -789,17 +1099,17 @@ document.addEventListener("DOMContentLoaded", function () {
         .addEventListener("click", function () {
             if (showFilterAddress == false) {
                 filterDateContainer.style.display = "none";
-            filterAddressContainer.style.display = "flex";
-            filterAddressContainer.style.justifyContent = "flex-end";
+                filterAddressContainer.style.display = "flex";
+                filterAddressContainer.style.justifyContent = "flex-end";
                 showFilterAddress = true;
-        }
-        else {
-            filterAddressContainer.style.display = "none";
+            }
+            else {
+                filterAddressContainer.style.display = "none";
                 showFilterAddress = false;
             }
         });
     // lọc theo trạng thái
-    
+
     filterAddress.addEventListener("change", function () {
         console.log("kkkkkkkkk");
         if (filterAddress.value == ".") {
@@ -862,7 +1172,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
-
     // filter the order by date
 });
 // ------------ Edit ------------
@@ -1051,6 +1360,11 @@ function addOrdertoTable() {
                                 <tfoot>
                                 <tr>
                                     <td colspan="4" class="totalPrice">
+                                    Địa chỉ: ${order.Customer.Address}, Phường ${order.Customer.Ward}, Quận ${order.Customer.District}, ${order.Customer.City}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="totalPrice">
                                     Tổng cộng:
                                     <span class="total-price-value">${order.TotalPrice}</span><sup>đ</sup>
                                     </td>
@@ -1094,29 +1408,29 @@ function setOrderStatus(statusElement) {
     orderStatusSubmit.style.opacity = 1;
 }
 function submitStatus(submitElement, event) {
-        event.preventDefault();
+    event.preventDefault();
     const orderStatusSubmit = submitElement.parentElement.querySelector(
         ".order__submit-status"
     );
     const selectElement = (statusElement =
         submitElement.parentElement.querySelector("select"));
-        const orders = JSON.parse(localStorage.getItem("orders")) || [];
-        const orderDiv =
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const orderDiv =
         submitElement.parentElement.parentElement.parentElement.parentElement
-                .parentElement.parentElement.parentElement.parentElement.parentElement
-                .parentElement;
-        const orderID = orderDiv.querySelector(".order__id").innerText;
-        const statusText =
+            .parentElement.parentElement.parentElement.parentElement.parentElement
+            .parentElement;
+    const orderID = orderDiv.querySelector(".order__id").innerText;
+    const statusText =
         selectElement.options[statusElement.selectedIndex].innerText; // Lấy text của thẻ option đang được chọn
-        for (let i = 0; i < orders.length; i++)
-            if (orders[i].ID == orderID) {
-                orders[i].Status = statusText;
-                break;
-            }
-        orderDiv.querySelector(".order__status").innerText = statusText;
-        localStorage.setItem("orders", JSON.stringify(orders));
-        setStatusColor();
-        alert("Đã cập nhật trạng thái thành công!");
+    for (let i = 0; i < orders.length; i++)
+        if (orders[i].ID == orderID) {
+            orders[i].Status = statusText;
+            break;
+        }
+    orderDiv.querySelector(".order__status").innerText = statusText;
+    localStorage.setItem("orders", JSON.stringify(orders));
+    setStatusColor();
+    alert("Đã cập nhật trạng thái thành công!");
     orderStatusSubmit.disabled = true;
     orderStatusSubmit.style.opacity = 0.5;
 }
@@ -1190,89 +1504,12 @@ function editCustomer(customerElement) {
     // Show the edit modal
     document.querySelector(".admin__edit").style.display = "block";
 
-    // lọc theo trạng thái
-    const filterDate = document.getElementById("filter__date");
-    const filterDateContainer = document.getElementById("filter-date");
-    const filterAddressContainer = document.getElementById("filter-address");
-    const filterAddress = document.getElementById("filter__address");
-    let showFilterDate = false;
-    let showFilterAddress = false;
-    filterAddress.addEventListener("change", function () {
-        console.log("kkkkkkkkk");
-        if (filterAddress.value == ".") {
-            return;
-        }
-        addOrdertoTable();
-        if (filterAddress.value == "all") {
-            return;
-        } else {
-            const orderList = document
-                .querySelector(".order-table tbody")
-                .querySelectorAll("tr");
-            if (filterAddress.value == "chuaxuly") {
-                for (let row of orderList) {
-                    if (row.querySelector(".order__status") === null) {
-                        continue;
-                    }
-                    let tmp = row.querySelector(".order__status").innerText;
-                    console.log(tmp);
-                    if (tmp != "Chưa xử lý") {
-                        row.remove();
-                    }
-                }
-            }
-            if (filterAddress.value == "dagiao") {
-                for (let row of orderList) {
-                    if (row.querySelector(".order__status") === null) {
-                        continue;
-                    }
-                    let tmp = row.querySelector(".order__status").innerText;
-                    console.log(tmp);
-                    if (tmp != "Đã giao") {
-                        row.remove();
-                    }
-                }
-            }
-            if (filterAddress.value == "dahuy") {
-                for (let row of orderList) {
-                    if (row.querySelector(".order__status") === null) {
-                        continue;
-                    }
-                    let tmp = row.querySelector(".order__status").innerText;
-                    console.log(tmp);
-                    if (tmp != "Đã hủy") {
-                        row.remove();
-                    }
-                }
-            }
-            if (filterAddress.value == "daxacnhan") {
-                for (let row of orderList) {
-                    if (row.querySelector(".order__status") === null) {
-                        continue;
-                    }
-                    let tmp = row.querySelector(".order__status").innerText;
-                    console.log(tmp);
-                    if (tmp != "Đã xác nhận") {
-                        row.remove();
-                    }
-                }
-            }
-        }
-    });
-    document
-        .getElementById("order__filter-address")
-        .addEventListener("click", function () {
-            if (showFilterAddress == false) {
-                filterDateContainer.style.display = "none";
-                filterAddressContainer.style.display = "flex";
-                filterAddressContainer.style.justifyContent = "flex-end";
-                showFilterAddress = true;
-            } else {
-                filterAddressContainer.style.display = "none";
-                showFilterAddress = false;
-            }
-        });
 }
-  function showDetailProductAdmin(btnElement){
-    btnElement.parentElement.querySelector('.detail-admin').style.display = 'block'
+function showDetailProductAdmin(btnElement) {
+    btnElement.parentElement.querySelector(".detail-admin").style.display =
+      "block";
   }
+  function showPaymentProduct(paymentElement) {
+    paymentElement.parentElement.querySelector(".overlay").style.display =
+      "block";
+}
