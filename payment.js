@@ -38,16 +38,10 @@ function displayPayment(productList, cartListChecked) {
   const email = document.querySelector(".payment-customer-email");
   const phone = document.querySelector("#phone-payment");
   const address = document.querySelector("#address-payment");
-  const ward = document.querySelector("#ward-payment");
-  const district = document.querySelector("#district-payment");
-  const city = document.querySelector("#city-payment");
   name.innerText = userLogin.FullName;
   email.innerText = userLogin.Email;
   phone.value = userLogin.Phone;
-  address.value = userLogin.Address + ", " + userLogin.Ward + ", " + userLogin.District + ", " + userLogin.City;
-//   ward.value = userLogin.Ward;
-//   district.value = userLogin.District;
-//   city.value = userLogin.City;
+  address.value = userLogin.Address + ", Phường " + userLogin.Ward + ", Quận " + userLogin.District + ", " + userLogin.City;
   //Hóa đơn
   const today = new Date();
   document.querySelector(".payment-date").innerText = new Intl.DateTimeFormat(
@@ -109,10 +103,11 @@ function displayPayment(productList, cartListChecked) {
         }
         //Cập nhật lại sđt và địa chỉ
         userLogin.Phone = phone.value;
-        let tmp = userLogin.Address.split(",");
+        let tmp = address.value.split(",");
+        console.log(tmp);
         userLogin.Address = tmp[0];
-        userLogin.Ward = tmp[1];
-        userLogin.District = tmp[2];
+        userLogin.Ward = tmp[1].replace("Phường", "").trim();
+        userLogin.District = tmp[2].replace("Quận", "").trim();;
         userLogin.City = tmp[3];
         const users = JSON.parse(localStorage.getItem("users")) || [];
         for (let i = 0; i < users.length; i++) {

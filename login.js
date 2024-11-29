@@ -10,6 +10,7 @@ loginSubmit.addEventListener("click", (event) => {
     const emailLogin = document.getElementById("email-login");
     const passwordLogin = document.getElementById("password-login");
     event.preventDefault();
+    // Nếu đăng nhập bằng tài khoản admin mặc định
     if (adminAccount.UserName === emailLogin.value &&
         adminAccount.Password === passwordLogin.value
     ) {
@@ -17,7 +18,8 @@ loginSubmit.addEventListener("click", (event) => {
         document.querySelector(".login-error").style.display = "none";
         localStorage.setItem("userLogin", JSON.stringify(adminAccount));
         isLogin = true;
-    } else {
+    } 
+    else { // Duyệt User và Admin trong localStorage
         const findUser = userLocalLogin.find((user) => (
             user.UserName === emailLogin.value ||
             user.Email === emailLogin.value) &&
@@ -45,6 +47,7 @@ loginSubmit.addEventListener("click", (event) => {
                     3000
                 );
                 document.querySelector(".login-error").style.display = "none";
+                console.log(findUser);
                 localStorage.setItem("userLogin", JSON.stringify(findUser));
                 isLogin = true;
             }
@@ -54,6 +57,7 @@ loginSubmit.addEventListener("click", (event) => {
                     3000
                 );
                 document.querySelector(".login-error").style.display = "none";
+                console.log(findAdmin);
                 localStorage.setItem("userLogin", JSON.stringify(findAdmin));
                 isLogin = true;
             }

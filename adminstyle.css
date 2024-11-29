@@ -418,3 +418,115 @@ button:hover {
   color: #ff0000da;
   /* #565555 #4a81e1 #00bb4bda #ff0000da*/
 }
+
+  /* ------------------------------------- Details ------------------------------------ */
+  .detail-box {
+    background-color: #fff;
+    padding: 30px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 80%;
+    overflow-y: auto;
+    cursor: default;
+    z-index: 11;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .detail-head {
+    display: flex;
+    align-items: start;
+  }
+  .detail-img {
+    width: 400px;
+  }
+  .detail-title {
+    margin-left: 50px;
+  }
+  .detail-heading {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  .detail-price {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #dd2f2c;
+  }
+  .detail-original-price {
+    margin: 20px 0;
+  }
+  .detail-original-price-value {
+    color: #a4a4a4;
+    font-size: 2rem;
+    font-weight: 500;
+    text-decoration: line-through;
+  }
+  .sale-price,
+  .detail-value {
+    color: #eb5757;
+    font-size: 2rem;
+    font-weight: 500;
+    margin-left: 20px;
+  }
+  .sale-price {
+    margin: 0;
+  }
+  .buy-btn,
+  .add-cart-btn {
+    background-color: #000000;
+    color: #fff;
+    padding: 10px;
+    margin-right: 10px;
+  }
+  .detail-box h3 {
+    margin-top: 20px;
+  }
+  .detail-box table {
+    margin-top: 10px;
+  }
+  .detail-box td:first-child {
+    font-weight: 700;
+    width: 20%;
+  }
+  .detail-box td:nth-child(2) {
+    font-weight: 700;
+    width: 70%;
+  }
+  .detail-box td {
+    padding: 10px;
+    border: 1px solid;
+  }
+  .detail-quantity {
+    display: flex;
+    margin-bottom: 20px;
+    vertical-align: middle;
+  }
+  .product-quantity {
+    font-size: 2rem;
+    margin-top: 20px;
+  }
+  .detail-quantity-value::-webkit-inner-spin-button,
+  .detail-quantity-value::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .detail-quantity-value {
+    display: inline-block;
+    text-align: center;
+    margin: 0 5px;
+    padding: 5px;
+    width: 70px;
+    border: 1px solid;
+    border-radius: 10px;
+  }
+  .desc-quantity,
+  .plus-quantity {
+    cursor: pointer;
+    font-size: 28px;
+    display: flex;
+  }

@@ -270,7 +270,7 @@ function buyNow(buyElement) {
   const productPrice = productItem.querySelector(".product-price").innerText;
   const productQuantity = productItem.querySelector(
     ".detail-quantity-value"
-  ).value;
+  ).innerText;
   const product = {
     ID: productID,
     Name: productName,
