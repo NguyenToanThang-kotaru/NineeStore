@@ -299,7 +299,8 @@ button:hover {
 
 /* --------------- Order ------------ */
 #filter-date,
-#filter-address {
+#filter-address,
+#filter-quan {
   display: none;
   width: 90%;
   margin-bottom: 20px;

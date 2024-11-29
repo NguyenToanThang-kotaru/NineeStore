@@ -615,6 +615,7 @@
                             ngày</button>
                         <button type="button" id="order__filter-address">Lọc đơn hàng
                             theo trạng thái</button>
+                            <button type="button" id="order__filter-quan">Sắp xếp quận theo thứ tự</button>
                     </div>
                 </div>
                 <div>
@@ -639,6 +640,13 @@
                                 <option value="daxacnhan">Đã xác nhận</option>
                                 <option value="dagiao">Đã giao</option>
                                 <option value="dahuy">Đã hủy</option>
+                            </select>
+                        </div>
+                        <div id="filter-quan">
+                            <select name="filter__quan" id="filter__quan">
+                                <option value="." selected>Sắp xếp theo quân</option>
+                                <option value="1" onclick="sortQuanTang()">Tăng</option>
+                                <option value="2" onclick="sortQuanGiam()">Giảm</option>
                             </select>
                         </div>
                     </div>

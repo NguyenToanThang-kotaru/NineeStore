@@ -681,6 +681,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .getElementById("order__filter-date")
         .addEventListener("click", function () {
             if (showFilterDate == false) {
+                filterQuanContainer.style.display = "none";
                 filterAddress.style.display = "none";
                 filterDateContainer.style.display = "flex";
                 filterDateContainer.style.justifyContent = "flex-end";
@@ -790,6 +791,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // open/close the address filter window
     document.getElementById("order__filter-address").addEventListener("click", function () {
         if (showFilterAddress == false) {
+            filterQuanContainer.style.display = "none";
             filterDateContainer.style.display = "none";
             filterAddressContainer.style.display = "flex";
             filterAddressContainer.style.justifyContent = "flex-end";
@@ -800,6 +802,7 @@ document.addEventListener("DOMContentLoaded", function () {
             showFilterAddress = false;
         }
     });
+    
     // lọc theo trạng thái
     
     filterAddress.addEventListener("change", function () {
@@ -866,7 +869,60 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // filter the order by date
+
+    // open/close the quận filter window
+    document.getElementById("order__filter-quan").addEventListener("click", function () {
+        if (showFilterQuan == false) {
+            filterDateContainer.style.display = "none";
+            filterAddressContainer.style.display = "none";
+            filterQuanContainer.style.display = "flex";
+            filterQuanContainer.style.justifyContent = "flex-end";
+             showFilterQuan = true;
+        }
+        else {
+            filterQuanContainer.style.display = "none";
+            showFilterQuan = false;
+        }
+    });
+    const filterQuan = document.getElementById("filter__quan");
+    const filterQuanContainer = document.getElementById("filter-quan");
+    let showFilterQuan = false;
+
+ // lọc theo quận 
+//  filterQuan.addEventListener("change", function () {
+//         console.log("kkkkkkkkk");
+//         function sortProductIncrease() {
+//             const quan = JSON.parse(localStorage.getItem("users")) || [];
+//             quan.sort((a, b) => {
+//               const priceA = parseInt(a.District);
+//               const priceB = parseInt(b.Price.replace(/\./g, ""));
+//               return priceA - priceB; // Giá tăng dần
+//                 });} order.Customer.District
+//             }
+           
+            
+
 });
+function sortQuanTang() {
+    const quan = JSON.parse(localStorage.getItem("users")) || [];
+    quan.sort((a, b) => {
+      const priceA = parseInt(a.Customer.District);
+      const priceB = parseInt(b.Customer.District);
+      return priceA - priceB; // quận tăng dần
+    });
+    displayProduct(quan, 1);
+    localStorage.setItem("productFilter", JSON.stringify(quan));
+  }
+  function sortQuanGiam() {
+    const quan = JSON.parse(localStorage.getItem("productFilter")) || [];
+    quan.sort((a, b) => {
+      const priceA = parseInt(a.Customer.District);
+      const priceB = parseInt(b.Customer.District);
+      return priceB - priceA; // quận giảm dần
+    });
+    displayProduct(quan, 1);
+    localStorage.setItem("productFilter", JSON.stringify(quan));
+  }
 // ------------ Edit ------------
 function editProduct(productElement) {
     const products = JSON.parse(localStorage.getItem("products")) || [];
@@ -1026,6 +1082,7 @@ function addOrdertoTable() {
             `<tr>
             <td class="order__id">${order.ID}</td>
             <td class="order__customer-id">${order.Customer.UserId}</td>
+            <td class="order__customer-address" style="display: none">${order.Customer.Address}</td>
             <td class="order__price"><span class="order__price">${order.TotalPrice}</span><sup>đ</sup></td>
             <td class="order__date">${formattedDate}</td>
             <td class="order__status">${order.Status}</td>
@@ -1051,6 +1108,11 @@ function addOrdertoTable() {
             productContent +
             `</tbody>
                                 <tfoot>
+                                <tr>
+                                    <td colspan="4" class="totalPrice">
+                                    Địa chỉ: ${order.Customer.Address}, Phường ${order.Customer.Ward}, Quận ${order.Customer.District}, ${order.Customer.City}
+                                    </td>
+                                <tr>
                                 <tr>
                                     <td colspan="4" class="totalPrice">
                                     Tổng cộng:
