@@ -35,6 +35,9 @@ function clearInput() {
     document.querySelector("#password").value="";
     document.querySelector("#re-password").value="";
     document.querySelector("#address").value="";
+    document.querySelector("#ward").value="";
+    document.querySelector("#district").value="";
+    document.querySelector("#city").value="";
     document.querySelector("#phone").value="";
     document.querySelector("#fullname").value="";
     document.querySelector("#password").value="";

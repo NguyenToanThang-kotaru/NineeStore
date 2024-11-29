@@ -96,7 +96,12 @@ function addToCart(cartElement) {
   const productQuantity = productItem.querySelector(
     ".detail-quantity-value"
   ).innerText;
-  const productStorage = productItem.querySelector('.product-quantity-value').innerText
+  const productStorage = productItem.querySelector('.product-quantity-value').innerText;
+  if (productStorage == 0) {
+    alert("Sản phẩm đã hết hàng");
+    return;
+  }
+
   for (let i = 0; i < orders.length; i++) {
     if (orders[i].innerText == productID) {
       alert("Sản phẩm này đã có trong giỏ hàng");
