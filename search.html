@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .delete-btn {
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+        .hidden {
+            display: none; /* Ẩn dòng */
+        }
+    </style>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    <input type="text" id="searchInput" placeholder="Search..." oninput="search()">
+    <table>
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectAll" onchange="toggleAllCheckboxes(this.checked)"> All</th>
+                <th>Product Name</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="cartTable">
+            <!-- Các sản phẩm sẽ được thêm vào đây -->
+        </tbody>
+    </table>
+    <p>Total Selected Amount: <span id="totalAmount">0</span> VND</p>
+    <button onclick="checkout()">Checkout</button>
+    <script src="script.js"></script>
+</body>
+</html>

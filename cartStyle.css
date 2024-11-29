@@ -1,0 +1,61 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    padding: 0;
+    margin: 0 auto;
+
+}
+.header { 
+    background-color: #9ad1e5;
+    padding: 10px;
+}
+.search {
+    width: 300px;
+    padding: 5px;
+}
+.cart-table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    /* dùng làm 1 viền  */
+}
+.cart-table, .cart-table th, .cart-table td {
+    border: 1px solid #add8e6;
+    text-align: center;
+}
+.cart-table th, .cart-table td {
+    padding: 10px;
+}
+.quantity-control {
+    display: inline-flex;
+    align-items: center;
+}
+.quantity-control button {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    border: 1px solid #add8e6;
+    background-color: white;
+    cursor: pointer;
+}
+.quantity-control input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #add8e6;
+    height: 30px;
+    margin: 0 5px;
+}
+.delete-btn, .buy {
+    border: 1px solid #add8e6;
+    background-color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.buy {
+    width: 100px;
+    display: block;
+    margin: 20px auto;
+}
