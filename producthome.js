@@ -85,7 +85,99 @@ function displayProduct(arr, thisPageValue) {
   let productListContent = "";
   arr.forEach((item, index) => {
     if (index >= start && index < end) {
+      let tmp = Number(item.Detail.Sale);
+      console.log(tmp);
+      if(tmp > 0){
+
       productListContent += `<section class="product all-product-item" id="${item.ID}">
+      <img
+        src="${item.Img}"
+        alt=""
+        class="product-img"
+      />
+      <p class="product-name">${item.Name}(N5I5052W1)</p>
+      <div class="product-brand" style="display: none;">${item.Brand}</div>
+      <span class="product-sale-price original-price">${item.Price}</span>₫
+      <span class= "product-price">${(tmp/100*item.Price.replace(/\./g, "")).toLocaleString("vi-VN")}</span><sup class="sale-price">₫</sup>
+      <div class="product-operation">
+        <i
+          class="fa-regular fa-eye more-details"
+          onclick="showDetail(this)"
+        >
+          <div class="note">Xem thêm thông tin</div>
+        </i>
+        <i class="fa-solid fa-cart-shopping add-cart" onclick="addToCart(this)">
+          <div class="note">Thêm vào giỏ hàng</div>
+        </i>
+      </div>
+      <div class="overlay">
+        <div class="detail-box">
+          <i class="fa-solid fa-rectangle-xmark close"></i>
+          <section class="detail-head">
+            <img src="${item.Detail.Img}" class="detail-img">
+            <div class="detail-title">
+              <h2 class="detail-heading">${item.Name}</h2>
+              <div class="detail-prices">
+                <span class="detail-price original-price">${item.Price}</span>
+                <span class="detail-sale-price">${(tmp/100*item.Price.replace(/\./g, "")).toLocaleString("vi-VN")}</span><sup class="sale-price"></sup>
+              </div>
+              <div class="product-quantity">Kho: <span class="product-quantity-value">${item.Quantity}</span></div>
+              <div class="detail-quantity">
+                <i class="fa-solid fa-circle-minus desc-quantity" onclick="decreaseQuantity(this)"></i>
+                <div class="detail-quantity-value">1</div>
+                <i class="fa-solid fa-circle-plus plus-quantity" onclick="increaseQuantity(this,${item.Quantity})"></i>
+              </div>
+              <div class="detail-btn">
+                <button class="add-cart-btn" onclick="addToCart(this.parentElement.parentElement.parentElement.parentElement)">Thêm vào giỏ hàng</button>
+                <button class="buy-btn" onclick="buyNow(this)">Mua ngay</button>
+              </div>
+            </div>
+          </section>
+          <h3 class="detail-heading">Thông tin chi tiết</h3>
+          <table class="detail-table">
+            <tr>
+              <td>Bộ xử lý:</td>
+              <td class="CPU">${item.Detail.CPU}</td>
+            </tr>
+            <tr>
+              <td>Card màn hình:</td>
+              <td class="card">${item.Detail.Card}</td>
+            </tr>
+            <tr>
+              <td>Màn hình:</td>
+              <td class="screen">${item.Detail.Screen}</td>
+            </tr>
+            <tr>
+              <td>RAM:</td>
+              <td class="RAM">${item.Detail.RAM}</td>
+            </tr>
+            <tr>
+              <td>Bộ nhớ trong</td>
+              <td class="ROM">${item.Detail.ROM}</td>
+            </tr>
+            <tr>
+              <td>Hệ điều hành:</td>
+              <td class="OS">${item.Detail.OS}</td>
+            </tr>
+            <tr>
+              <td>Hỗ trợ kết nối:</td>
+              <td class="network">${item.Detail.Network}</td>
+            </tr>
+            <tr>
+              <td>Pin:</td>
+              <td class="pin">${item.Detail.Pin}</td>
+            </tr>
+            <tr>
+              <td>Khối lượng:</td>
+              <td class="weight">${item.Detail.Weight}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>`;
+  }
+  else{
+   productListContent += `<section class="product all-product-item" id="${item.ID}">
                 <img
                   src="${item.Img}"
                   alt=""
@@ -167,6 +259,7 @@ function displayProduct(arr, thisPageValue) {
                   </div>
                 </div>
               </section>`;
+  }
     }
   });
   productList.innerHTML = productListContent;
@@ -184,10 +277,15 @@ const productList = JSON.parse(localStorage.getItem("products")) || [];
 let dellList = [];
 let asusList = [];
 let macList = [];
+let oldList = [];
+let saleList = [];
 productList.forEach((product) => {
   if (product.Brand === "Dell") dellList.push(product);
   if (product.Brand === "Asus") asusList.push(product);
   if (product.Brand === "Mac") macList.push(product);
+  if(product.Detail.Old = "on") oldList.push(product);
+  if(product.Detail.Sale > 0) saleList.push(product);
+
 });
 //Trang hiện tại là 1
 let thisPage = 1;
@@ -233,6 +331,37 @@ function showASUS(typeElement) {
   });
   typeElement.classList.add("active");
 }
+function showOLD(typeElement) {
+  thisPage = 1;
+  displayProduct(oldList);
+  localStorage.setItem("productFilter", JSON.stringify(oldList));
+  const typeButton = document.querySelectorAll(".type-button");
+  typeButton.forEach((type) => {
+    type.classList.remove("active");
+  });
+  typeElement.classList.add("active");
+}
+function showSale(typeElement) {
+  thisPage = 1;
+  displayProduct(saleList);
+  localStorage.setItem("productFilter", JSON.stringify(saleList));
+  const typeButton = document.querySelectorAll(".type-button");
+  typeButton.forEach((type) => {
+    type.classList.remove("active");
+  });
+  typeElement.classList.add("active");
+}
+function showOLD(typeElement) {
+  thisPage = 1;
+  displayProduct(saleList);
+  localStorage.setItem("productFilter", JSON.stringify(saleList));
+  const typeButton = document.querySelectorAll(".type-button");
+  typeButton.forEach((type) => {
+    type.classList.remove("active");
+  });
+  typeElement.classList.add("active");
+}
+
 function showMac(typeElement) {
   thisPage = 1;
   displayProduct(macList);

@@ -1,5 +1,6 @@
 // -------------------------------- hidden Orverlay ------------------------------
 function hideOverlay() {
+
   //ẩn cửa sổ sau khi click bên ngoài cửa sổ nổi
   const overlayArr = document.querySelectorAll(".overlay");
   overlayArr.forEach((overlays) => {

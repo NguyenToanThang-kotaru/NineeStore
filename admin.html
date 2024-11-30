@@ -331,17 +331,24 @@
                                         </select>
                                     </div>
                                     <div class="form__row">
+                                    </div>
+                                    
                                         <label for="form__sp-quantity">Số lượng: </label><br />
                                         <input type="text" id="form__sp-quantity" name="sp-quantity" required />
                                     </div>
                                     <div class="form__row">
+                                        
                                         <label for="form__sp-price">Giá sản phẩm: </label><br />
                                         <input type="text" id="form__sp-price" name="sp-price" required />
                                     </div>
+                                
                                     <div class="form__row">
+                                        
+
                                         <label for="form__sp-img">Hình sản phẩm</label><br />
                                         <input type="file" id="form__sp-img" name="sp-img" accept="image/*"
                                             onchange="uploadImg(this)" required />
+                                         
                                         <!-- https://stackoverflow.com/questions/4328947/limit-file-format-when-using-input-type-file -->
 
                                         <div style="
@@ -397,6 +404,14 @@
                                         <div class="form__row">
                                             <label for="form__sp-weight">Khối lượng:</label>
                                             <input type="text" id="form__sp-weight" name="sp-weight" />
+                                        </div>
+                                        <div class="form__row">
+                                            <label for="form__sp-old">Cũ:</label><br />
+                                            <input type="checkbox" id="form__sp-old" >
+                                        </div>
+                                        <div class="form__row">
+                                            <label for="form__sp-sale">Sale:</label><br />
+                                            <input type="text" id="form__sp-sale" >
                                         </div>
                                         <div class="form__row" style="display: block">
                                             <label for="form__sp-img" style="width: fit-content">Hình chi tiết sản
@@ -645,8 +660,8 @@
                         <div id="filter-quan">
                             <select name="filter__quan" id="filter__quan">
                                 <option value="." selected>Sắp xếp theo quân</option>
-                                <option value="1" onclick="sortQuanTang()">Tăng</option>
-                                <option value="2" onclick="sortQuanGiam()">Giảm</option>
+                                <option value="1">Tăng</option>
+                                <option value="2">Giảm</option>
                             </select>
                         </div>
                     </div>

@@ -452,6 +452,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const pin = document.getElementById("form__sp-pin");
             const network = document.getElementById("form__sp-network");
             const weight = document.getElementById("form__sp-weight");
+            const old = document.getElementById("form__sp-old");
+            const sale = document.getElementById("form__sp-sale");
             const detailImg = document.getElementById("form__preview-detail-img");
             if (!inputFilled([name, brand, quantity, price, img])) {
                 alert("Vui lòng nhập đầy đủ các thông tin chính");
@@ -486,6 +488,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         Pin: pin.value,
                         Network: network.value,
                         Weight: weight.value,
+                        Old: old.value,
+                        Sale: sale.value
                     },
                 };
                 // Thêm vào bảng khi không load trang
@@ -510,7 +514,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 localStorage.setItem("products", JSON.stringify(products));
           showDetailProductAdmin();
                 // make all the input empty
-                clearInput([name, brand, quantity, price, img, price, cpu, screen, ram, rom, os, card, pin, network, weight]);
+                clearInput([name, brand, quantity, price, img, price, cpu, screen, ram, rom, os, card, pin, network, weight,old,sale]);
                 document.querySelector("#form__preview-img").src = "./img/no-photo-or-blank-image.jpg";
                 document.querySelector("#form__preview-detail-img").src = "./img/no-photo-or-blank-image.jpg";
             }
@@ -694,10 +698,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     filterDate.addEventListener("change", function () {
         if (filterDate.value == ".") {
+            hideOverlay()
             return;
         }
         addOrdertoTable();
         if (filterDate.value == "all") {
+            hideOverlay()
             return;
         } else {
             let today = getDayToday();
@@ -707,6 +713,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (filterDate.value == "today") {
                 for (let row of orderList) {
                     if (row.querySelector(".order__date") === null) {
+                        hideOverlay()
                         continue;
                     }
                     let tmp = row.querySelector(".order__date").innerText;
@@ -719,6 +726,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         row.remove();
                     }
                 }
+
+                hideOverlay()
             } else if (filterDate.value == "yesterday") {
                 for (let row of orderList) {
                     if (row.querySelector(".order__date") === null) {
@@ -732,9 +741,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         row.remove();
                     }
                 }
+
+                hideOverlay()
             } else if (filterDate.value == "three-days") {
                 for (let row of orderList) {
                     if (row.querySelector(".order__date") === null) {
+                        hideOverlay()
                         continue;
                     }
                     let tmp = row.querySelector(".order__date").innerText;
@@ -745,6 +757,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         row.remove();
                     }
                 }
+
+                hideOverlay()
             } else if (filterDate.value == "this-week") {
                 for (let row of orderList) {
                     if (row.querySelector(".order__date") === null) {
@@ -758,6 +772,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         row.remove();
                     }
                 }
+
+                hideOverlay()
             } else if (filterDate.value == "this-month") {
                 for (let row of orderList) {
                     if (row.querySelector(".order__date") === null) {
@@ -771,6 +787,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         row.remove();
                     }
                 }
+
+                hideOverlay()
             } else if (filterDate.value == "last-month") {
                 for (let row of orderList) {
                     if (row.querySelector(".order__date") === null) {
@@ -889,40 +907,57 @@ document.addEventListener("DOMContentLoaded", function () {
     let showFilterQuan = false;
 
  // lọc theo quận 
-//  filterQuan.addEventListener("change", function () {
-//         console.log("kkkkkkkkk");
-//         function sortProductIncrease() {
-//             const quan = JSON.parse(localStorage.getItem("users")) || [];
-//             quan.sort((a, b) => {
-//               const priceA = parseInt(a.District);
-//               const priceB = parseInt(b.Price.replace(/\./g, ""));
-//               return priceA - priceB; // Giá tăng dần
-//                 });} order.Customer.District
-//             }
-           
-            
-
+ filterQuan.addEventListener("change", function () {
+    console.log("kkkkkkkkk");
+    if (filterQuan.value == ".") {
+        return;
+    }
+    addOrdertoTable();
+    
+        const orderList = document .querySelector(".order-table tbody").querySelectorAll("tr");
+            let dem = 1;
+        if (filterQuan.value == "1") {
+            console.log("ahahahahhahahahahahah");
+            for (let i = 0;i< orderList.lenghth;i++) {
+                let fuck = fuck.querySelector(".order__customer-district").innerText;
+                if (fuck == dem) {
+                    // row.remove();
+                
+                for (let row of orderList) {
+                    if (row.querySelector(".order__customer-district") === null) {
+                        continue;
+                    }
+                    let tmp = row.querySelector(".order__customer-district").innerText;
+                    console.log(tmp);
+                    if (tmp != dem) {
+                        row.remove();
+                    }
+                }
+                dem++;
+            }
+          }
+        }
+        if (filterQuan.value == "2") {
+            let dem =20;
+            for (let i = orderList.lenghth;i > 0;i--) {
+                for (let row of orderList) {
+                    if (row.querySelector(".order__customer-district") === null) {
+                        continue;
+                    }
+                    let tmp = row.querySelector(".order__customer-district").innerText;
+                    console.log(tmp);
+                    if (tmp != dem) {
+                        row.remove();
+                    }
+                }
+                dem--;
+            }
+        }
+    
 });
-function sortQuanTang() {
-    const quan = JSON.parse(localStorage.getItem("users")) || [];
-    quan.sort((a, b) => {
-      const priceA = parseInt(a.Customer.District);
-      const priceB = parseInt(b.Customer.District);
-      return priceA - priceB; // quận tăng dần
-    });
-    displayProduct(quan, 1);
-    localStorage.setItem("productFilter", JSON.stringify(quan));
-  }
-  function sortQuanGiam() {
-    const quan = JSON.parse(localStorage.getItem("productFilter")) || [];
-    quan.sort((a, b) => {
-      const priceA = parseInt(a.Customer.District);
-      const priceB = parseInt(b.Customer.District);
-      return priceB - priceA; // quận giảm dần
-    });
-    displayProduct(quan, 1);
-    localStorage.setItem("productFilter", JSON.stringify(quan));
-  }
+});
+
+
 // ------------ Edit ------------
 function editProduct(productElement) {
     const products = JSON.parse(localStorage.getItem("products")) || [];
@@ -948,6 +983,8 @@ function editProduct(productElement) {
             const pin = document.getElementById("form__edit-pin");
             const network = document.getElementById("form__edit-network");
             const weight = document.getElementById("form__edit-weight");
+            const old = document.getElementById("form__edit-old");
+            const sale = document.getElementById("form__edit-sale");
             const detailImg = document.getElementById(
                 "form__edit-preview-detail-img"
             );
@@ -968,6 +1005,8 @@ function editProduct(productElement) {
             pin.value = products[i].Detail.Pin;
             network.value = products[i].Detail.Network;
             weight.value = products[i].Detail.Weight;
+            old.value = products[i].Detail.Old;
+            sale.value = products[i].Detail.Sale;
             detailImg.src = products[i].Detail.Img;
             // ----- Submit ------
             const submitBtn = document.querySelector(".form__edit-submit-btn");
@@ -1010,6 +1049,8 @@ function editProduct(productElement) {
                                 Pin: pin.value,
                                 Network: network.value,
                                 Weight: weight.value,
+                                Old: old.value,
+                                Sale: sale.value,
                             },
                         };
                         nameText.innerText = product.Name;
@@ -1082,7 +1123,7 @@ function addOrdertoTable() {
             `<tr>
             <td class="order__id">${order.ID}</td>
             <td class="order__customer-id">${order.Customer.UserId}</td>
-            <td class="order__customer-address" style="display: none">${order.Customer.Address}</td>
+            <td class="order__customer-district" style="display: none">${order.Customer.District}</td>
             <td class="order__price"><span class="order__price">${order.TotalPrice}</span><sup>đ</sup></td>
             <td class="order__date">${formattedDate}</td>
             <td class="order__status">${order.Status}</td>
