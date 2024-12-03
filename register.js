@@ -132,10 +132,10 @@ formRegister.addEventListener("submit", (event) => {
   ) {
     //do nothing
   } else {
-    setTimeout(
-      (document.querySelector(".register-success").style.display = "block"),
-      3000
-    );
+    setTimeout(() => {
+      document.querySelector(".register-success").style.display = "block";
+    }, 500);
+
     const user = {
       UserId: Math.ceil(Math.random() * 10000000000),
       FullName: fullname.value,
@@ -148,7 +148,7 @@ formRegister.addEventListener("submit", (event) => {
       Email: email.value,
       Password: password.value,
       OrderHistory: [],
-      UserType: "customer"
+      UserType: "customer",
     };
     userLocal.push(user);
     localStorage.setItem("users", JSON.stringify(userLocal));
