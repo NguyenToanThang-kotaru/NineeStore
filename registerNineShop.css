@@ -1,10 +1,10 @@
 /* ------------------------------------- Register Page ------------------------------------ */
 body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-    /* background-color: #f0f0f0; */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  /* background-color: #f0f0f0; */
 }
 .register-page {
   z-index: 10;
@@ -27,6 +27,7 @@ body {
   background: rgba(168, 195, 230, 0.49);
   backdrop-filter: blur(50px);
   box-shadow: 0 0 15px #0a0f3b;
+  overflow: auto;
 }
 
 .esc-register {
@@ -136,6 +137,10 @@ body {
   font-size: 1.4rem;
   color: var(--error-color);
 }
+.login-success,
+.overlay .register-success {
+  z-index: 120;
+}
 .login-success-box,
 .register-success-box {
   width: 800px;
@@ -150,7 +155,7 @@ body {
   text-align: center;
   vertical-align: middle;
   transition: 1s;
-  z-index: 110;
+  z-index: 220;
 }
 .fa-circle-check {
   font-size: 50px;
