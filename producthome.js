@@ -58,6 +58,8 @@ if (!localStorage.getItem("products")) {
                 Pin: item.querySelector(".pin").innerText.trim(),
                 Network: item.querySelector(".network").innerText.trim(),
                 Weight: item.querySelector(".weight").innerText.trim(),
+          Old: item.querySelector(".old").innerText.trim(),
+          Sale: item.querySelector(".sale").innerText.trim(),
             },
         };
         //Đẩy product vào mảng products[]
@@ -85,9 +87,12 @@ function displayProduct(arr, thisPageValue) {
     let productListContent = "";
     arr.forEach((item, index) => {
         if (index >= start && index < end) {
-        let tmp = Number(item.Detail.Sale);
+        if(item.Detail.Sale == ""){
+          item.Detail.Sale = 0;
+        }
+        let tmp = 1 - item.Detail.Sale/100;
         console.log(tmp);
-        if(tmp > 0){
+        if(item.Detail.Sale > 0){
   
         productListContent += `<section class="product all-product-item" id="${item.ID}">
         <img
@@ -98,7 +103,7 @@ function displayProduct(arr, thisPageValue) {
         <p class="product-name">${item.Name}(N5I5052W1)</p>
         <div class="product-brand" style="display: none;">${item.Brand}</div>
         <span class="product-sale-price original-price">${item.Price}</span>₫
-        <span class= "product-price">${(tmp/100*item.Price.replace(/\./g, "")).toLocaleString("vi-VN")}</span><sup class="sale-price">₫</sup>
+        <span class= "product-price">${(tmp*item.Price.replace(/\./g, "")).toLocaleString("vi-VN")}</span><sup class="sale-price">₫</sup>
         <div class="product-operation">
           <i
             class="fa-regular fa-eye more-details"
@@ -119,7 +124,7 @@ function displayProduct(arr, thisPageValue) {
                 <h2 class="detail-heading">${item.Name}</h2>
                 <div class="detail-prices">
                   <span class="detail-price original-price">${item.Price}</span>
-                  <span class="detail-sale-price">${(tmp/100*item.Price.replace(/\./g, "")).toLocaleString("vi-VN")}</span><sup class="sale-price"></sup>
+                  <span class="detail-sale-price">${(tmp*item.Price.replace(/\./g, "")).toLocaleString("vi-VN")}</span><sup class="sale-price">₫</sup>
                 </div>
                 <div class="product-quantity">Kho: <span class="product-quantity-value">${item.Quantity}</span></div>
                 <div class="detail-quantity">
@@ -171,6 +176,14 @@ function displayProduct(arr, thisPageValue) {
                 <td>Khối lượng:</td>
                 <td class="weight">${item.Detail.Weight}</td>
               </tr>
+              <tr>
+                <td>Old:</td>
+                <td class="old">${item.Detail.Old}</td>
+              </tr>
+              <tr>
+                <td>Sale:</td>
+                <td class="sale">${item.Detail.Sale}</td>
+              </tr>
             </table>
           </div>
         </div>
@@ -178,19 +191,12 @@ function displayProduct(arr, thisPageValue) {
     }
     else{
             productListContent += `<section class="product all-product-item" id="${item.ID}">
-                <img
-                  src="${item.Img}"
-                  alt=""
-                  class="product-img"
-                />
+                  <img src="${item.Img}" alt="" class="product-img"/>
                 <p class="product-name">${item.Name}(N5I5052W1)</p>
                 <div class="product-brand" style="display: none;">${item.Brand}</div>
                 <span class="product-price">${item.Price}</span><sup class="sale-price">₫</sup>
                 <div class="product-operation">
-                  <i
-                    class="fa-regular fa-eye more-details"
-                    onclick="showDetail(this)"
-                  >
+                    <i class="fa-regular fa-eye more-details" onclick="showDetail(this)">
                     <div class="note">Xem thêm thông tin</div>
                   </i>
                   <i class="fa-solid fa-cart-shopping add-cart" onclick="addToCart(this)">
@@ -255,6 +261,14 @@ function displayProduct(arr, thisPageValue) {
                       <td>Khối lượng:</td>
                       <td class="weight">${item.Detail.Weight}</td>
                     </tr>
+                      <tr>
+                        <td>Old:</td>
+                        <td class="old">${item.Detail.Old}</td>
+                      </tr>
+                      <tr>
+                        <td>Sale:</td>
+                        <td class="saley">${item.Detail.Sale}</td>
+                      </tr>
                   </table>
                   </div>
                 </div>
@@ -283,7 +297,7 @@ productList.forEach((product) => {
     if (product.Brand === "Dell") dellList.push(product);
     if (product.Brand === "Asus") asusList.push(product);
     if (product.Brand === "Mac") macList.push(product);
-    if(product.Detail.Old = "on") oldList.push(product);
+    if(product.Detail.Old == true) oldList.push(product);
     if(product.Detail.Sale > 0) saleList.push(product);
   
 });
@@ -296,14 +310,19 @@ function createListPage(arr) {
     //Tạo số trang = số sảng phẩm / số sản phẩm 1 trang
     const amountPage = Math.ceil(arr.length / amountProduct1Page);
     let s = "";
+    let flag = 1;
     for (let i = 1; i <= amountPage; i++) {
         let type = "all";
+      if(amountPage === 1){
+        s += `<button onclick="changePage(${i})" class="numberlist active" style="display: none;" >${i}</button>`;
+        continue;
+      }
         if (arr === dellList) type = "dell";
         else if (arr === asusList) type = "asus";
         else if (arr === macList) type = "mac";
 
         if (i === thisPage) {
-            s += `<button onclick="changePage(${i})" class="numberlist active">${i}</button>`;
+        s += `<button onclick="changePage(${i})" class="numberlist active" >${i}</button>`;
         } else {
             s += `<button onclick="changePage(${i})" class="numberlist">${i}</button>`;
         }
@@ -342,16 +361,6 @@ function showASUS(typeElement) {
     typeElement.classList.add("active");
   }
   function showSale(typeElement) {
-    thisPage = 1;
-    displayProduct(saleList);
-    localStorage.setItem("productFilter", JSON.stringify(saleList));
-    const typeButton = document.querySelectorAll(".type-button");
-    typeButton.forEach((type) => {
-      type.classList.remove("active");
-    });
-    typeElement.classList.add("active");
-  }
-  function showOLD(typeElement) {
     thisPage = 1;
     displayProduct(saleList);
     localStorage.setItem("productFilter", JSON.stringify(saleList));
