@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let showFilterAddress = false;
 
 
-   
+
     // statistic
 
     // open / close a page when the icon is clicked
@@ -329,28 +329,37 @@ document.addEventListener("DOMContentLoaded", function () {
         overlay.style.display = "none";
         hoadon_kh_page.style.display = "none";
     }
+    //-----------------------------------Thống kê ----------------------------
 
-    //--------------------------------- Customer -----------------------------
-    // add customer to the table when the page is loaded
-    function addCustomertoTable() {
-        const userLocal = JSON.parse(localStorage.getItem("users")) || [];
-        let customerContent = "";
-        userLocal.forEach((user) => {
-            customerContent += `<tr>
-                <td class="customer__userID">${user.UserId}</td>
-                <td class="customer__userName">${user.UserName}</td>
-                <td class="customer__userPhone">${user.Phone}</td>
-                <td class="customer__userAddress">${user.Address}, Phường ${user.Ward}, Quận ${user.District}, ${user.City}</td>
-                <td class="customer__userEmail">${user.Email}</td>
-                <td><button type="button" class="customer__status" title="Nhấp chuột để thay đổi trạng thái">Hoạt động</button></td>
-                <td>
-                    <i class="fa-regular fa-pen-to-square edit-icon" onclick="editCustomer(this)"></i>
-                </td>
-            </tr>`;
-        });
-        customerList.innerHTML = customerContent;
+    function statisticProduct(orders) {
+        const infoProduct = [];
+        for (let i = 0; i < orders.length; i++) {
+            for (let j = 0; j < orders[i].ProductList.length; j++) {
+                const Product = orders[i].ProductList[j];
+                let found = false;
+
+                if(!found)
+                {
+                    const ProductList = {
+                        ID : Product.ID,
+                        Name : Product.Name,
+                        Quantity : Number(Product.Quantity),
+                        Price : Product.Price,
+                        Order: [orders[i]]
+                    }
+                    infoProduct.push(ProductList)
+                }
+                
+                // for(let k = 0; k<infoProduct.length,k++){
+                    
+                // }
+            };
+            console.log(infoProduct)
+        }
     }
-    addCustomertoTable();
+
+    // Gọi hàm
+    statisticProduct(JSON.parse(localStorage.getItem("orders")) || []);
     //--------------------------------- Product -----------------------------
     // ------------ Add ------------
     function addProducttoTable() {
@@ -427,10 +436,10 @@ document.addEventListener("DOMContentLoaded", function () {
             </tr>`;
         });
         document.querySelector("#product__list-body").innerHTML = productContent;
-      hideOverlay();
+        hideOverlay();
     }
     function showDetailProductAdmin(btnElement) {
-      btnElement.parentElement.querySelector(".overlay").style.display = "block";
+        btnElement.parentElement.querySelector(".overlay").style.display = "block";
     }
     addProducttoTable();
     //Khi ấn vào submit thì thêm vào localStorage và thêm sp vào bảng (trường hợp chưa load trang)
@@ -512,9 +521,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 const products = JSON.parse(localStorage.getItem("products")) || [];
                 products.push(product);
                 localStorage.setItem("products", JSON.stringify(products));
-          showDetailProductAdmin();
+                showDetailProductAdmin();
                 // make all the input empty
-                clearInput([name, brand, quantity, price, img, price, cpu, screen, ram, rom, os, card, pin, network, weight,old,sale]);
+                clearInput([name, brand, quantity, price, img, price, cpu, screen, ram, rom, os, card, pin, network, weight, old, sale]);
                 document.querySelector("#form__preview-img").src = "./img/no-photo-or-blank-image.jpg";
                 document.querySelector("#form__preview-detail-img").src = "./img/no-photo-or-blank-image.jpg";
             }
@@ -813,16 +822,16 @@ document.addEventListener("DOMContentLoaded", function () {
             filterDateContainer.style.display = "none";
             filterAddressContainer.style.display = "flex";
             filterAddressContainer.style.justifyContent = "flex-end";
-             showFilterAddress = true;
+            showFilterAddress = true;
         }
         else {
             filterAddressContainer.style.display = "none";
             showFilterAddress = false;
         }
     });
-    
+
     // lọc theo trạng thái
-    
+
     filterAddress.addEventListener("change", function () {
         console.log("kkkkkkkkk");
         if (filterAddress.value == ".") {
@@ -895,7 +904,7 @@ document.addEventListener("DOMContentLoaded", function () {
             filterAddressContainer.style.display = "none";
             filterQuanContainer.style.display = "flex";
             filterQuanContainer.style.justifyContent = "flex-end";
-             showFilterQuan = true;
+            showFilterQuan = true;
         }
         else {
             filterQuanContainer.style.display = "none";
@@ -906,40 +915,40 @@ document.addEventListener("DOMContentLoaded", function () {
     const filterQuanContainer = document.getElementById("filter-quan");
     let showFilterQuan = false;
 
- // lọc theo quận 
- filterQuan.addEventListener("change", function () {
-    console.log("kkkkkkkkk");
-    if (filterQuan.value == ".") {
-        return;
-    }
-    addOrdertoTable();
-    
-        const orderList = document .querySelector(".order-table tbody").querySelectorAll("tr");
-            let dem = 1;
+    // lọc theo quận 
+    filterQuan.addEventListener("change", function () {
+        console.log("kkkkkkkkk");
+        if (filterQuan.value == ".") {
+            return;
+        }
+        addOrdertoTable();
+
+        const orderList = document.querySelector(".order-table tbody").querySelectorAll("tr");
+        let dem = 1;
         if (filterQuan.value == "1") {
             console.log("ahahahahhahahahahahah");
-            for (let i = 0;i< orderList.lenghth;i++) {
+            for (let i = 0; i < orderList.lenghth; i++) {
                 let fuck = fuck.querySelector(".order__customer-district").innerText;
                 if (fuck == dem) {
                     // row.remove();
-                
-                for (let row of orderList) {
-                    if (row.querySelector(".order__customer-district") === null) {
-                        continue;
+
+                    for (let row of orderList) {
+                        if (row.querySelector(".order__customer-district") === null) {
+                            continue;
+                        }
+                        let tmp = row.querySelector(".order__customer-district").innerText;
+                        console.log(tmp);
+                        if (tmp != dem) {
+                            row.remove();
+                        }
                     }
-                    let tmp = row.querySelector(".order__customer-district").innerText;
-                    console.log(tmp);
-                    if (tmp != dem) {
-                        row.remove();
-                    }
+                    dem++;
                 }
-                dem++;
             }
-          }
         }
         if (filterQuan.value == "2") {
-            let dem =20;
-            for (let i = orderList.lenghth;i > 0;i--) {
+            let dem = 20;
+            for (let i = orderList.lenghth; i > 0; i--) {
                 for (let row of orderList) {
                     if (row.querySelector(".order__customer-district") === null) {
                         continue;
@@ -953,147 +962,147 @@ document.addEventListener("DOMContentLoaded", function () {
                 dem--;
             }
         }
-    
-});
-});
+
+    });
 
 
-// ------------ Edit ------------
-function editProduct(productElement) {
-    const products = JSON.parse(localStorage.getItem("products")) || [];
-    const divProduct = productElement.parentElement.parentElement;
-    const id = divProduct.querySelector(".product__id").innerText;
-    const nameText = divProduct.querySelector(".product__name");
-    const quantityText = divProduct.querySelector(".product__quantity");
-    const priceText = divProduct.querySelector(".product__price");
-    const imgDiv = divProduct.querySelector(".product__img");
-    for (let i = 0; i < products.length; i++) {
-        if (products[i].ID == id) {
-            const name = document.getElementById("form__edit-name");
-            const brand = document.getElementById("form__edit-brand");
-            const quantity = document.getElementById("form__edit-quantity");
-            const price = document.getElementById("form__edit-price");
-            const img = document.getElementById("form__edit-preview-img");
-            const cpu = document.getElementById("form__edit-cpu");
-            const screen = document.getElementById("form__edit-screen");
-            const ram = document.getElementById("form__edit-ram");
-            const rom = document.getElementById("form__edit-rom");
-            const os = document.getElementById("form__edit-os");
-            const card = document.getElementById("form__edit-card");
-            const pin = document.getElementById("form__edit-pin");
-            const network = document.getElementById("form__edit-network");
-            const weight = document.getElementById("form__edit-weight");
-            const old = document.getElementById("form__edit-old");
-            const sale = document.getElementById("form__edit-sale");
-            const detailImg = document.getElementById(
-                "form__edit-preview-detail-img"
-            );
-            const brandOpt = brand.querySelectorAll("option");
-            brandOpt.forEach((opt) => {
-                if (opt.value == products[i].Brand) opt.selected = true;
-            });
-            name.value = products[i].Name;
-            quantity.value = products[i].Quantity;
-            price.value = products[i].Price;
-            img.src = products[i].Img;
-            cpu.value = products[i].Detail.CPU;
-            screen.value = products[i].Detail.Screen;
-            ram.value = products[i].Detail.RAM;
-            rom.value = products[i].Detail.ROM;
-            os.value = products[i].Detail.OS;
-            card.value = products[i].Detail.Card;
-            pin.value = products[i].Detail.Pin;
-            network.value = products[i].Detail.Network;
-            weight.value = products[i].Detail.Weight;
-            old.value = products[i].Detail.Old;
-            sale.value = products[i].Detail.Sale;
-            detailImg.src = products[i].Detail.Img;
-            // ----- Submit ------
-            const submitBtn = document.querySelector(".form__edit-submit-btn");
 
-            // Xóa sự kiện trước khi gán mới
-            submitBtn.replaceWith(submitBtn.cloneNode(true)); // Replace để đảm bảo xóa mọi sự kiện
-            document
-                .querySelector(".form__edit-submit-btn")
-                .addEventListener("click", (event) => {
-                    event.preventDefault();
-                    //kiểm tra lại
-                    if (!inputFilled([name, brand, quantity, price, img])) {
-                        alert("Vui lòng nhập đầy đủ các thông tin chính");
-                        return false;
-                    } else if (isNaN(Number(price.value.replace(/\./g, "")))) {
-                        alert("Vui lòng nhập số.");
-                        price.focus();
-                        return false;
-                    } else if (isNaN(quantity.value)) {
-                        alert("Vui lòng nhập số.");
-                        quantity.focus();
-                        return false;
-                    } else {
-                        const product = {
-                            ID: id,
-                            Img: img.src,
-                            Name: name.value,
-                            Brand: brand.value,
-                            Price: price.value,
-                            Quantity: quantity.value,
-                            OriginalPrice: "",
-                            Detail: {
-                                Img: detailImg.src,
-                                CPU: cpu.value,
-                                Screen: screen.value,
-                                RAM: ram.value,
-                                ROM: rom.value,
-                                OS: os.value,
-                                Card: card.value,
-                                Pin: pin.value,
-                                Network: network.value,
-                                Weight: weight.value,
-                                Old: old.value,
-                                Sale: sale.value,
-                            },
-                        };
-                        nameText.innerText = product.Name;
-                        quantityText.innerText = product.Quantity;
-                        priceText.innerText = product.Price;
-                        imgDiv.src = product.Img;
-                        alert("Đã sửa thành công");
-                        products[i] = product;
-                        localStorage.setItem("products", JSON.stringify(products));
-                    }
-                });
-            break;
-        }
-    }
-    document.querySelector(".product__edit").style.display = "block";
-}
-// ------------ Delete ------------
-function deleteProduct(productElement) {
-    if (confirm("Bạn có chắc chắn xóa sản phẩm này")) {
+    // ------------ Edit ------------
+    function editProduct(productElement) {
+        const products = JSON.parse(localStorage.getItem("products")) || [];
         const divProduct = productElement.parentElement.parentElement;
         const id = divProduct.querySelector(".product__id").innerText;
-        const products = JSON.parse(localStorage.getItem("products")) || [];
+        const nameText = divProduct.querySelector(".product__name");
+        const quantityText = divProduct.querySelector(".product__quantity");
+        const priceText = divProduct.querySelector(".product__price");
+        const imgDiv = divProduct.querySelector(".product__img");
         for (let i = 0; i < products.length; i++) {
             if (products[i].ID == id) {
-                products.splice(i, 1);
-                localStorage.setItem("products", JSON.stringify(products));
+                const name = document.getElementById("form__edit-name");
+                const brand = document.getElementById("form__edit-brand");
+                const quantity = document.getElementById("form__edit-quantity");
+                const price = document.getElementById("form__edit-price");
+                const img = document.getElementById("form__edit-preview-img");
+                const cpu = document.getElementById("form__edit-cpu");
+                const screen = document.getElementById("form__edit-screen");
+                const ram = document.getElementById("form__edit-ram");
+                const rom = document.getElementById("form__edit-rom");
+                const os = document.getElementById("form__edit-os");
+                const card = document.getElementById("form__edit-card");
+                const pin = document.getElementById("form__edit-pin");
+                const network = document.getElementById("form__edit-network");
+                const weight = document.getElementById("form__edit-weight");
+                const old = document.getElementById("form__edit-old");
+                const sale = document.getElementById("form__edit-sale");
+                const detailImg = document.getElementById(
+                    "form__edit-preview-detail-img"
+                );
+                const brandOpt = brand.querySelectorAll("option");
+                brandOpt.forEach((opt) => {
+                    if (opt.value == products[i].Brand) opt.selected = true;
+                });
+                name.value = products[i].Name;
+                quantity.value = products[i].Quantity;
+                price.value = products[i].Price;
+                img.src = products[i].Img;
+                cpu.value = products[i].Detail.CPU;
+                screen.value = products[i].Detail.Screen;
+                ram.value = products[i].Detail.RAM;
+                rom.value = products[i].Detail.ROM;
+                os.value = products[i].Detail.OS;
+                card.value = products[i].Detail.Card;
+                pin.value = products[i].Detail.Pin;
+                network.value = products[i].Detail.Network;
+                weight.value = products[i].Detail.Weight;
+                old.value = products[i].Detail.Old;
+                sale.value = products[i].Detail.Sale;
+                detailImg.src = products[i].Detail.Img;
+                // ----- Submit ------
+                const submitBtn = document.querySelector(".form__edit-submit-btn");
+
+                // Xóa sự kiện trước khi gán mới
+                submitBtn.replaceWith(submitBtn.cloneNode(true)); // Replace để đảm bảo xóa mọi sự kiện
+                document
+                    .querySelector(".form__edit-submit-btn")
+                    .addEventListener("click", (event) => {
+                        event.preventDefault();
+                        //kiểm tra lại
+                        if (!inputFilled([name, brand, quantity, price, img])) {
+                            alert("Vui lòng nhập đầy đủ các thông tin chính");
+                            return false;
+                        } else if (isNaN(Number(price.value.replace(/\./g, "")))) {
+                            alert("Vui lòng nhập số.");
+                            price.focus();
+                            return false;
+                        } else if (isNaN(quantity.value)) {
+                            alert("Vui lòng nhập số.");
+                            quantity.focus();
+                            return false;
+                        } else {
+                            const product = {
+                                ID: id,
+                                Img: img.src,
+                                Name: name.value,
+                                Brand: brand.value,
+                                Price: price.value,
+                                Quantity: quantity.value,
+                                OriginalPrice: "",
+                                Detail: {
+                                    Img: detailImg.src,
+                                    CPU: cpu.value,
+                                    Screen: screen.value,
+                                    RAM: ram.value,
+                                    ROM: rom.value,
+                                    OS: os.value,
+                                    Card: card.value,
+                                    Pin: pin.value,
+                                    Network: network.value,
+                                    Weight: weight.value,
+                                    Old: old.value,
+                                    Sale: sale.value,
+                                },
+                            };
+                            nameText.innerText = product.Name;
+                            quantityText.innerText = product.Quantity;
+                            priceText.innerText = product.Price;
+                            imgDiv.src = product.Img;
+                            alert("Đã sửa thành công");
+                            products[i] = product;
+                            localStorage.setItem("products", JSON.stringify(products));
+                        }
+                    });
                 break;
             }
         }
-        divProduct.remove();
+        document.querySelector(".product__edit").style.display = "block";
     }
-}
+    // ------------ Delete ------------
+    function deleteProduct(productElement) {
+        if (confirm("Bạn có chắc chắn xóa sản phẩm này")) {
+            const divProduct = productElement.parentElement.parentElement;
+            const id = divProduct.querySelector(".product__id").innerText;
+            const products = JSON.parse(localStorage.getItem("products")) || [];
+            for (let i = 0; i < products.length; i++) {
+                if (products[i].ID == id) {
+                    products.splice(i, 1);
+                    localStorage.setItem("products", JSON.stringify(products));
+                    break;
+                }
+            }
+            divProduct.remove();
+        }
+    }
 
-//--------------------------------- Order -----------------------------
-// Add order when the page is loaded
-function addOrdertoTable() {
-    const orders = JSON.parse(localStorage.getItem("orders")) || [];
-    let orderContent = "";
-    orders.forEach((order) => {
-        //detail
-        let productContent = "";
-        order.ProductList.forEach((product) => {
-            productContent += `<tr>
+    //--------------------------------- Order -----------------------------
+    // Add order when the page is loaded
+    function addOrdertoTable() {
+        const orders = JSON.parse(localStorage.getItem("orders")) || [];
+        let orderContent = "";
+        orders.forEach((order) => {
+            //detail
+            let productContent = "";
+            order.ProductList.forEach((product) => {
+                productContent += `<tr>
                 <td class="order-detail-id">${product.ID}</td>
                 <td>
                     <div class="order-detail-product">
@@ -1106,21 +1115,21 @@ function addOrdertoTable() {
                 </td>
                 <td class="order-detail-quantity">${product.Quantity}</td>
             </tr>`;
-        });
-        //order
-        //Đặt trạng thái cho bảng
-        let cxlSelected = "";
-        let dxnSelected = "";
-        let dgSelected = "";
-        let dhSelected = "";
-        if (order.Status == "Chưa xử lý") cxlSelected = 'selected';
-        else if (order.Status == "Đã xác nhận") dxnSelected = "selected";
-        else if (order.Status == "Đã giao thành công") dgSelected = "selected";
-        else dhSelected = "selected";
-        const orderDate = new Date(order.OrderDate);
-        const formattedDate = new Intl.DateTimeFormat("vi-VN").format(orderDate);
-        orderContent +=
-            `<tr>
+            });
+            //order
+            //Đặt trạng thái cho bảng
+            let cxlSelected = "";
+            let dxnSelected = "";
+            let dgSelected = "";
+            let dhSelected = "";
+            if (order.Status == "Chưa xử lý") cxlSelected = 'selected';
+            else if (order.Status == "Đã xác nhận") dxnSelected = "selected";
+            else if (order.Status == "Đã giao thành công") dgSelected = "selected";
+            else dhSelected = "selected";
+            const orderDate = new Date(order.OrderDate);
+            const formattedDate = new Intl.DateTimeFormat("vi-VN").format(orderDate);
+            orderContent +=
+                `<tr>
             <td class="order__id">${order.ID}</td>
             <td class="order__customer-id">${order.Customer.UserId}</td>
             <td class="order__customer-district" style="display: none">${order.Customer.District}</td>
@@ -1146,8 +1155,8 @@ function addOrdertoTable() {
                                 </tr>
                                 </thead>
                                 <tbody>` +
-            productContent +
-            `</tbody>
+                productContent +
+                `</tbody>
                                 <tfoot>
                                 <tr>
                                     <td colspan="4" class="totalPrice">
@@ -1181,38 +1190,38 @@ function addOrdertoTable() {
                 </div>
             </td>
         </tr>`;
-    });
-    document.querySelector(".order-table tbody").innerHTML = orderContent;
-    setStatusColor();
-}
-addOrdertoTable();
+        });
+        document.querySelector(".order-table tbody").innerHTML = orderContent;
+        setStatusColor();
+    }
+    addOrdertoTable();
 
-function showOrderDetail(orderElement) {
-    orderElement.parentElement.querySelector(".overlay").style.display = "block";
-}
-// Set Status
-function setOrderStatus(statusElement) {
-    const orderStatusSubmit = statusElement.parentElement.querySelector(
-        ".order__submit-status"
-    );
-    orderStatusSubmit.disabled = false;
-    orderStatusSubmit.style.opacity = 1;
-}
-function submitStatus(submitElement, event) {
+    function showOrderDetail(orderElement) {
+        orderElement.parentElement.querySelector(".overlay").style.display = "block";
+    }
+    // Set Status
+    function setOrderStatus(statusElement) {
+        const orderStatusSubmit = statusElement.parentElement.querySelector(
+            ".order__submit-status"
+        );
+        orderStatusSubmit.disabled = false;
+        orderStatusSubmit.style.opacity = 1;
+    }
+    function submitStatus(submitElement, event) {
         event.preventDefault();
-    const orderStatusSubmit = submitElement.parentElement.querySelector(
-        ".order__submit-status"
-    );
-    const selectElement = (statusElement =
-        submitElement.parentElement.querySelector("select"));
+        const orderStatusSubmit = submitElement.parentElement.querySelector(
+            ".order__submit-status"
+        );
+        const selectElement = (statusElement =
+            submitElement.parentElement.querySelector("select"));
         const orders = JSON.parse(localStorage.getItem("orders")) || [];
         const orderDiv =
-        submitElement.parentElement.parentElement.parentElement.parentElement
+            submitElement.parentElement.parentElement.parentElement.parentElement
                 .parentElement.parentElement.parentElement.parentElement.parentElement
                 .parentElement;
         const orderID = orderDiv.querySelector(".order__id").innerText;
         const statusText =
-        selectElement.options[statusElement.selectedIndex].innerText; // Lấy text của thẻ option đang được chọn
+            selectElement.options[statusElement.selectedIndex].innerText; // Lấy text của thẻ option đang được chọn
         for (let i = 0; i < orders.length; i++)
             if (orders[i].ID == orderID) {
                 orders[i].Status = statusText;
@@ -1222,81 +1231,82 @@ function submitStatus(submitElement, event) {
         localStorage.setItem("orders", JSON.stringify(orders));
         setStatusColor();
         alert("Đã cập nhật trạng thái thành công!");
-    orderStatusSubmit.disabled = true;
-    orderStatusSubmit.style.opacity = 0.5;
-}
-function setStatusColor() {
-    const orderStatus = document.querySelectorAll(".order__status");
-    for (let i = 0; i < orderStatus.length; i++) {
-        if (orderStatus[i].innerText == "Chưa xử lý")
-            orderStatus[i].style.color = "#565555";
-        else if (orderStatus[i].innerText == "Đã xác nhận")
-            orderStatus[i].style.color = "#4a81e1";
-        else if (orderStatus[i].innerText == "Đã giao")
-            orderStatus[i].style.color = "#00bb4bda";
-        else if (orderStatus[i].innerText == "Đã hủy")
-            orderStatus[i].style.color = "#ff0000da";
+        orderStatusSubmit.disabled = true;
+        orderStatusSubmit.style.opacity = 0.5;
     }
-}
-
-//editCustomer
-function editCustomer(customerElement) {
-    console.log("hhahahahahahahhah");
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const divCustomer = customerElement.parentElement.parentElement;
-    const id = divCustomer.querySelector(".customer__userID").innerText;
-
-    const userNameField = document.getElementById("form__edit-userName");
-    const namefullField = document.getElementById("form__edit-fullname");
-    const phoneField = document.getElementById("form__edit-phone");
-    const emailField = document.getElementById("form__edit-email");
-    const addressField = document.getElementById("form__edit-address");
-
-    for (let i = 0; i < users.length; i++) {
-        if (users[i].UserId == id) {
-            userNameField.value = users[i].UserName;
-            namefullField.value = users[i].FullName;
-            phoneField.value = users[i].Phone;
-            emailField.value = users[i].Email;
-            addressField.value = users[i].Address;
-
-            document
-                .getElementById("form__edit-submit")
-                .addEventListener("click", function (event) {
-                    event.preventDefault();
-
-                    users[i].FullName = namefullField.value;
-                    users[i].Phone = phoneField.value;
-                    users[i].Email = emailField.value;
-                    users[i].Address = addressField.value;
-                    users[i].UserName = userNameField.value;
-
-                    localStorage.setItem("users", JSON.stringify(users));
-
-                    divCustomer.querySelector(".customer__userFullName").innerText =
-                        users[i].FullName;
-                    divCustomer.querySelector(".customer__userName").innerText =
-                        users[i].UserName;
-                    divCustomer.querySelector(".customer__userPhone").innerText =
-                        users[i].Phone;
-                    divCustomer.querySelector(".customer__userEmail").innerText =
-                        users[i].Email;
-                    divCustomer.querySelector(".customer__userAddress").innerText =
-                        users[i].Address;
-
-                    // Close the modal
-                    document.querySelector(".admin__edit").style.display = "none";
-                });
-
-            break;
+    function setStatusColor() {
+        const orderStatus = document.querySelectorAll(".order__status");
+        for (let i = 0; i < orderStatus.length; i++) {
+            if (orderStatus[i].innerText == "Chưa xử lý")
+                orderStatus[i].style.color = "#565555";
+            else if (orderStatus[i].innerText == "Đã xác nhận")
+                orderStatus[i].style.color = "#4a81e1";
+            else if (orderStatus[i].innerText == "Đã giao")
+                orderStatus[i].style.color = "#00bb4bda";
+            else if (orderStatus[i].innerText == "Đã hủy")
+                orderStatus[i].style.color = "#ff0000da";
         }
     }
 
-    // Show the edit modal
-    document.querySelector(".admin__edit").style.display = "block";
+    //editCustomer
+    function editCustomer(customerElement) {
+        console.log("hhahahahahahahhah");
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const divCustomer = customerElement.parentElement.parentElement;
+        const id = divCustomer.querySelector(".customer__userID").innerText;
 
-    
-}
-  function showDetailProductAdmin(btnElement){
-    btnElement.parentElement.querySelector('.detail-admin').style.display = 'block'
-  }
+        const userNameField = document.getElementById("form__edit-userName");
+        const namefullField = document.getElementById("form__edit-fullname");
+        const phoneField = document.getElementById("form__edit-phone");
+        const emailField = document.getElementById("form__edit-email");
+        const addressField = document.getElementById("form__edit-address");
+
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].UserId == id) {
+                userNameField.value = users[i].UserName;
+                namefullField.value = users[i].FullName;
+                phoneField.value = users[i].Phone;
+                emailField.value = users[i].Email;
+                addressField.value = users[i].Address;
+
+                document
+                    .getElementById("form__edit-submit")
+                    .addEventListener("click", function (event) {
+                        event.preventDefault();
+
+                        users[i].FullName = namefullField.value;
+                        users[i].Phone = phoneField.value;
+                        users[i].Email = emailField.value;
+                        users[i].Address = addressField.value;
+                        users[i].UserName = userNameField.value;
+
+                        localStorage.setItem("users", JSON.stringify(users));
+
+                        divCustomer.querySelector(".customer__userFullName").innerText =
+                            users[i].FullName;
+                        divCustomer.querySelector(".customer__userName").innerText =
+                            users[i].UserName;
+                        divCustomer.querySelector(".customer__userPhone").innerText =
+                            users[i].Phone;
+                        divCustomer.querySelector(".customer__userEmail").innerText =
+                            users[i].Email;
+                        divCustomer.querySelector(".customer__userAddress").innerText =
+                            users[i].Address;
+
+                        // Close the modal
+                        document.querySelector(".admin__edit").style.display = "none";
+                    });
+
+                break;
+            }
+        }
+
+        // Show the edit modal
+        document.querySelector(".admin__edit").style.display = "block";
+
+
+    }
+    function showDetailProductAdmin(btnElement) {
+        btnElement.parentElement.querySelector('.detail-admin').style.display = 'block'
+    }
+})
