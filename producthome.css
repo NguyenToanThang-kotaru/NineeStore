@@ -4,6 +4,22 @@ body {
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
+  
+  
+  .original-price {
+    text-decoration: line-through;
+    color: grey;
+    margin-right: 10px;
+  }
+  
+  .product-sale-price,
+  .detail-sale-price {
+    color: red;
+    font-weight: bold;
+  }
+  
+  
+  
 #all-product {
   height: 1150px;
 }
