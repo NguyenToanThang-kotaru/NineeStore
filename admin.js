@@ -414,6 +414,15 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <td>Khối lượng:</td>
                                 <td class="weight">${product.Detail.Weight}</td>
                               </tr>
+                              <tr>
+                                <td>Old:</td>
+                                <td class="old">${product.Detail.Old}</td>
+                              </tr>
+                              <tr>
+                                <td>Sale:</td>
+                                <td class="sale">${product.Detail.Sale}</td>
+                              </tr>
+
                             </table>
                         </div>
                       </div>
@@ -488,7 +497,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         Pin: pin.value,
                         Network: network.value,
                         Weight: weight.value,
-                        Old: old.value,
+                        Old: old.checked,
                         Sale: sale.value
                     },
                 };
@@ -908,54 +917,94 @@ document.addEventListener("DOMContentLoaded", function () {
 
  // lọc theo quận 
  filterQuan.addEventListener("change", function () {
-    console.log("kkkkkkkkk");
+    if (filterQuan.value == ".") {
+        return;
+    }
+    addOrdertoTable();
+ const orderList = document.querySelector(".order-table tbody").querySelectorAll("tr");
+    
+    if (filterQuan.value == "1") { // Sắp xếp tăng dần
+        const sortedRows = Array.from(orderList).sort((a, b) => {
+            const districtA = parseInt(a.querySelector(".order__customer-district").innerText);
+            const districtB = parseInt(b.querySelector(".order__customer-district").innerText);
+            return districtA - districtB;
+        });
+        
+        const tbody = document.querySelector(".order-table tbody");
+        tbody.innerHTML = '';
+        sortedRows.forEach(row => tbody.appendChild(row));
+    }
+    else if (filterQuan.value == "2") { // Sắp xếp giảm dần
+        const sortedRows = Array.from(orderList).sort((a, b) => {
+            const districtA = parseInt(a.querySelector(".order__customer-district").innerText);
+            const districtB = parseInt(b.querySelector(".order__customer-district").innerText);
+            return districtB - districtA;
+        });
+        
+        const tbody = document.querySelector(".order-table tbody");
+        tbody.innerHTML = '';
+        sortedRows.forEach(row => tbody.appendChild(row));
+    } filterQuan.addEventListener("change", function () {
     if (filterQuan.value == ".") {
         return;
     }
     addOrdertoTable();
     
-        const orderList = document .querySelector(".order-table tbody").querySelectorAll("tr");
-            let dem = 1;
-        if (filterQuan.value == "1") {
-            console.log("ahahahahhahahahahahah");
-            for (let i = 0;i< orderList.lenghth;i++) {
-                let fuck = fuck.querySelector(".order__customer-district").innerText;
-                if (fuck == dem) {
-                    // row.remove();
-                
-                for (let row of orderList) {
-                    if (row.querySelector(".order__customer-district") === null) {
-                        continue;
-                    }
-                    let tmp = row.querySelector(".order__customer-district").innerText;
-                    console.log(tmp);
-                    if (tmp != dem) {
-                        row.remove();
-                    }
-                }
-                dem++;
-            }
-          }
-        }
-        if (filterQuan.value == "2") {
-            let dem =20;
-            for (let i = orderList.lenghth;i > 0;i--) {
-                for (let row of orderList) {
-                    if (row.querySelector(".order__customer-district") === null) {
-                        continue;
-                    }
-                    let tmp = row.querySelector(".order__customer-district").innerText;
-                    console.log(tmp);
-                    if (tmp != dem) {
-                        row.remove();
-                    }
-                }
-                dem--;
-            }
-        }
+    const orderList = document.querySelector(".order-table tbody").querySelectorAll("tr");
     
-});
-});
+    if (filterQuan.value == "1") { // Sắp xếp tăng dần
+        const sortedRows = Array.from(orderList).sort((a, b) => {
+            const districtA = parseInt(a.querySelector(".order__customer-district").innerText);
+            const districtB = parseInt(b.querySelector(".order__customer-district").innerText);
+            return districtA - districtB;
+        });
+        
+        const tbody = document.querySelector(".order-table tbody");
+        tbody.innerHTML = '';
+        sortedRows.forEach(row => tbody.appendChild(row));
+    }
+    else if (filterQuan.value == "2") { // Sắp xếp giảm dần
+        const sortedRows = Array.from(orderList).sort((a, b) => {
+            const districtA = parseInt(a.querySelector(".order__customer-district").innerText);
+            const districtB = parseInt(b.querySelector(".order__customer-district").innerText);
+            return districtB - districtA;
+        });
+        
+        const tbody = document.querySelector(".order-table tbody");
+        tbody.innerHTML = '';
+        sortedRows.forEach(row => tbody.appendChild(row));
+    }
+ filterQuan.addEventListener("change", function () {
+    if (filterQuan.value == ".") {
+        return;
+    }
+    addOrdertoTable();
+    
+    const orderList = document.querySelector(".order-table tbody").querySelectorAll("tr");
+    
+    if (filterQuan.value == "1") { // Sắp xếp tăng dần
+        const sortedRows = Array.from(orderList).sort((a, b) => {
+            const districtA = parseInt(a.querySelector(".order__customer-district").innerText);
+            const districtB = parseInt(b.querySelector(".order__customer-district").innerText);
+            return districtA - districtB;
+        });
+        
+        const tbody = document.querySelector(".order-table tbody");
+        tbody.innerHTML = '';
+        sortedRows.forEach(row => tbody.appendChild(row));
+    }
+    else if (filterQuan.value == "2") { // Sắp xếp giảm dần
+        const sortedRows = Array.from(orderList).sort((a, b) => {
+            const districtA = parseInt(a.querySelector(".order__customer-district").innerText);
+            const districtB = parseInt(b.querySelector(".order__customer-district").innerText);
+            return districtB - districtA;
+        });
+        
+        const tbody = document.querySelector(".order-table tbody");
+        tbody.innerHTML = '';
+        sortedRows.forEach(row => tbody.appendChild(row));
+    }});
+
 
 
 // ------------ Edit ------------
@@ -1049,7 +1098,7 @@ function editProduct(productElement) {
                                 Pin: pin.value,
                                 Network: network.value,
                                 Weight: weight.value,
-                                Old: old.value,
+                                Old: old.checked,
                                 Sale: sale.value,
                             },
                         };
