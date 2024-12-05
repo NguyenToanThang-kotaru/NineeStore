@@ -1348,6 +1348,6 @@ document.addEventListener("DOMContentLoaded", function () {
         btnElement.parentElement.querySelector('.detail-admin').style.display = 'block'
     }
     function showPaymentProduct(paymentElement) {
-        paymentElement.parentElement.querySelector(".overlay").style.display =
-          "block";
+        alert(`da click1`)
+        
     }
