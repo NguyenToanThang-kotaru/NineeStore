@@ -329,35 +329,51 @@ document.addEventListener("DOMContentLoaded", function () {
         let totalPrice = 0;
         let insertName = ""
         let paymentShow = ""
+
+        infoProduct.forEach((product)=>{
+            
+        })
+
         infoProduct.forEach((product) => {
             let price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
             totalPrice += price;
             insertName += 
             `<tr>
-            <td>${product.Name}</td>
-            <td><span class="product-tke-quantity-value">${product.Quantity}</span></td>
-            <td><span class="product-tke-price-value">${price.toLocaleString("de-DE")}</span><sup>₫</sup></td>
-            <td>
-                <button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
-                <div class='overlay'>
-                    <div class="hoa-don-container" id="hoadon-items">
-                        <i class="fa-solid fa-rectangle-xmark close"></i>
-                        <div class="hoa-don-header">
-                            <h1>Hóa đơn</h1>
-                        </div>
-                        <div class="hoa-don-info">
-                            <div class="hoa-don-mat-hang">
-                                <h3>Thông tin sản phẩm</h3>
-                                <p>Mã: ${product.ID}5</p>
-                                <p>Tên: ${product.Name}</p>
-                                <p>Nơi Bán: Nine Store</p>
+                <td>${product.Name}</td>
+                <td><span class="product-tke-quantity-value">${product.Quantity}</span></td>
+                <td><span class="product-tke-price-value">${price.toLocaleString("de-DE")}</span><sup>₫</sup></td>
+                <td>
+                    <button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
+                    <div class='overlay'>
+                        <div class="hoa-don-container" id="hoadon-items">
+                            <i class="fa-solid fa-rectangle-xmark close"></i>
+                            <div class="hoa-don-header">
+                                <h1>Hóa đơn</h1>
+                            </div>
+                            <div class="hoa-don-info">
+                                <div class="hoa-don-mat-hang">
+                                    <h3>Thông tin sản phẩm</h3>
+                                    <p>Mã: ${product.ID}5</p>
+                                    <p>Tên: ${product.Name}</p>
+                                    <p>Nơi Bán: Nine Store</p>
+                                </div>
+                            </div>
+                            <div class="product-table-hd">
+                                <table class="product-table-info-hd">
+                                    <thead>
+                                        <tr class="table-header-hd">
+                                            <th>Tên sản phẩm</th>
+                                            <th>Số lượng</th>
+                                            <th>Đơn giá</th>
+                                            <th>Thành tiền</th>
+                                        </tr>
+                                    </thead>
+                                </table>    
                             </div>
                         </div>
-                        
                     </div>
-                </div>
-            </td>
-        </tr>`;
+                </td>
+            </tr>`;
 
         })
         insertTotalPrice += `
@@ -365,7 +381,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             `
 
         // Sắp xếp sản phẩm theo doanh thu giảm dần
-        const best = infoProduct.sort((a, b) => b.Quantity - a.Quantity);
+        const best = infoProduct
+        best.sort((a, b) => b.Quantity - a.Quantity);
         const topProducts = best.slice(0, 5);
 
 
@@ -382,7 +399,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.querySelector("#bestPD").innerHTML = insertBest
 
-        const worst = infoProduct.sort((a, b) => a.Quantity - b.Quantity);
+        const worst = infoProduct
+        worst.sort((a, b) => a.Quantity - b.Quantity);
         const bottomProducts = worst.slice(0, 5);
         bottomProducts.forEach(product => {
             let price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
