@@ -146,12 +146,12 @@ body {
 
 .hoa-don-container{
     width: 80%;
-    z-index: 1010;
+    z-index: 1001;
     border: 2px solid;
     padding: 20px;
     margin: 0 auto; 
     justify-content: center;
-    display: none;
+    display: block;
     position: fixed;
     top: 50%;
     left: 50%;

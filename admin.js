@@ -328,6 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let insertTotalPrice = ""
         let totalPrice = 0;
         let insertName = ""
+        let paymentShow = ""
         infoProduct.forEach((product) => {
             let price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
             totalPrice += price;
@@ -352,6 +353,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <p>Nơi Bán: Nine Store</p>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </td>
