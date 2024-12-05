@@ -256,4 +256,7 @@
   .type-list {
     gap: 5px;
   }
+  .note {
+    white-space: wrap;
+  }
 }

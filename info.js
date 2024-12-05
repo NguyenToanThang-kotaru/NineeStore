@@ -26,8 +26,7 @@ function innerInfo() {
             <tr>
               <td>Địa chỉ:</td>
               <td>${userLogin.Address}</td>
-            </tr>
-            <button class="order-history-btn" onclick="showHistory()">Xem lịch sử đặt hàng</button>`;
+            </tr>`;
   }
 }
 // -------------------------------- OrderHistory ------------------------------

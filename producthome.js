@@ -1,3 +1,10 @@
+// clear the input inside the form
+function clearSelect(selects) {
+  selects.forEach((select) => {
+    select.selectedIndex = 0; // Đặt về lựa chọn đầu tiên trong danh sách
+  });
+}
+
 //------------------------- Detail ----------------------
 // Hiển thị cửa sổ thông tin sản phẩm
 function showDetail(detailElement) {
@@ -36,6 +43,10 @@ if (!localStorage.getItem("products")) {
   //khởi tạo và duyệt tất cả sản phẩm
   const productListItem = document.querySelectorAll(".all-product-item");
   productListItem.forEach((item) => {
+    console.log(
+      item.querySelector(".old").innerText,
+      item.querySelector(".product-name").innerText
+    );
     //Lấy thông tin sản phẩm và lưu vào product
     const product = {
       ID: Math.round(Math.random() * 10000000000),
@@ -58,7 +69,7 @@ if (!localStorage.getItem("products")) {
         Pin: item.querySelector(".pin").innerText.trim(),
         Network: item.querySelector(".network").innerText.trim(),
         Weight: item.querySelector(".weight").innerText.trim(),
-        Old: item.querySelector(".old").innerText.trim(),
+        // Old: item.querySelector(".old").innerText.trim(),
         Sale: item.querySelector(".sale").innerText.trim(),
       },
     };
@@ -91,7 +102,6 @@ function displayProduct(arr, thisPageValue) {
         item.Detail.Sale = 0;
       }
       let tmp = 1 - item.Detail.Sale / 100;
-      console.log(tmp);
       if (item.Detail.Sale > 0) {
         productListContent += `<section class="product all-product-item" id="${
           item.ID
@@ -101,7 +111,7 @@ function displayProduct(arr, thisPageValue) {
           alt=""
           class="product-img"
         />
-        <p class="product-name">${item.Name}(N5I5052W1)</p>
+        <p class="product-name">${item.Name}</p>
         <div class="product-brand" style="display: none;">${item.Brand}</div>
         <span class="product-sale-price original-price">${item.Price}</span>₫
         <span class= "product-price">${(
@@ -307,7 +317,7 @@ productList.forEach((product) => {
   if (product.Brand === "Dell") dellList.push(product);
   if (product.Brand === "Asus") asusList.push(product);
   if (product.Brand === "Mac") macList.push(product);
-  if (product.Detail.Old == true) oldList.push(product);
+  if (product.Detail.Old === "true") oldList.push(product);
   if (product.Detail.Sale > 0) saleList.push(product);
 });
 //Trang hiện tại là 1
@@ -321,25 +331,29 @@ function createListPage(arr) {
   let s = "";
   let flag = 1;
   for (let i = 1; i <= amountPage; i++) {
-    let type = "all";
     if (amountPage === 1) {
-      s += `<button onclick="changePage(${i})" class="numberlist active" style="display: none;" >${i}</button>`;
-      continue;
+      break;
     }
-    if (arr === dellList) type = "dell";
-    else if (arr === asusList) type = "asus";
-    else if (arr === macList) type = "mac";
-
     if (i === thisPage) {
-      s += `<button onclick="changePage(${i})" class="numberlist active" >${i}</button>`;
+      s += `<button class="numberlist active" >${i}</button>`;
     } else {
-      s += `<button onclick="changePage(${i})" class="numberlist">${i}</button>`;
+      s += `<button class="numberlist">${i}</button>`;
     }
   }
   listPage.innerHTML = s;
+  document.querySelectorAll(".numberlist").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const page = Number(e.target.innerText);
+      changePage(page, arr);
+    });
+  });
 }
 
-function showDELL(typeElement) {
+//Lấy tất cả checkbox trong lọc để clear
+const checkboxFilter = document.querySelectorAll(".filter-form input");
+const selectFilter = document.querySelectorAll(".filter-form select");
+
+function showDELL() {
   thisPage = 1;
   displayProduct(dellList);
   localStorage.setItem("productFilter", JSON.stringify(dellList));
@@ -347,9 +361,20 @@ function showDELL(typeElement) {
   typeButton.forEach((type) => {
     type.classList.remove("active");
   });
-  typeElement.classList.add("active");
+  document.querySelector(".type-item-dell").classList.add("active");
+  // Cuộn đến phần tử sản phẩm
+  document
+    .querySelector("#all-product")
+    .scrollIntoView({ behavior: "smooth", block: "center" });
+  // Tắt overlay nếu là điện thoại
+  document.querySelector(".overlay-nav").classList.remove("show");
+  document.querySelector(".mobile-menu").classList.remove("show");
+  // Clear tất cả checkbox và chỉ có hãng nào được bấm thì checked
+  clearInput(checkboxFilter);
+  clearSelect(selectFilter);
+  document.getElementById("filter-dell").checked = true;
 }
-function showASUS(typeElement) {
+function showASUS() {
   thisPage = 1;
   displayProduct(asusList);
   localStorage.setItem("productFilter", JSON.stringify(asusList));
@@ -357,19 +382,38 @@ function showASUS(typeElement) {
   typeButton.forEach((type) => {
     type.classList.remove("active");
   });
-  typeElement.classList.add("active");
+  document.querySelector(".type-item-asus").classList.add("active");
+  // Cuộn đến phần tử sản phẩm
+  document
+    .querySelector("#all-product")
+    .scrollIntoView({ behavior: "smooth", block: "center" });
+  // Tắt overlay nếu là điện thoại
+  document.querySelector(".overlay-nav").classList.remove("show");
+  document.querySelector(".mobile-menu").classList.remove("show");
+  // Clear tất cả checkbox và chỉ có hãng nào được bấm thì checked
+  clearInput(checkboxFilter);
+  clearSelect(selectFilter);
+  document.getElementById("filter-asus").checked = true;
+
+  function showOLD() {
+    thisPage = 1;
+    displayProduct(oldList);
+    localStorage.setItem("productFilter", JSON.stringify(oldList));
+    const typeButton = document.querySelectorAll(".type-button");
+    typeButton.forEach((type) => {
+      type.classList.remove("active");
+    });
+    // typeElement.classList.add("active");
+    // Cuộn đến phần tử sản phẩm
+    document
+      .querySelector("#all-product")
+      .scrollIntoView({ behavior: "smooth", block: "center" });
+    // Tắt overlay nếu là điện thoại
+    document.querySelector(".overlay-nav").classList.remove("show");
+    document.querySelector(".mobile-menu").classList.remove("show");
+  }
 }
-function showOLD(typeElement) {
-  thisPage = 1;
-  displayProduct(oldList);
-  localStorage.setItem("productFilter", JSON.stringify(oldList));
-  const typeButton = document.querySelectorAll(".type-button");
-  typeButton.forEach((type) => {
-    type.classList.remove("active");
-  });
-  typeElement.classList.add("active");
-}
-function showSale(typeElement) {
+function showSale() {
   thisPage = 1;
   displayProduct(saleList);
   localStorage.setItem("productFilter", JSON.stringify(saleList));
@@ -377,10 +421,10 @@ function showSale(typeElement) {
   typeButton.forEach((type) => {
     type.classList.remove("active");
   });
-  typeElement.classList.add("active");
+  // typeElement.classList.add("active");
 }
 
-function showMac(typeElement) {
+function showMac() {
   thisPage = 1;
   displayProduct(macList);
   localStorage.setItem("productFilter", JSON.stringify(macList));
@@ -388,9 +432,21 @@ function showMac(typeElement) {
   typeButton.forEach((type) => {
     type.classList.remove("active");
   });
-  typeElement.classList.add("active");
+  document.querySelector(".type-item-mac").classList.add("active");
+  // Cuộn đến phần tử sản phẩm
+  document
+    .querySelector("#all-product")
+    .scrollIntoView({ behavior: "smooth", block: "center" });
+  // Tắt overlay nếu là điện thoại
+  document.querySelector(".overlay-nav").classList.remove("show");
+  document.querySelector(".mobile-menu").classList.remove("show");
+
+  // Clear tất cả checkbox và chỉ có hãng nào được bấm thì checked
+  clearInput(checkboxFilter);
+  clearSelect(selectFilter);
+  document.getElementById("filter-mac").checked = true;
 }
-function showAll(typeElement) {
+function showAll() {
   thisPage = 1;
   displayProduct(productList);
   localStorage.setItem("productFilter", JSON.stringify(productList));
@@ -398,13 +454,19 @@ function showAll(typeElement) {
   typeButton.forEach((type) => {
     type.classList.remove("active");
   });
-  typeElement.classList.add("active");
+  document.querySelector(".show-all-product").classList.add("active");
+  // Cuộn đến phần tử sản phẩm
+  document
+    .querySelector("#all-product")
+    .scrollIntoView({ behavior: "smooth", block: "center" });
+  // Tắt overlay nếu là điện thoại
+  document.querySelector(".overlay-nav").classList.remove("show");
+  document.querySelector(".mobile-menu").classList.remove("show");
 }
 
-function changePage(page) {
+function changePage(page, arr) {
   thisPage = page;
-  const productFilter = JSON.parse(localStorage.getItem("productFilter"));
-  displayProduct(productFilter);
+  displayProduct(arr);
 }
 // --------------------- Mua ngay -------------------------
 function buyNow(buyElement) {
@@ -446,7 +508,7 @@ function searchProduct(inputElement) {
     const productName = value.Name.toUpperCase();
     return productName.includes(valueSearchInput.toUpperCase());
   });
-  displayProduct(productSearch);
+  displayProduct(productSearch, 1);
 
   inputElement.addEventListener("keydown", function (event) {
     // Kiểm tra nếu phím Enter được nhấn
