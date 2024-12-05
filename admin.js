@@ -331,29 +331,31 @@ document.addEventListener("DOMContentLoaded", function () {
         infoProduct.forEach((product) => {
             let price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
             totalPrice += price;
-            insertName += `
-                            <tr>
-                                <td>${product.Name}</td>
-                                <td>${product.Quantity}</td>
-                                <td>${price.toLocaleString("de-DE")} VNĐ</td>
-                                <td><button class="show-hoadon-mh" onclick="showPaymentProduct(this)">Xem</button>
-                                <div class="overlay-hd"></div>
-                                <div class="hoa-don-container"  id="hoadon-items" >
-                                    <button class="esc-hoadon-btn" id="esc-hoadon-btn-mh">X</button>
-                                    <div class="hoa-don-header">
-                                        <h1>Hóa đơn</h1>
-                                    </div>
-                                    <div class="hoa-don-info">
-                                        <div class="hoa-don-mat-hang">
-                                            <h3>Thông tin sản phẩm</h3>
-                                            <p>Tên: Laptop ASUS Zephyrus</p>
-                                            <p>Hãng: ASUS</p>
-                                            <p>Nơi Bán: Nine Store</p>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        `;
+            insertName += 
+            `<tr>
+            <td>${product.Name}</td>
+            <td><span class="product-tke-quantity-value">${product.Quantity}</span></td>
+            <td><span class="product-tke-price-value">${price.toLocaleString("de-DE")}</span><sup>₫</sup></td>
+            <td>
+                <button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
+                <div class='overlay'>
+                    <div class="hoa-don-container" id="hoadon-items">
+                        <i class="fa-solid fa-rectangle-xmark close"></i>
+                        <div class="hoa-don-header">
+                            <h1>Hóa đơn</h1>
+                        </div>
+                        <div class="hoa-don-info">
+                            <div class="hoa-don-mat-hang">
+                                <h3>Thông tin sản phẩm</h3>
+                                <p>Mã: ${product.ID}5</p>
+                                <p>Tên: ${product.Name}</p>
+                                <p>Nơi Bán: Nine Store</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>`;
 
         })
         insertTotalPrice += `
