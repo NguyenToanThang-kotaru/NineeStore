@@ -401,7 +401,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <p>Mã: ${product.ID}5</p>
                                     <p>Tên: ${product.Name}</p>
                                     <p>Giá: ${product.Price}</p>
-                                    <p>Nơi Bán: Nine Store</p>
                                 </div>
                             </div>
                             <div class="product-table-hd">
@@ -469,10 +468,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(".items-tbody-tke").innerHTML = insertName
         console.log(infoProduct)
     }
-    function showHoaDonMH(productName) {
-        alert(`Hiển thị hóa đơn cho sản phẩm: ${productName}`);
-        // Thực hiện các hành động khác ở đây
-    }
+
 
     // Gọi hàm
     statisticProduct(JSON.parse(localStorage.getItem("orders")) || []);
