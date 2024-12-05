@@ -354,6 +354,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             let hdContent = "";
             CustomerBuyList.forEach((customer) => {
+                
                 hdContent += 
                 `<tr>
                     <td>${customer.Name}</td>
@@ -395,7 +396,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                             <th>Thành tiền</th>
                                         </tr>
                                     </thead>
-                                    <tbody>`;
+                                    <tbody>`
                                     + hdContent +`
                                     </tbody>
                                 </table>    
