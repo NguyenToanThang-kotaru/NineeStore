@@ -104,25 +104,35 @@
                         </div>
 
                         <table class="summary-table-tke">
-                            <thead>
-                                <tr>
-                                    <th>Tiêu chí</th>
-                                    <th>Mặt hàng</th>
-                                    <th>Doanh thu</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Mặt hàng bán chạy nhất</td>
-                                    <td id="best-item">Mặt hàng 1</td>
-                                    <td id="best-item-revenue">0 VNĐ</td>
-                                </tr>
-                                <tr>
-                                    <td>Mặt hàng bán ế nhất</td>
-                                    <td id="worst-item">Mặt Hàng 2</td>
-                                    <td id="worst-item-revenue">0 VNĐ</td>
-                                </tr>
-                            </tbody>
+                            <h1 id="table-title">Top 5 Mặt Hàng Bán Chạy Nhất</h1>
+                            <table id="top-products-table">
+                                <thead>
+                                    <tr>
+                                        <th class="category3" id="header-product-name">Tên Mặt Hàng</th>
+                                        <th class="category3" id="header-quantity-sold">Số Lượng Bán Được</th>
+                                        <th class="category3" id="header-revenue">Doanh Thu</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bestPD">
+                                    <!-- Nội dung sẽ được chèn vào đây -->
+                                </tbody>
+                            </table>
+                        </table>
+
+                        <table class="summary-table-tke">
+                            <h1 id="table-title">Top 5 Mặt Hàng Bán Ế Nhất</h1>
+                            <table id="wrost-products-table">
+                                <thead>
+                                    <tr>
+                                        <th class="category3" id="header-product-name">Tên Mặt Hàng</th>
+                                        <th class="category3" id="header-quantity-sold">Số Lượng Bán Được</th>
+                                        <th class="category3" id="header-revenue">Doanh Thu</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="worstPD">
+                                    <!-- Nội dung sẽ được chèn vào đây -->
+                                </tbody>
+                            </table>
                         </table>
 
                         <button id="back-btn-mh">Quay lại</button>

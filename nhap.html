@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thống Kê Sản Phẩm</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Quản Lý Sản Phẩm</h1>
+<button onclick="statisticProduct(orders)">Tải Dữ Liệu</button>
+
+<table>
+    <thead>
+        <tr>
+            <th>Tên Sản Phẩm</th>
+            <th>Số Lượng</th>
+            <th>Giá</th>
+            <th>Hành Động</th>
+        </tr>
+    </thead>
+    <tbody id="items-tbody">
+        <!-- Nội dung sẽ được chèn vào đây -->
+    </tbody>
+</table>
+<div id="total-price"></div>
+
+<script>
+    const orders = [
+        {
+            ProductList: [
+                { ID: 1, Name: "Sản phẩm A", Quantity: 2, Price: "50.000" },
+                { ID: 2, Name: "Sản phẩm B", Quantity: 1, Price: "120.000" }
+            ]
+        },
+        {
+            ProductList: [
+                { ID: 1, Name: "Sản phẩm A", Quantity: 1, Price: "50.000" },
+                { ID: 3, Name: "Sản phẩm C", Quantity: 3, Price: "75.000" }
+            ]
+        }
+    ];
+
+    function statisticProduct(orders) {
+        const infoProduct = [];
+
+        // Tạo mảng thông tin sản phẩm
+        for (let i = 0; i < orders.length; i++) {
+            for (let j = 0; j < orders[i].ProductList.length; j++) {
+                const Product = orders[i].ProductList[j];
+                let found = false;
+
+                for (let k = 0; k < infoProduct.length; k++) {
+                    if (infoProduct[k].ID == Product.ID) {
+                        infoProduct[k].Quantity += Number(Product.Quantity);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    const ProductList = {
+                        ID: Product.ID,
+                        Name: Product.Name,
+                        Quantity: Number(Product.Quantity),
+                        Price: Product.Price
+                    };
+                    infoProduct.push(ProductList);
+                }
+            }
+        }
+
+        let totalPrice = 0;
+        let insertName = "";
+
+        infoProduct.forEach((product) => {
+            let price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
+            totalPrice += price;
+            insertName += `
+                <tr>
+                    <td>${product.Name}</td>
+                    <td>${product.Quantity}</td>
+                    <td>${price.toLocaleString("de-DE")} VNĐ</td>
+                    <td><button class="show-hoadon-mh" onclick="showHoaDonMH('${product.Name}')">Xem</button></td>
+                </tr>
+            `;
+        });
+
+        // Chèn nội dung vào bảng
+        document.querySelector("#items-tbody").innerHTML = insertName;
+
+        // Hiển thị tổng giá
+        document.querySelector("#total-price").innerHTML = `Tổng giá: ${totalPrice.toLocaleString("de-DE")} VNĐ`;
+    }
+
+    // Hàm để hiển thị thông tin hóa đơn
+    function showHoaDonMH(productName) {
+        alert(`Hiển thị hóa đơn cho sản phẩm: ${productName}`);
+        // Thực hiện các hành động khác ở đây
+    }
+</script>
+
+</body>
+</html>

@@ -289,46 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
         menu.style.display = "block";
     }
 
-    // Hoa don
 
-    const hoadon_kh_btn = document.querySelectorAll(".show-hoadon-kh");
-    const hoadon_mh_btn = document.querySelectorAll(".show-hoadon-mh");
-    const hoadon_kh_page = document.querySelector("#hoadon-customers");
-    const hoadon_mh_page = document.querySelector("#hoadon-items");
-    const esc_hoadon1 = document.querySelector("#esc-hoadon-btn-kh");
-    const esc_hoadon2 = document.querySelector("#esc-hoadon-btn-mh");
-    const overlay = document.querySelector(".overlay-hd");
-
-    hoadon_kh_btn.forEach((button) => {
-        button.addEventListener("click", showHoaDonKH);
-    });
-
-    hoadon_mh_btn.forEach((button) => {
-        button.addEventListener("click", showHoaDonMH);
-    });
-
-    esc_hoadon1.addEventListener("click", closeHoadonKH);
-    esc_hoadon2.addEventListener("click", closeHoadonMH);
-
-    function showHoaDonKH() {
-        overlay.style.display = "block";
-        hoadon_kh_page.style.display = "block";
-    }
-
-    function showHoaDonMH() {
-        overlay.style.display = "block";
-        hoadon_mh_page.style.display = "block";
-    }
-
-    function closeHoadonMH() {
-        overlay.style.display = "none";
-        hoadon_mh_page.style.display = "none";
-    }
-
-    function closeHoadonKH() {
-        overlay.style.display = "none";
-        hoadon_kh_page.style.display = "none";
-    }
     //-----------------------------------Thống kê ----------------------------
 
     function statisticProduct(orders) {
@@ -339,69 +300,94 @@ document.addEventListener("DOMContentLoaded", function () {
                 const Product = orders[i].ProductList[j];
                 let found = false;
 
-                for(let k = 0; k<infoProduct.length;k++){
-                    if(infoProduct[k].ID==Product.ID){
-                        infoProduct[k].Quantity+=Number(Product.Quantity)
-                        let checkCus = false;
-                        for(let x = 0; x<infoProduct[k].Order.length;x++){
-
-                            if(infoProduct[k].Order[x].Customer.UserId == orders[i].Customer.UserId){  
-                        //         // for (let y = 0; y < infoProduct[k].Order[x].ProductList.length; y++) {
-                        //         //     const Product2 = orders[i].ProductList[y];
-                        //         //     // if (infoProduct[k].Order[x].ProductList[y].ID === Product2.ID){
-                        //         //     // // Cập nhật số lượng sản phẩm
-                        //         //     //     infoProduct[k].Order[x].ProductList[y].Quantity += Number(Product2.Quantity);
-                        //         //     // }
-                        //         //     // console.log(Product2)
-                        //         //     console.log(infoProduct[k].Order[x].ProductList[y].ID)
-                        //         // }
-                                checkCus = true;
-                                break;
-                            }
-                        }
-                        if(checkCus==false){
-                            infoProduct[k].Order.push(orders[i]);
-                        }
-                        found = true; 
+                for (let k = 0; k < infoProduct.length; k++) {
+                    if (infoProduct[k].ID == Product.ID) {
+                        infoProduct[k].Quantity += Number(Product.Quantity)
+                        infoProduct[k].Order.push(orders[i]);
+                        found = true;
                         break;
                     }
-                    
+
                 }
 
-                if(found==false)
-                {
+                if (found == false) {
                     const ProductList = {
-                        ID : Product.ID,
-                        Name : Product.Name,
-                        Quantity : Number(Product.Quantity),
-                        Price : Product.Price,
+                        ID: Product.ID,
+                        Name: Product.Name,
+                        Quantity: Number(Product.Quantity),
+                        Price: Product.Price,
                         Order: [orders[i]]
                     }
                     infoProduct.push(ProductList)
-                    // let TotalPrice = infoProduct.Quantity*infoProduct.Price
-                    // infoProduct.Price.push(TotalPrice);
                 }
 
             };
         }
+        let insertWorst = ""
+        let insertBest = ""
+        let insertTotalPrice = ""
+        let totalPrice = 0;
         let insertName = ""
-        infoProduct.forEach((product)=>{
+        infoProduct.forEach((product) => {
+            let price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
+            totalPrice += price;
             insertName += `
                             <tr>
                                 <td>${product.Name}</td>
                                 <td>${product.Quantity}</td>
-                                <td>${(Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity)).toLocaleString("de-DE")} VNĐ</td>
-                                <td><button class="show-hoadon-mh">Xem</button></td>
+                                <td>${price.toLocaleString("de-DE")} VNĐ</td>
+                                <td><button class="show-hoadon-mh" onclick="showHoaDonMH('${product.Name}')">Xem</button></td>
                             </tr>
-                        `
-            
-            
-        })
+                        `;
 
+        })
+        insertTotalPrice += `
+                                Tổng doanh thu: <span id="amount-revenue-tke">${(totalPrice).toLocaleString("de-DE")}</span>VNĐ        
+                            `
+
+        // Sắp xếp sản phẩm theo doanh thu giảm dần
+        const best = infoProduct.sort((a, b) => b.Quantity - a.Quantity);
+        const topProducts = best.slice(0, 5);
+
+
+        topProducts.forEach(product => {
+            let price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
+            insertBest += `
+            <tr class="item-row">
+            <td>${product.Name}</td>
+            <td>${product.Quantity}</td>
+            <td>${price.toLocaleString("de-DE")} VNĐ</td>
+            </tr>
+            `;
+        });
+
+        document.querySelector("#bestPD").innerHTML = insertBest
+
+        const worst = infoProduct.sort((a, b) => a.Quantity - b.Quantity);
+        const bottomProducts = worst.slice(0, 5);
+        bottomProducts.forEach(product => {
+            let price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
+            insertWorst += `
+                <tr class="item-row">
+                    <td>${product.Name}</td>
+                    <td>${product.Quantity}</td>
+                    <td>${price.toLocaleString("de-DE")} VNĐ</td>
+                </tr>
+            `;
+        });
+
+        document.querySelector('#worstPD').innerHTML = insertWorst
+
+
+
+        document.querySelector(".total-revenue-tke").innerHTML = insertTotalPrice
         document.querySelector(".items-tbody-tke").innerHTML = insertName
         console.log(infoProduct)
     }
-    
+    function showHoaDonMH(productName) {
+        alert(`Hiển thị hóa đơn cho sản phẩm: ${productName}`);
+        // Thực hiện các hành động khác ở đây
+    }
 
     // Gọi hàm
     statisticProduct(JSON.parse(localStorage.getItem("orders")) || []);
@@ -487,7 +473,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <i class="fa-regular fa-pen-to-square edit-icon" onclick="editProduct(this)"></i>
                     <i class="fa-solid fa-trash delete-icon" onclick="deleteProduct(this)"></i>
                 </td>
-            </tr>`;
+            </tr > `;
         });
         document.querySelector("#product__list-body").innerHTML = productContent;
         hideOverlay();
@@ -556,7 +542,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     },
                 };
                 // Thêm vào bảng khi không load trang
-                const productContent = `<tr>
+                const productContent = `< tr >
                 <td class="product__id">${product.ID}</td>
                 <td class="product__name">${product.Name}</td>
                 <td class="product__quantity">${product.Quantity}<sup>₫</sup></td>
@@ -567,7 +553,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <i class="fa-regular fa-pen-to-square edit-icon" onclick="editProduct(this)"></i>
                     <i class="fa-solid fa-trash delete-icon" onclick="deleteProduct(this)"></i>
                 </td>
-            </tr>`;
+            </tr > `;
                 const addtr = document.createElement("tr");
                 addtr.innerHTML = productContent;
                 document.getElementById("product__list-body").appendChild(addtr);
@@ -699,7 +685,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 UserId: Math.ceil(Math.random() * 10000000000),
                 FullName: name.value,
                 Phone: phone.value,
-                Address: `${address.value}, Phường ${ward.value}, Quận ${district.value}, ${city.value}`,
+                Address: `${address.value}, Phường ${ward.value}, Quận ${district.value}, ${city.value} `,
                 UserName: userName.value,
                 Email: email.value,
                 Password: password.value,
@@ -707,14 +693,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 UserType: "admin"
             };
             // Thêm vào bảng khi không load trang
-            const adminInfo = `<tr>
+            const adminInfo = `< tr >
             <td class="admin__userID">${admin.UserId}</td>
             <td class="admin__userName">${admin.FullName}</td>
             <td class="admin__userPhone">${admin.Phone}</td>
             <td class="admin__userEmail">${admin.Email}</td>
             <td class="admin__userAddress">${admin.Address}</td>
             <td class="admin__username">${admin.UserName}</td>
-        </tr>`;
+        </tr > `;
             adminList.innerHTML += adminInfo;
             // store data into localStorage
             admins.push(admin);
@@ -729,14 +715,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const admins = JSON.parse(localStorage.getItem("admins")) || [];
         let adminContent = "";
         admins.forEach((admin) => {
-            adminContent += `<tr>
+            adminContent += `< tr >
                 <td class="admin__userID">${admin.UserId}</td>
                 <td class="admin__userName">${admin.FullName}</td>
                 <td class="admin__userPhone">${admin.Phone}</td>
                 <td class="admin__userEmail">${admin.Email}</td>
                 <td class="admin__userAddress">${admin.Address}</td>
                 <td class="admin__username">${admin.UserName}</td>
-            </tr>`;
+            </tr > `;
         });
         adminList.innerHTML = adminContent;
     }
@@ -1156,7 +1142,7 @@ document.addEventListener("DOMContentLoaded", function () {
             //detail
             let productContent = "";
             order.ProductList.forEach((product) => {
-                productContent += `<tr>
+                productContent += `< tr >
                 <td class="order-detail-id">${product.ID}</td>
                 <td>
                     <div class="order-detail-product">
@@ -1168,7 +1154,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <span class="order-detail-price">${product.Price}</span><sup>đ</sup>
                 </td>
                 <td class="order-detail-quantity">${product.Quantity}</td>
-            </tr>`;
+            </tr > `;
             });
             //order
             //Đặt trạng thái cho bảng
@@ -1183,7 +1169,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const orderDate = new Date(order.OrderDate);
             const formattedDate = new Intl.DateTimeFormat("vi-VN").format(orderDate);
             orderContent +=
-                `<tr>
+                `< tr >
             <td class="order__id">${order.ID}</td>
             <td class="order__customer-id">${order.Customer.UserId}</td>
             <td class="order__customer-district" style="display: none">${order.Customer.District}</td>
@@ -1243,7 +1229,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </div>
             </td>
-        </tr>`;
+        </tr > `;
         });
         document.querySelector(".order-table tbody").innerHTML = orderContent;
         setStatusColor();
@@ -1354,7 +1340,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
             }
         }
-    
+
         // Show the edit modal
         document.querySelector(".admin__edit").style.display = "block";
     }

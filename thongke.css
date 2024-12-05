@@ -227,3 +227,42 @@ body {
 .esc-hoadon-btn:hover:hover {
     background-color: rgb(35, 35, 80);
 }
+
+#table-title {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+
+}
+
+
+
+/* Kiểu cho bảng */
+#top-products-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+
+/* Kiểu cho tiêu đề cột */
+#header-product-name,
+#header-revenue,
+#header-quantity-sold {
+    background-color: #f2f2f2;
+    text-align: center;
+}
+
+/* Kiểu cho các ô trong bảng */
+.item-row td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Hiệu ứng hover cho hàng sản phẩm */
+.item-row:hover {
+    background-color: #a9a8a8;
+}
+
+
