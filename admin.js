@@ -1004,7 +1004,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
     });
-
+})
 
 
     // ------------ Edit ------------
@@ -1347,4 +1347,3 @@ document.addEventListener("DOMContentLoaded", function () {
     function showDetailProductAdmin(btnElement) {
         btnElement.parentElement.querySelector('.detail-admin').style.display = 'block'
     }
-})
