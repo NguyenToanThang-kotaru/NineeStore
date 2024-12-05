@@ -333,12 +333,42 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function statisticProduct(orders) {
         const infoProduct = [];
+        //Tạo một cái mảng để nhét thông tin sản phầm vào phục vụ cho việc thống kê
         for (let i = 0; i < orders.length; i++) {
             for (let j = 0; j < orders[i].ProductList.length; j++) {
                 const Product = orders[i].ProductList[j];
                 let found = false;
 
-                if(!found)
+                for(let k = 0; k<infoProduct.length;k++){
+                    if(infoProduct[k].ID==Product.ID){
+                        infoProduct[k].Quantity+=Number(Product.Quantity)
+                        let checkCus = false;
+                        for(let x = 0; x<infoProduct[k].Order.length;x++){
+
+                            if(infoProduct[k].Order[x].Customer.UserId == orders[i].Customer.UserId){  
+                        //         // for (let y = 0; y < infoProduct[k].Order[x].ProductList.length; y++) {
+                        //         //     const Product2 = orders[i].ProductList[y];
+                        //         //     // if (infoProduct[k].Order[x].ProductList[y].ID === Product2.ID){
+                        //         //     // // Cập nhật số lượng sản phẩm
+                        //         //     //     infoProduct[k].Order[x].ProductList[y].Quantity += Number(Product2.Quantity);
+                        //         //     // }
+                        //         //     // console.log(Product2)
+                        //         //     console.log(infoProduct[k].Order[x].ProductList[y].ID)
+                        //         // }
+                                checkCus = true;
+                                break;
+                            }
+                        }
+                        if(checkCus==false){
+                            infoProduct[k].Order.push(orders[i]);
+                        }
+                        found = true; 
+                        break;
+                    }
+                    
+                }
+
+                if(found==false)
                 {
                     const ProductList = {
                         ID : Product.ID,
@@ -348,15 +378,30 @@ document.addEventListener("DOMContentLoaded", function () {
                         Order: [orders[i]]
                     }
                     infoProduct.push(ProductList)
+                    // let TotalPrice = infoProduct.Quantity*infoProduct.Price
+                    // infoProduct.Price.push(TotalPrice);
                 }
-                
-                // for(let k = 0; k<infoProduct.length,k++){
-                    
-                // }
+
             };
-            console.log(infoProduct)
         }
+        let insertName = ""
+        infoProduct.forEach((product)=>{
+            insertName += `
+                            <tr>
+                                <td>${product.Name}</td>
+                                <td>${product.Quantity}</td>
+                                <td>${(Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity)).toLocaleString("de-DE")} VNĐ</td>
+                                <td><button class="show-hoadon-mh">Xem</button></td>
+                            </tr>
+                        `
+            
+            
+        })
+
+        document.querySelector(".items-tbody-tke").innerHTML = insertName
+        console.log(infoProduct)
     }
+    
 
     // Gọi hàm
     statisticProduct(JSON.parse(localStorage.getItem("orders")) || []);
@@ -423,6 +468,15 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <td>Khối lượng:</td>
                                 <td class="weight">${product.Detail.Weight}</td>
                               </tr>
+                              <tr>
+                                <td>Old:</td>
+                                <td class="old">${product.Detail.Old}</td>
+                              </tr>
+                              <tr>
+                                <td>Sale:</td>
+                                <td class="sale">${product.Detail.Sale}</td>
+                              </tr>
+
                             </table>
                         </div>
                       </div>
@@ -497,7 +551,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         Pin: pin.value,
                         Network: network.value,
                         Weight: weight.value,
-                        Old: old.value,
+                        Old: old.checked,
                         Sale: sale.value
                     },
                 };
@@ -1300,11 +1354,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
             }
         }
-
+    
         // Show the edit modal
         document.querySelector(".admin__edit").style.display = "block";
-
-
     }
     function showDetailProductAdmin(btnElement) {
         btnElement.parentElement.querySelector('.detail-admin').style.display = 'block'
