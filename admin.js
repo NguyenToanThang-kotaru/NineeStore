@@ -358,22 +358,13 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             let hdContent = "";
             CustomerBuyList.forEach((customer) => {
-                hdContent += `
-              <tr>
-                  <td>${customer.Name
-                    }</td>
-                  <td>${customer.QuantityBuy
-                    }</td>
-                  <td>${(
-                        productPrice *
-                        Number(
-                            customer.QuantityBuy
-                        )
-                    ).toLocaleString(
-                        "de-DE"
-                    )}</td>
-               </tr>
-          `;
+                hdContent += 
+                `<tr>
+                    <td>${customer.Name}</td>
+                    <td>${customer.QuantityBuy}</td>
+                    <td>${(productPrice * Number(customer.QuantityBuy)).toLocaleString("de-DE")}</td>
+                </tr>`;
+
             });
             bodyContent +=
                 `<tr>
@@ -409,16 +400,16 @@ document.addEventListener("DOMContentLoaded", function () {
                                     </table>
                                 </div>
                                 <div class="total-hd">
-                                        <hr />
-                                        <div class="total-container-hd">
-                                            <p class="text-hd">Tổng tiền:</p>
-                                            <p class="total-amount-hd">120.000.000</p>
-                                        </div>
+                                    <hr />
+                                    <div class="total-container-hd">
+                                        <p class="text-hd">Tổng tiền:</p>
+                                        <p class="total-amount-hd">120.000.000</p>
                                     </div>
                                 </div>
                             </div>
-                        </td>
-                    </tr>`;
+                        </div>
+                    </td>
+                </tr>`;
             totalRevenue += productPrice * product.Quantity;
         });
         bodyTable.innerHTML = bodyContent;
