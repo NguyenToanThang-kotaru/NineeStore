@@ -291,6 +291,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     //-----------------------------------Thống kê ----------------------------
+    document
+        .querySelector(".option-period-tke")
+        .addEventListener("change", (event) => {
+            const selectedValue = event.target.value;
+            console.log(selectedValue);
+            const today = new Date();
+            const orders = JSON.parse(localStorage.getItem("orders")) || [];
+            for (let i = orders.length - 1; i > 0; i--) {
+                orderDate = new Date(orders[i].OrderDate);
+                const diffTime = today.getTime() - orderDate.getTime(); // Khoảng cách thời gian (mili-giây)
+                const diffDays = diffTime / (1000 * 60 * 60 * 24); // Chuyển sang ngày
+                if (diffDays > selectedValue) {
+                    orders.splice(i, 1);
+                }
+            }
+            statisticProduct(orders);
+        });
 
     function statisticProduct(orders) {
         const infoProduct = [];
