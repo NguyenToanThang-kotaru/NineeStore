@@ -52,6 +52,7 @@
         <!-- Contain -->
         <div class="main">
             <!------------------- Statistics ----------------->
+            <!------------------- Statistics ----------------->
             <div id="statistic" class="statistic disable">
                 <div id="statistics">
                     <div id="menu-tke">
@@ -63,6 +64,7 @@
                         <div class="select-period-tke">
                             Khoảng thời gian:
                             <select name="select-preiod-tke" class="option-period-tke">
+                                <option value="Infinity">Tất cả</option>
                                 <option value="1">1 ngày</option>
                                 <option value="7">7 ngày</option>
                                 <option value="30">30 ngày</option>
@@ -105,25 +107,35 @@
                         </div>
 
                         <table class="summary-table-tke">
-                            <thead>
-                                <tr>
-                                    <th>Tiêu chí</th>
-                                    <th>Mặt hàng</th>
-                                    <th>Doanh thu</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Mặt hàng bán chạy nhất</td>
-                                    <td id="best-item">Mặt hàng 1</td>
-                                    <td id="best-item-revenue">0 VNĐ</td>
-                                </tr>
-                                <tr>
-                                    <td>Mặt hàng bán ế nhất</td>
-                                    <td id="worst-item">Mặt Hàng 2</td>
-                                    <td id="worst-item-revenue">0 VNĐ</td>
-                                </tr>
-                            </tbody>
+                            <h1 id="table-title">Danh sách mặt Hàng Bán Chạy Nhất</h1>
+                            <table id="top-products-table">
+                                <thead>
+                                    <tr>
+                                        <th class="category3" id="header-product-name">Tên Mặt Hàng</th>
+                                        <th class="category3" id="header-quantity-sold">Số Lượng Bán Được</th>
+                                        <th class="category3" id="header-revenue">Doanh Thu</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bestPD">
+                                    <!-- Nội dung sẽ được chèn vào đây -->
+                                </tbody>
+                            </table>
+                        </table>
+
+                        <table class="summary-table-tke">
+                            <h1 id="table-title">danh sách mặt Hàng Bán Ế Nhất</h1>
+                            <table id="wrost-products-table">
+                                <thead>
+                                    <tr>
+                                        <th class="category3" id="header-product-name">Tên Mặt Hàng</th>
+                                        <th class="category3" id="header-quantity-sold">Số Lượng Bán Được</th>
+                                        <th class="category3" id="header-revenue">Doanh Thu</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="worstPD">
+                                    <!-- Nội dung sẽ được chèn vào đây -->
+                                </tbody>
+                            </table>
                         </table>
 
                         <button id="back-btn-mh">Quay lại</button>
@@ -133,7 +145,8 @@
                         <h2>Thống kê khách hàng</h2>
                         <div class="select-period-tke">
                             Khoảng thời gian:
-                            <select name="select-preiod-tke" class="option-period-tke">
+                            <select name="select-preiod-tke" class="option-period-tke">\
+                                <option value="Infinity">Tất cả</option>
                                 <option value="1">1 ngày</option>
                                 <option value="7">7 ngày</option>
                                 <option value="30">30 ngày</option>
@@ -148,7 +161,7 @@
                                     <th>Xem hóa đơn</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="insertCus">
                                 <tr>
                                     <td>Khách hàng 1</td>
                                     <td>0 VNĐ</td>
@@ -166,121 +179,153 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <table class="summary-table-tke">
+                            <h1 id="table-title">Danh sách khách hàng mua nhiêù tiền nhất</h1>
+                            <table id="top-products-table">
+                                <thead>
+                                    <tr>
+                                        <th class="category3" id="header-product-name">Tên khách hàng</th>
+                                        <th class="category3" id="header-quantity-sold">Số Lượng Bán Được</th>
+                                        <th class="category3" id="header-revenue">Doanh Thu</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bestCus">
+                                    <!-- Nội dung sẽ được chèn vào đây -->
+                                </tbody>
+                            </table>
+                        </table>
+
+                        <table class="summary-table-tke">
+                            <h1 id="table-title">Danh sách khách hàng mua ít tiền nhất</h1>
+                            <table id="wrost-products-table">
+                                <thead>
+                                    <tr>
+                                        <th class="category3" id="header-product-name">Tên Mặt Hàng</th>
+                                        <th class="category3" id="header-quantity-sold">Số Lượng Bán Được</th>
+                                        <th class="category3" id="header-revenue">Doanh Thu</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="worstCus">
+                                    <!-- Nội dung sẽ được chèn vào đây -->
+                                </tbody>
+                            </table>
+                        </table>
+
                         <button id="back-btn-kh">Quay lại</button>
                     </div>
 
                     <!-- Hoa don -->
+                    <!-- 
+        <div class="hoa-don-container" id="hoadon-customers">
+            <button class="esc-hoadon-btn" id="esc-hoadon-btn-kh">X</button>
+            <div class="hoa-don-header">
+                <h1>Hóa đơn</h1>
+            </div>
+            <div class="hoa-don-info">
+                <div class="hoa-don-customer">
+                    <h3>Thông tin khách hàng</h3>
+                    <p>Họ tên: Nguyễn Văn A</p>
+                    <p>Địa chỉ: 123 An Dương Vương</p>
+                    <p>Số điện thoại:0912345678</p>
+                    <p>Email:123@gmail.com</p>
+                </div>
+            </div>
+            <div class="product-table-hd">
+                <table class="product-table-info-hd">
+                    <thead>
+                        <tr class="table-header-hd">
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sản phẩm 1</td>
+                            <td>1</td>
+                            <td>20.000.000</td>
+                            <td>20.000.000</td>
+                        </tr>
+                        <tr>
+                            <td>Sản phẩm 2</td>
+                            <td>2</td>
+                            <td>30.000.000</td>
+                            <td>60.000.000</td>
+                        </tr>
+                        <tr>
+                            <td>Sản phẩm 3</td>
+                            <td>1</td>
+                            <td>40.000.000</td>
+                            <td>40.000.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="total-hd">
+                <hr />
+                <div class="total-container-hd">
+                    <p class="text">Tổng tiền:</p>
+                    <p class="total-amount-hd">120.000.000</p>
+                </div>
+            </div>
+        </div>
 
-                    <!-- <div class="hoa-don-container" id="hoadon-customers">
-                        <button class="esc-hoadon-btn" id="esc-hoadon-btn-kh">X</button>
-                        <div class="hoa-don-header">
-                            <h1>Hóa đơn</h1>
-                        </div>
-                        <div class="hoa-don-info">
-                            <div class="hoa-don-customer">
-                                <h3>Thông tin khách hàng</h3>
-                                <p>Họ tên: Nguyễn Văn A</p>
-                                <p>Địa chỉ: 123 An Dương Vương</p>
-                                <p>Số điện thoại:0912345678</p>
-                                <p>Email:123@gmail.com</p>
-                            </div>
-                        </div>
-                        <div class="product-table-hd">
-                            <table class="product-table-info-hd">
-                                <thead>
-                                    <tr class="table-header-hd">
-                                        <th>Tên sản phẩm</th>
-                                        <th>Số lượng</th>
-                                        <th>Đơn giá</th>
-                                        <th>Thành tiền</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Sản phẩm 1</td>
-                                        <td>1</td>
-                                        <td>20.000.000</td>
-                                        <td>20.000.000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sản phẩm 2</td>
-                                        <td>2</td>
-                                        <td>30.000.000</td>
-                                        <td>60.000.000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sản phẩm 3</td>
-                                        <td>1</td>
-                                        <td>40.000.000</td>
-                                        <td>40.000.000</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="total-hd">
-                            <hr />
-                            <div class="total-container-hd">
-                                <p class="text">Tổng tiền:</p>
-                                <p class="total-amount-hd">120.000.000</p>
-                            </div>
-                        </div>
-                    </div>
+        <div class="overlay-hd"></div>
 
-                    <div class="overlay-hd"></div>
-
-                    <div class="hoa-don-container" id="hoadon-items">
-                        <button class="esc-hoadon-btn" id="esc-hoadon-btn-mh">X</button>
-                        <div class="hoa-don-header">
-                            <h1>Hóa đơn</h1>
-                        </div>
-                        <div class="hoa-don-info">
-                            <div class="hoa-don-mat-hang">
-                                <h3>Thông tin sản phẩm</h3>
-                                <p>Tên: Laptop ASUS Zephyrus</p>
-                                <p>Hãng: ASUS</p>
-                                <p>Nơi Bán: Nine Store</p>
-                            </div>
-                        </div>
-                        <div class="product-table-hd">
-                            <table class="product-table-info-hd">
-                                <thead>
-                                    <tr class="table-header-hd">
-                                        <th>Tên sản phẩm</th>
-                                        <th>Số lượng</th>
-                                        <th>Đơn giá</th>
-                                        <th>Thành tiền</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Khách hàng 1</td>
-                                        <td>1</td>
-                                        <td>20.000.000</td>
-                                        <td>20.000.000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Khách hàng 2</td>
-                                        <td>2</td>
-                                        <td>30.000.000</td>
-                                        <td>60.000.000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Khách hàng 3</td>
-                                        <td>1</td>
-                                        <td>40.000.000</td>
-                                        <td>40.000.000</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="total-hd">
-                            <hr />
-                            <div class="total-container-hd">
-                                <p class="text-hd">Tổng tiền:</p>
-                                <p class="total-amount-hd">120.000.000</p>
-                            </div>
-                        </div>
-                    </div> -->
+        <div class="hoa-don-container"  id="hoadon-items" >
+            <button class="esc-hoadon-btn" id="esc-hoadon-btn-mh">X</button>
+            <div class="hoa-don-header">
+                <h1>Hóa đơn</h1>
+            </div>
+            <div class="hoa-don-info">
+                <div class="hoa-don-mat-hang">
+                    <h3>Thông tin sản phẩm</h3>
+                    <p>Tên: Laptop ASUS Zephyrus</p>
+                    <p>Hãng: ASUS</p>
+                    <p>Nơi Bán: Nine Store</p>
+                </div>
+            </div>
+            <div class="product-table-hd">
+                <table class="product-table-info-hd">
+                    <thead>
+                        <tr class="table-header-hd">
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Khách hàng 1</td>
+                            <td>1</td>
+                            <td>20.000.000</td>
+                            <td>20.000.000</td>
+                        </tr>
+                        <tr>
+                            <td>Khách hàng 2</td>
+                            <td>2</td>
+                            <td>30.000.000</td>
+                            <td>60.000.000</td>
+                        </tr>
+                        <tr>
+                            <td>Khách hàng 3</td>
+                            <td>1</td>
+                            <td>40.000.000</td>
+                            <td>40.000.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="total-hd">
+                <hr />
+                <div class="total-container-hd">
+                    <p class="text-hd">Tổng tiền:</p>
+                    <p class="total-amount-hd">120.000.000</p>
+                </div>
+            </div>
+        </div>-->
                 </div>
             </div>
             <!------------------- Product ----------------->
@@ -401,11 +446,11 @@
                                         </div>
                                         <div class="form__row">
                                             <label for="form__sp-old">Cũ:</label><br />
-                                            <input type="checkbox" id="form__sp-old" >
+                                            <input type="checkbox" id="form__sp-old">
                                         </div>
                                         <div class="form__row">
                                             <label for="form__sp-sale">Sale:</label><br />
-                                            <input type="text" id="form__sp-sale" >
+                                            <input type="text" id="form__sp-sale">
                                         </div>
                                         <div class="form__row" style="display: block">
                                             <label for="form__sp-img" style="width: fit-content">Hình chi tiết sản
@@ -531,7 +576,7 @@
                                             <label for="form__edit-sale">Sale:</label>
                                             <input type="text" id="form__edit-sale" name="edit-sale" />
                                         </div>
-                                        
+
                                         <div class="form__row" style="display: block">
                                             <label for="form__edit-img" style="width: fit-content">Hình chi tiết sản
                                                 phẩm</label><br />
@@ -718,45 +763,54 @@
                                     <div class="form__row">
                                         <label for="form__admin-name">Họ tên người quản
                                             trị: </label>
-                                        <input type="text" id="form__admin-name" name="admin-name" placeholder="Nhập họ tên" required autofocus />
+                                        <input type="text" id="form__admin-name" name="admin-name"
+                                            placeholder="Nhập họ tên" required autofocus />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-phone">Số điện thoại:
                                         </label>
-                                        <input type="text" id="form__admin-phone" name="admin-phone" placeholder="Nhập số điện thoại" required autofocus />
+                                        <input type="text" id="form__admin-phone" name="admin-phone"
+                                            placeholder="Nhập số điện thoại" required autofocus />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-email">Email: </label>
-                                        <input type="text" id="form__admin-email" name="admin-email" placeholder="Nhập email" required />
+                                        <input type="text" id="form__admin-email" name="admin-email"
+                                            placeholder="Nhập email" required />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-address">Địa chỉ:
                                         </label>
-                                        <input type="text" id="form__admin-address" name="admin-address" placeholder="Nhập địa chỉ" required />
+                                        <input type="text" id="form__admin-address" name="admin-address"
+                                            placeholder="Nhập địa chỉ" required />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-ward">Phường:</label>
-                                        <input type="text" id="form__admin-ward" name="admin-ward" placeholder="Nhập phường (Vd: 1, 2)" required />
+                                        <input type="text" id="form__admin-ward" name="admin-ward"
+                                            placeholder="Nhập phường (Vd: 1, 2)" required />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-district">Quận:</label>
-                                        <input type="text" id="form__admin-district" name="admin-district" placeholder="Nhập quận (Vd: 7, 8)" required />
+                                        <input type="text" id="form__admin-district" name="admin-district"
+                                            placeholder="Nhập quận (Vd: 7, 8)" required />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-city">Thành phố:</label>
-                                        <input type="text" id="form__admin-city" name="admin-city" placeholder="Ghi cả chữ 'Thành phố' hoặc 'Tỉnh'" required />
+                                        <input type="text" id="form__admin-city" name="admin-city"
+                                            placeholder="Ghi cả chữ 'Thành phố' hoặc 'Tỉnh'" required />
                                     </div>
                                 </div>
                                 <div class="form__row-right">
                                     <div class="form__row">
                                         <label for="form__admin-username">Tên đăng nhập:
                                         </label>
-                                        <input type="text" id="form__admin-username" name="admin-username" placeholder="Nhập tên đăng nhập" required />
+                                        <input type="text" id="form__admin-username" name="admin-username"
+                                            placeholder="Nhập tên đăng nhập" required />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-password">Password:
                                         </label>
-                                        <input type="password" id="form__admin-password" name="admin-password" placeholder="Nhập mật khẩu" required />
+                                        <input type="password" id="form__admin-password" name="admin-password"
+                                            placeholder="Nhập mật khẩu" required />
                                     </div>
                                 </div>
                             </div>

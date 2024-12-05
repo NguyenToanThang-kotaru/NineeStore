@@ -256,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // --------------------------------- Statistics-----------------------------
+    // --------------------------------- Statistics-----------------------------
     const menu = document.querySelector("#menu-tke");
     const item_btn = document.querySelector("#items-btn");
     const customer_btn = document.querySelector("#customers-btn");
@@ -284,7 +285,330 @@ document.addEventListener("DOMContentLoaded", function () {
         item_page.style.display = "none";
         menu.style.display = "block";
     }
-  
+
+
+    //-----------------------------------Thống kê ----------------------------
+    document
+        .querySelector(".option-period-tke")
+        .addEventListener("change", (event) => {
+            const selectedValue = event.target.value;
+            console.log(selectedValue);
+            const today = new Date();
+            const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+            // Lọc đơn hàng
+            for (let i = orders.length - 1; i >= 0; i--) {
+                const orderDate = new Date(orders[i].OrderDate);
+                const diffTime = today.getTime() - orderDate.getTime(); // Khoảng cách thời gian (mili-giây)
+                const diffDays = diffTime / (1000 * 60 * 60 * 24); // Chuyển sang ngày
+                if (diffDays > selectedValue) {
+                    orders.splice(i, 1); // Xóa đơn hàng nếu đã quá thời gian
+                }
+            }
+
+            // Gọi cả hai hàm statisticProduct và statisticCustomer với danh sách đơn hàng đã lọc
+            statisticProduct(orders);
+            statisticCustomer(orders); // Thêm dòng này để gọi statisticCustomer
+        });
+
+    function statisticProduct(orders) {
+        const infoProduct = [];
+        //Tạo một cái mảng để nhét thông tin sản phầm vào phục vụ cho việc thống kê
+        for (let i = 0; i < orders.length; i++) {
+            for (let j = 0; j < orders[i].ProductList.length; j++) {
+                const Product = orders[i].ProductList[j];
+                let found = false;
+
+                for (let k = 0; k < infoProduct.length; k++) {
+                    if (infoProduct[k].ID == Product.ID) {
+                        infoProduct[k].Quantity += Number(Product.Quantity)
+                        infoProduct[k].Order.push(orders[i]);
+                        found = true;
+                        break;
+                    }
+
+                }
+
+                if (found == false) {
+                    const ProductList = {
+                        ID: Product.ID,
+                        Name: Product.Name,
+                        Quantity: Number(Product.Quantity),
+                        Price: Product.Price,
+                        Order: [orders[i]]
+                    }
+                    infoProduct.push(ProductList)
+                }
+
+            };
+        }
+        let insertWorst = ""
+        let insertBest = ""
+        let insertTotalPrice = ""
+        let totalPrice = 0;
+        let insertName = ""
+
+        infoProduct.forEach((product) => {
+            let productName = "";
+            let productPrice = 0;
+            let CustomerBuyList = [];
+            for (let i = 0; i < product.Order[0].ProductList.length; i++) {
+                if (product.Order[0].ProductList[i].ID == product.ID) {
+                    productName = product.Order[0].ProductList[i].Name;
+                    productPrice = Number(
+                        product.Order[0].ProductList[i].Price.replace(/\./g, "")
+                    );
+                    break;
+                }
+            }
+            product.Order.forEach((order) => {
+                const customer = {
+                    Name: order.Customer.FullName,
+                    QuantityBuy: order.ProductList.find((item) => item.ID == product.ID)
+                        .Quantity,
+                };
+                CustomerBuyList.push(customer);
+            });
+            let hdContent = "";
+            CustomerBuyList.forEach((customer) => {
+                let price = Number(product.Price.replace(/[.\/]/g, "")) * Number(customer.QuantityBuy);
+                hdContent +=
+                    `<tr>
+                 <td>${customer.Name}</td>
+                 <td>${customer.QuantityBuy}</td>
+                 <td>${price.toLocaleString("de-DE")}</td>
+             </tr>`;
+
+            });
+            price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
+            totalPrice += price;
+            insertName +=
+                `<tr>
+             <td>${product.Name}</td>
+             <td><span class="product-tke-quantity-value">${product.Quantity}</span></td>
+             <td><span class="product-tke-price-value">${price.toLocaleString("de-DE")}</span> VNĐ</td>
+             <td>
+                 <button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
+                 <div class='overlay'>
+                     <div class="hoa-don-container" id="hoadon-items">
+                         <i class="fa-solid fa-rectangle-xmark close" onclick="offPaymentProduct(this)"></i>
+                         <div class="hoa-don-header">
+                             <h1>Hóa đơn</h1>
+                         </div>
+                         <div class="hoa-don-info">
+                             <div class="hoa-don-mat-hang">
+                                 <h3>Thông tin sản phẩm</h3>
+                                 <p>Mã: ${product.ID}5</p>
+                                 <p>Tên: ${product.Name}</p>
+                                 <p>Giá: ${product.Price}</p>
+                             </div>
+                         </div>
+                         <div class="product-table-hd">
+                             <table class="product-table-info-hd">
+                                 <thead>
+                                     <tr class="table-header-hd">
+                                         <th>Tên sản phẩm</th>
+                                         <th>Số lượng</th>
+                                         <th>Thành tiền</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>`
+                + hdContent +
+                `</tbody>
+                             </table>    
+                         </div>
+                     </div>
+                 </div>
+             </td>
+         </tr>`;
+            hideOverlay();
+        })
+        insertTotalPrice += `
+                             Tổng doanh thu: <span id="amount-revenue-tke">${(totalPrice).toLocaleString("de-DE")}</span>VNĐ        
+                         `
+
+        // Sắp xếp sản phẩm theo doanh thu giảm dần
+        const best = infoProduct
+        best.sort((a, b) => b.Quantity - a.Quantity);
+        const topProducts = best.slice(0, 5);
+
+
+        topProducts.forEach(product => {
+            let price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
+            insertBest += `
+         <tr class="item-row">
+         <td>${product.Name}</td>
+         <td>${product.Quantity}</td>
+         <td>${price.toLocaleString("de-DE")} VNĐ</td>
+         </tr>
+         `;
+        });
+
+        document.querySelector("#bestPD").innerHTML = insertBest
+
+        const worst = infoProduct
+        worst.sort((a, b) => a.Quantity - b.Quantity);
+        const bottomProducts = worst.slice(0, 5);
+        bottomProducts.forEach(product => {
+            let price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
+            insertWorst += `
+             <tr class="item-row">
+                 <td>${product.Name}</td>
+                 <td>${product.Quantity}</td>
+                 <td>${price.toLocaleString("de-DE")} VNĐ</td>
+             </tr>
+         `;
+        });
+
+        document.querySelector('#worstPD').innerHTML = insertWorst
+
+
+
+        document.querySelector(".total-revenue-tke").innerHTML = insertTotalPrice
+        document.querySelector(".items-tbody-tke").innerHTML = insertName
+        console.log(infoProduct)
+    }
+
+
+    // Gọi hàm
+    statisticProduct(JSON.parse(localStorage.getItem("orders")) || []);
+
+
+
+
+    function statisticCustomer(orders) {
+        const customerStatArray = [];
+
+        for (let i = 0; i < orders.length; i++) {
+            const order = orders[i];
+            const customer = order.Customer;
+
+            let found = false;
+
+            for (let j = 0; j < customerStatArray.length; j++) {
+                if (customerStatArray[j].UserId === customer.UserId) {
+                    customerStatArray[j].TotalRevenue += Number(order.TotalPrice.replace(/\./g, ""));
+                    customerStatArray[j].OrderHistory.push(order);
+
+                    let TotalQuantity = 0;
+                    order.ProductList.forEach(product => {
+                        TotalQuantity += Number(product.Quantity);
+                    });
+                    customerStatArray[j].Quantity += TotalQuantity;
+
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                let TotalQuantity = 0;
+                order.ProductList.forEach(product => {
+                    TotalQuantity += Number(product.Quantity);
+                });
+
+                const newCustomer = {
+                    UserId: customer.UserId,
+                    FullName: customer.FullName,
+                    TotalRevenue: Number(order.TotalPrice.replace(/\./g, "")),
+                    Quantity: TotalQuantity,
+                    OrderHistory: [order],
+                    Address: customer.Address,
+                    Email: customer.Email,
+                    Phone: customer.Phone
+                };
+                customerStatArray.push(newCustomer);
+            }
+        }
+
+        console.log(customerStatArray);
+        let insertCus = "";
+        const insert_Cus = document.getElementById("insertCus");
+        customerStatArray.forEach(Customer => {
+            insertCus += `<tr>
+                     <td>${Customer.FullName}</td>
+                     <td>${Customer.TotalRevenue.toLocaleString("de-DE")} VNĐ</td>
+                     <td><button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
+                       <div class='overlay'>
+                         <div class="hoa-don-container" id="hoadon-customers">
+                           <button class="esc-hoadon-btn" id="esc-hoadon-btn-kh" onclick="offPaymentProduct(this)">X</button>
+                           <div class="hoa-don-header">
+                               <h1>Hóa đơn</h1>
+                           </div>
+                           <div class="hoa-don-info">
+                               <div class="hoa-don-customer">
+                                   <h3>Thông tin khách hàng</h3>
+                                   <p>Họ tên: ${Customer.FullName}</p>
+                                   <p>Địa chỉ: ${Customer.Address}</p>
+                                   <p>Số điện thoại: ${Customer.Phone}</p>
+                                   <p>Email: ${Customer.Email}</p>
+                               </div>
+                           </div>
+                           <div class="product-table-hd">
+                             <table class="product-table-info-hd">
+                               <thead>
+                                   <tr class="table-header-hd">
+                                       <th>Tên sản phẩm</th>
+                                       <th>Số lượng</th>
+                                       <th>Đơn giá</th>
+                                       <th>Thành tiền</th>
+                                   </tr>
+                               </thead>
+                               <tbody>`;
+            Customer.OrderHistory.forEach(product => {
+                product.ProductList.forEach((product2) => {
+                    const quantity = Number(product2.Quantity);
+                    const price = Number(product2.Price.replace(/\./g, '').replace(',', '.'));
+                    const total = quantity * price;
+
+                    insertCus += `<tr>
+                             <td>${product2.Name}</td>
+                             <td>${quantity}</td>
+                             <td>${price.toLocaleString("de-DE")} VNĐ</td>
+                             <td>${total.toLocaleString("de-DE")} VNĐ</td>
+                         </tr>`;
+                });
+            });
+            insertCus += `</tbody></table></div></div></div></td></tr>`;
+        });
+        insert_Cus.innerHTML = insertCus;
+
+        let insertBestCus = "";
+        let BestCus = customerStatArray;
+        BestCus.sort((a, b) => b.Quantity - a.Quantity);
+        const topCus = BestCus.slice(0, 5);
+        topCus.forEach(product => {
+            insertBestCus += `
+     <tr class="item-row">
+     <td>${product.FullName}</td>
+     <td>${product.Quantity}</td>
+     <td>${product.TotalRevenue.toLocaleString("de-DE")} VNĐ</td>
+     </tr>
+     `;
+        });
+        document.querySelector("#bestCus").innerHTML = insertBestCus;
+
+        let insertWorstCus = "";
+        let WorstCus = customerStatArray;
+        WorstCus.sort((a, b) => a.Quantity - b.Quantity);
+        const bottomCus = WorstCus.slice(0, 5);
+        bottomCus.forEach(product => {
+            insertWorstCus += `
+     <tr class="item-row">
+     <td>${product.FullName}</td>
+     <td>${product.Quantity}</td>
+     <td>${product.TotalRevenue.toLocaleString("de-DE")} VNĐ</td>
+     </tr>
+     `;
+        });
+        document.querySelector("#worstCus").innerHTML = insertWorstCus;
+
+        hideOverlay();
+    }
+
+    statisticCustomer(JSON.parse(localStorage.getItem("orders")) || [])
+
+
     // Hoa don
 
     const hoadon_kh_btn = document.querySelectorAll(".show-hoadon-kh");
@@ -813,7 +1137,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // open/close the address filter window
     document
         .getElementById("order__filter-status")
-        .addEventListener("click", function() {
+        .addEventListener("click", function () {
             console.log("Status filter button clicked");
             if (showFilterStatus == false) {
                 filterDateContainer.style.display = "none";
@@ -1235,5 +1559,5 @@ function showDetailProductAdmin(btnElement) {
 }
 function showPaymentProduct(paymentElement) {
     paymentElement.parentElement.querySelector(".overlay").style.display =
-      "block";
+        "block";
 }
