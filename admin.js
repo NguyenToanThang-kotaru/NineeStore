@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <td>${product.Name}</td>
                                 <td>${product.Quantity}</td>
                                 <td>${price.toLocaleString("de-DE")} VNĐ</td>
-                                <td><button class="show-hoadon-mh" onclick="showHoaDonMH('${product.Name}')">Xem</button></td>
+                                <td><button class="show-hoadon-mh" onclick="showPaymentProduct(this)">Xem</button></td>
                             </tr>
                         `;
 
@@ -1346,4 +1346,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     function showDetailProductAdmin(btnElement) {
         btnElement.parentElement.querySelector('.detail-admin').style.display = 'block'
+    }
+    function showPaymentProduct(paymentElement) {
+        paymentElement.parentElement.querySelector(".overlay").style.display =
+          "block";
     }
