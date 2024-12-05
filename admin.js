@@ -336,7 +336,22 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <td>${product.Name}</td>
                                 <td>${product.Quantity}</td>
                                 <td>${price.toLocaleString("de-DE")} VNĐ</td>
-                                <td><button class="show-hoadon-mh" onclick="showPaymentProduct(this)">Xem</button></td>
+                                <td><button class="show-hoadon-mh" onclick="showPaymentProduct(this)">Xem</button>
+                                <div class="overlay-hd"></div>
+                                <div class="hoa-don-container"  id="hoadon-items" >
+                                    <button class="esc-hoadon-btn" id="esc-hoadon-btn-mh">X</button>
+                                    <div class="hoa-don-header">
+                                        <h1>Hóa đơn</h1>
+                                    </div>
+                                    <div class="hoa-don-info">
+                                        <div class="hoa-don-mat-hang">
+                                            <h3>Thông tin sản phẩm</h3>
+                                            <p>Tên: Laptop ASUS Zephyrus</p>
+                                            <p>Hãng: ASUS</p>
+                                            <p>Nơi Bán: Nine Store</p>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         `;
 
@@ -1348,6 +1363,6 @@ document.addEventListener("DOMContentLoaded", function () {
         btnElement.parentElement.querySelector('.detail-admin').style.display = 'block'
     }
     function showPaymentProduct(paymentElement) {
-        alert(`da click1`)
+        paymentElement.parentElement.querySelector(".overlay").style.display = 'block'
         
     }
