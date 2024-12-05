@@ -354,22 +354,22 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             let hdContent = "";
             CustomerBuyList.forEach((customer) => {
-                
+                let price = Number(product.Price.replace(/[.\/]/g, "")) * Number(customer.QuantityBuy);
                 hdContent += 
                 `<tr>
                     <td>${customer.Name}</td>
                     <td>${customer.QuantityBuy}</td>
-                    <td>${(productPrice * Number(customer.QuantityBuy)).toLocaleString("de-DE")}</td>
+                    <td>${price.toLocaleString("de-DE")}</td>
                 </tr>`;
 
             });
-            let price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
+            price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
             totalPrice += price;
             insertName += 
             `<tr>
                 <td>${product.Name}</td>
                 <td><span class="product-tke-quantity-value">${product.Quantity}</span></td>
-                <td><span class="product-tke-price-value">${price.toLocaleString("de-DE")}</span><sup>₫</sup></td>
+                <td><span class="product-tke-price-value">${price.toLocaleString("de-DE")}</span> VNĐ</td>
                 <td>
                     <button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
                     <div class='overlay'>
@@ -383,6 +383,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <h3>Thông tin sản phẩm</h3>
                                     <p>Mã: ${product.ID}5</p>
                                     <p>Tên: ${product.Name}</p>
+                                    <p>Giá: ${product.Price}</p>
                                     <p>Nơi Bán: Nine Store</p>
                                 </div>
                             </div>
@@ -392,13 +393,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                         <tr class="table-header-hd">
                                             <th>Tên sản phẩm</th>
                                             <th>Số lượng</th>
-                                            <th>Đơn giá</th>
                                             <th>Thành tiền</th>
                                         </tr>
                                     </thead>
                                     <tbody>`
-                                    + hdContent +`
-                                    </tbody>
+                                    + hdContent +
+                                    `</tbody>
                                 </table>    
                             </div>
                         </div>
