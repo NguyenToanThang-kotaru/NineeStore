@@ -853,10 +853,12 @@ document.addEventListener("DOMContentLoaded", function () {
   filterStatus.addEventListener("change", function () {
     console.log("kkkkkkkkk");
     if (filterStatus.value == ".") {
+      hideOverlay();
       return;
     }
     addOrdertoTable();
     if (filterStatus.value == "all") {
+      hideOverlay();
       return;
     } else {
       const orderList = document
@@ -873,6 +875,7 @@ document.addEventListener("DOMContentLoaded", function () {
             row.remove();
           }
         }
+        hideOverlay();
       }
       if (filterStatus.value == "dagiao") {
         for (let row of orderList) {
@@ -885,6 +888,7 @@ document.addEventListener("DOMContentLoaded", function () {
             row.remove();
           }
         }
+        hideOverlay();
       }
       if (filterStatus.value == "dahuy") {
         for (let row of orderList) {
@@ -897,6 +901,7 @@ document.addEventListener("DOMContentLoaded", function () {
             row.remove();
           }
         }
+        hideOverlay();
       }
       if (filterStatus.value == "daxacnhan") {
         for (let row of orderList) {
@@ -909,6 +914,7 @@ document.addEventListener("DOMContentLoaded", function () {
             row.remove();
           }
         }
+        hideOverlay();
       }
     }
   });
