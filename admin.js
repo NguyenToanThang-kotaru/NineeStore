@@ -328,13 +328,40 @@ document.addEventListener("DOMContentLoaded", function () {
         let insertTotalPrice = ""
         let totalPrice = 0;
         let insertName = ""
-        let paymentShow = ""
 
-        infoProduct.forEach((product)=>{
-            
-        })
+
 
         infoProduct.forEach((product) => {
+            let productName = "";
+            let productPrice = 0;
+            let CustomerBuyList = [];
+            for (let i = 0; i < product.Order[0].ProductList.length; i++) {
+                if (product.Order[0].ProductList[i].ID == product.ID) {
+                    productName = product.Order[0].ProductList[i].Name;
+                    productPrice = Number(
+                        product.Order[0].ProductList[i].Price.replace(/\./g, "")
+                    );
+                    break;
+                }
+            }
+            product.Order.forEach((order) => {
+                const customer = {
+                    Name: order.Customer.FullName,
+                    QuantityBuy: order.ProductList.find((item) => item.ID == product.ID)
+                        .Quantity,
+                };
+                CustomerBuyList.push(customer);
+            });
+            let hdContent = "";
+            CustomerBuyList.forEach((customer) => {
+                hdContent += 
+                `<tr>
+                    <td>${customer.Name}</td>
+                    <td>${customer.QuantityBuy}</td>
+                    <td>${(productPrice * Number(customer.QuantityBuy)).toLocaleString("de-DE")}</td>
+                </tr>`;
+
+            });
             let price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
             totalPrice += price;
             insertName += 
@@ -368,6 +395,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                             <th>Thành tiền</th>
                                         </tr>
                                     </thead>
+                                    <tbody>`;
+                                    + hdContent +`
+                                    </tbody>
                                 </table>    
                             </div>
                         </div>
