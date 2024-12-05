@@ -298,15 +298,20 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(selectedValue);
             const today = new Date();
             const orders = JSON.parse(localStorage.getItem("orders")) || [];
-            for (let i = orders.length - 1; i > 0; i--) {
-                orderDate = new Date(orders[i].OrderDate);
+
+            // Lọc đơn hàng
+            for (let i = orders.length - 1; i >= 0; i--) {
+                const orderDate = new Date(orders[i].OrderDate);
                 const diffTime = today.getTime() - orderDate.getTime(); // Khoảng cách thời gian (mili-giây)
                 const diffDays = diffTime / (1000 * 60 * 60 * 24); // Chuyển sang ngày
                 if (diffDays > selectedValue) {
-                    orders.splice(i, 1);
+                    orders.splice(i, 1); // Xóa đơn hàng nếu đã quá thời gian
                 }
             }
+
+            // Gọi cả hai hàm statisticProduct và statisticCustomer với danh sách đơn hàng đã lọc
             statisticProduct(orders);
+            statisticCustomer(orders); // Thêm dòng này để gọi statisticCustomer
         });
 
     function statisticProduct(orders) {
@@ -346,8 +351,6 @@ document.addEventListener("DOMContentLoaded", function () {
         let totalPrice = 0;
         let insertName = ""
 
-
-
         infoProduct.forEach((product) => {
             let productName = "";
             let productPrice = 0;
@@ -372,8 +375,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let hdContent = "";
             CustomerBuyList.forEach((customer) => {
                 let price = Number(product.Price.replace(/[.\/]/g, "")) * Number(customer.QuantityBuy);
-                hdContent += 
-                `<tr>
+                hdContent +=
+                    `<tr>
                     <td>${customer.Name}</td>
                     <td>${customer.QuantityBuy}</td>
                     <td>${price.toLocaleString("de-DE")}</td>
@@ -382,8 +385,8 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             price = (Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity));
             totalPrice += price;
-            insertName += 
-            `<tr>
+            insertName +=
+                `<tr>
                 <td>${product.Name}</td>
                 <td><span class="product-tke-quantity-value">${product.Quantity}</span></td>
                 <td><span class="product-tke-price-value">${price.toLocaleString("de-DE")}</span> VNĐ</td>
@@ -391,7 +394,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
                     <div class='overlay'>
                         <div class="hoa-don-container" id="hoadon-items">
-                            <i class="fa-solid fa-rectangle-xmark close"></i>
+                            <i class="fa-solid fa-rectangle-xmark close" onclick="offPaymentProduct(this)"></i>
                             <div class="hoa-don-header">
                                 <h1>Hóa đơn</h1>
                             </div>
@@ -413,15 +416,15 @@ document.addEventListener("DOMContentLoaded", function () {
                                         </tr>
                                     </thead>
                                     <tbody>`
-                                    + hdContent +
-                                    `</tbody>
+                + hdContent +
+                `</tbody>
                                 </table>    
                             </div>
                         </div>
                     </div>
                 </td>
             </tr>`;
-
+            hideOverlay();
         })
         insertTotalPrice += `
                                 Tổng doanh thu: <span id="amount-revenue-tke">${(totalPrice).toLocaleString("de-DE")}</span>VNĐ        
@@ -472,6 +475,145 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Gọi hàm
     statisticProduct(JSON.parse(localStorage.getItem("orders")) || []);
+
+
+
+
+    function statisticCustomer(orders) {
+        const customerStatArray = [];
+
+        for (let i = 0; i < orders.length; i++) {
+            const order = orders[i];
+            const customer = order.Customer;
+
+            let found = false;
+
+            for (let j = 0; j < customerStatArray.length; j++) {
+                if (customerStatArray[j].UserId === customer.UserId) {
+                    customerStatArray[j].TotalRevenue += Number(order.TotalPrice.replace(/\./g, ""));
+                    customerStatArray[j].OrderHistory.push(order);
+
+                    let TotalQuantity = 0;
+                    order.ProductList.forEach(product => {
+                        TotalQuantity += Number(product.Quantity);
+                    });
+                    customerStatArray[j].Quantity += TotalQuantity;
+
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                let TotalQuantity = 0;
+                order.ProductList.forEach(product => {
+                    TotalQuantity += Number(product.Quantity);
+                });
+
+                const newCustomer = {
+                    UserId: customer.UserId,
+                    FullName: customer.FullName,
+                    TotalRevenue: Number(order.TotalPrice.replace(/\./g, "")),
+                    Quantity: TotalQuantity,
+                    OrderHistory: [order],
+                    Address: customer.Address,
+                    Email: customer.Email,
+                    Phone: customer.Phone
+                };
+                customerStatArray.push(newCustomer);
+            }
+        }
+
+        console.log(customerStatArray);
+        let insertCus = "";
+        const insert_Cus = document.getElementById("insertCus");
+        customerStatArray.forEach(Customer => {
+            insertCus += `<tr>
+                        <td>${Customer.FullName}</td>
+                        <td>${Customer.TotalRevenue.toLocaleString("de-DE")} VNĐ</td>
+                        <td><button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
+                          <div class='overlay'>
+                            <div class="hoa-don-container" id="hoadon-customers">
+                              <button class="esc-hoadon-btn" id="esc-hoadon-btn-kh" onclick="offPaymentProduct(this)">X</button>
+                              <div class="hoa-don-header">
+                                  <h1>Hóa đơn</h1>
+                              </div>
+                              <div class="hoa-don-info">
+                                  <div class="hoa-don-customer">
+                                      <h3>Thông tin khách hàng</h3>
+                                      <p>Họ tên: ${Customer.FullName}</p>
+                                      <p>Địa chỉ: ${Customer.Address}</p>
+                                      <p>Số điện thoại: ${Customer.Phone}</p>
+                                      <p>Email: ${Customer.Email}</p>
+                                  </div>
+                              </div>
+                              <div class="product-table-hd">
+                                <table class="product-table-info-hd">
+                                  <thead>
+                                      <tr class="table-header-hd">
+                                          <th>Tên sản phẩm</th>
+                                          <th>Số lượng</th>
+                                          <th>Đơn giá</th>
+                                          <th>Thành tiền</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>`;
+            Customer.OrderHistory.forEach(product => {
+                product.ProductList.forEach((product2) => {
+                    const quantity = Number(product2.Quantity);
+                    const price = Number(product2.Price.replace(/\./g, '').replace(',', '.'));
+                    const total = quantity * price;
+
+                    insertCus += `<tr>
+                                <td>${product2.Name}</td>
+                                <td>${quantity}</td>
+                                <td>${price.toLocaleString("de-DE")} VNĐ</td>
+                                <td>${total.toLocaleString("de-DE")} VNĐ</td>
+                            </tr>`;
+                });
+            });
+            insertCus += `</tbody></table></div></div></div></td></tr>`;
+        });
+        insert_Cus.innerHTML = insertCus;
+
+        let insertBestCus = "";
+        let BestCus = customerStatArray;
+        BestCus.sort((a, b) => b.Quantity - a.Quantity);
+        const topCus = BestCus.slice(0, 5);
+        topCus.forEach(product => {
+            insertBestCus += `
+        <tr class="item-row">
+        <td>${product.FullName}</td>
+        <td>${product.Quantity}</td>
+        <td>${product.TotalRevenue.toLocaleString("de-DE")} VNĐ</td>
+        </tr>
+        `;
+        });
+        document.querySelector("#bestCus").innerHTML = insertBestCus;
+
+        let insertWorstCus = "";
+        let WorstCus = customerStatArray;
+        WorstCus.sort((a, b) => a.Quantity - b.Quantity);
+        const bottomCus = WorstCus.slice(0, 5);
+        bottomCus.forEach(product => {
+            insertWorstCus += `
+        <tr class="item-row">
+        <td>${product.FullName}</td>
+        <td>${product.Quantity}</td>
+        <td>${product.TotalRevenue.toLocaleString("de-DE")} VNĐ</td>
+        </tr>
+        `;
+        });
+        document.querySelector("#worstCus").innerHTML = insertWorstCus;
+
+        hideOverlay();
+    }
+
+    statisticCustomer(JSON.parse(localStorage.getItem("orders")) || [])
+
+
+
+
     //--------------------------------- Product -----------------------------
     // ------------ Add ------------
     function addProducttoTable() {
@@ -1088,142 +1230,142 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 
-    // ------------ Edit ------------
-    function editProduct(productElement) {
-        const products = JSON.parse(localStorage.getItem("products")) || [];
+// ------------ Edit ------------
+function editProduct(productElement) {
+    const products = JSON.parse(localStorage.getItem("products")) || [];
+    const divProduct = productElement.parentElement.parentElement;
+    const id = divProduct.querySelector(".product__id").innerText;
+    const nameText = divProduct.querySelector(".product__name");
+    const quantityText = divProduct.querySelector(".product__quantity");
+    const priceText = divProduct.querySelector(".product__price");
+    const imgDiv = divProduct.querySelector(".product__img");
+    for (let i = 0; i < products.length; i++) {
+        if (products[i].ID == id) {
+            const name = document.getElementById("form__edit-name");
+            const brand = document.getElementById("form__edit-brand");
+            const quantity = document.getElementById("form__edit-quantity");
+            const price = document.getElementById("form__edit-price");
+            const img = document.getElementById("form__edit-preview-img");
+            const cpu = document.getElementById("form__edit-cpu");
+            const screen = document.getElementById("form__edit-screen");
+            const ram = document.getElementById("form__edit-ram");
+            const rom = document.getElementById("form__edit-rom");
+            const os = document.getElementById("form__edit-os");
+            const card = document.getElementById("form__edit-card");
+            const pin = document.getElementById("form__edit-pin");
+            const network = document.getElementById("form__edit-network");
+            const weight = document.getElementById("form__edit-weight");
+            const old = document.getElementById("form__edit-old");
+            const sale = document.getElementById("form__edit-sale");
+            const detailImg = document.getElementById(
+                "form__edit-preview-detail-img"
+            );
+            const brandOpt = brand.querySelectorAll("option");
+            brandOpt.forEach((opt) => {
+                if (opt.value == products[i].Brand) opt.selected = true;
+            });
+            name.value = products[i].Name;
+            quantity.value = products[i].Quantity;
+            price.value = products[i].Price;
+            img.src = products[i].Img;
+            cpu.value = products[i].Detail.CPU;
+            screen.value = products[i].Detail.Screen;
+            ram.value = products[i].Detail.RAM;
+            rom.value = products[i].Detail.ROM;
+            os.value = products[i].Detail.OS;
+            card.value = products[i].Detail.Card;
+            pin.value = products[i].Detail.Pin;
+            network.value = products[i].Detail.Network;
+            weight.value = products[i].Detail.Weight;
+            old.value = products[i].Detail.Old;
+            sale.value = products[i].Detail.Sale;
+            detailImg.src = products[i].Detail.Img;
+            // ----- Submit ------
+            const submitBtn = document.querySelector(".form__edit-submit-btn");
+
+            // Xóa sự kiện trước khi gán mới
+            submitBtn.replaceWith(submitBtn.cloneNode(true)); // Replace để đảm bảo xóa mọi sự kiện
+            document
+                .querySelector(".form__edit-submit-btn")
+                .addEventListener("click", (event) => {
+                    event.preventDefault();
+                    //kiểm tra lại
+                    if (!inputFilled([name, brand, quantity, price, img])) {
+                        alert("Vui lòng nhập đầy đủ các thông tin chính");
+                        return false;
+                    } else if (isNaN(Number(price.value.replace(/\./g, "")))) {
+                        alert("Vui lòng nhập số.");
+                        price.focus();
+                        return false;
+                    } else if (isNaN(quantity.value)) {
+                        alert("Vui lòng nhập số.");
+                        quantity.focus();
+                        return false;
+                    } else {
+                        const product = {
+                            ID: id,
+                            Img: img.src,
+                            Name: name.value,
+                            Brand: brand.value,
+                            Price: price.value,
+                            Quantity: quantity.value,
+                            OriginalPrice: "",
+                            Detail: {
+                                Img: detailImg.src,
+                                CPU: cpu.value,
+                                Screen: screen.value,
+                                RAM: ram.value,
+                                ROM: rom.value,
+                                OS: os.value,
+                                Card: card.value,
+                                Pin: pin.value,
+                                Network: network.value,
+                                Weight: weight.value,
+                                Old: old.value,
+                                Sale: sale.value,
+                            },
+                        };
+                        nameText.innerText = product.Name;
+                        quantityText.innerText = product.Quantity;
+                        priceText.innerText = product.Price;
+                        imgDiv.src = product.Img;
+                        alert("Đã sửa thành công");
+                        products[i] = product;
+                        localStorage.setItem("products", JSON.stringify(products));
+                    }
+                });
+            break;
+        }
+    }
+    document.querySelector(".product__edit").style.display = "block";
+}
+// ------------ Delete ------------
+function deleteProduct(productElement) {
+    if (confirm("Bạn có chắc chắn xóa sản phẩm này")) {
         const divProduct = productElement.parentElement.parentElement;
         const id = divProduct.querySelector(".product__id").innerText;
-        const nameText = divProduct.querySelector(".product__name");
-        const quantityText = divProduct.querySelector(".product__quantity");
-        const priceText = divProduct.querySelector(".product__price");
-        const imgDiv = divProduct.querySelector(".product__img");
+        const products = JSON.parse(localStorage.getItem("products")) || [];
         for (let i = 0; i < products.length; i++) {
             if (products[i].ID == id) {
-                const name = document.getElementById("form__edit-name");
-                const brand = document.getElementById("form__edit-brand");
-                const quantity = document.getElementById("form__edit-quantity");
-                const price = document.getElementById("form__edit-price");
-                const img = document.getElementById("form__edit-preview-img");
-                const cpu = document.getElementById("form__edit-cpu");
-                const screen = document.getElementById("form__edit-screen");
-                const ram = document.getElementById("form__edit-ram");
-                const rom = document.getElementById("form__edit-rom");
-                const os = document.getElementById("form__edit-os");
-                const card = document.getElementById("form__edit-card");
-                const pin = document.getElementById("form__edit-pin");
-                const network = document.getElementById("form__edit-network");
-                const weight = document.getElementById("form__edit-weight");
-                const old = document.getElementById("form__edit-old");
-                const sale = document.getElementById("form__edit-sale");
-                const detailImg = document.getElementById(
-                    "form__edit-preview-detail-img"
-                );
-                const brandOpt = brand.querySelectorAll("option");
-                brandOpt.forEach((opt) => {
-                    if (opt.value == products[i].Brand) opt.selected = true;
-                });
-                name.value = products[i].Name;
-                quantity.value = products[i].Quantity;
-                price.value = products[i].Price;
-                img.src = products[i].Img;
-                cpu.value = products[i].Detail.CPU;
-                screen.value = products[i].Detail.Screen;
-                ram.value = products[i].Detail.RAM;
-                rom.value = products[i].Detail.ROM;
-                os.value = products[i].Detail.OS;
-                card.value = products[i].Detail.Card;
-                pin.value = products[i].Detail.Pin;
-                network.value = products[i].Detail.Network;
-                weight.value = products[i].Detail.Weight;
-                old.value = products[i].Detail.Old;
-                sale.value = products[i].Detail.Sale;
-                detailImg.src = products[i].Detail.Img;
-                // ----- Submit ------
-                const submitBtn = document.querySelector(".form__edit-submit-btn");
-
-                // Xóa sự kiện trước khi gán mới
-                submitBtn.replaceWith(submitBtn.cloneNode(true)); // Replace để đảm bảo xóa mọi sự kiện
-                document
-                    .querySelector(".form__edit-submit-btn")
-                    .addEventListener("click", (event) => {
-                        event.preventDefault();
-                        //kiểm tra lại
-                        if (!inputFilled([name, brand, quantity, price, img])) {
-                            alert("Vui lòng nhập đầy đủ các thông tin chính");
-                            return false;
-                        } else if (isNaN(Number(price.value.replace(/\./g, "")))) {
-                            alert("Vui lòng nhập số.");
-                            price.focus();
-                            return false;
-                        } else if (isNaN(quantity.value)) {
-                            alert("Vui lòng nhập số.");
-                            quantity.focus();
-                            return false;
-                        } else {
-                            const product = {
-                                ID: id,
-                                Img: img.src,
-                                Name: name.value,
-                                Brand: brand.value,
-                                Price: price.value,
-                                Quantity: quantity.value,
-                                OriginalPrice: "",
-                                Detail: {
-                                    Img: detailImg.src,
-                                    CPU: cpu.value,
-                                    Screen: screen.value,
-                                    RAM: ram.value,
-                                    ROM: rom.value,
-                                    OS: os.value,
-                                    Card: card.value,
-                                    Pin: pin.value,
-                                    Network: network.value,
-                                    Weight: weight.value,
-                                    Old: old.value,
-                                    Sale: sale.value,
-                                },
-                            };
-                            nameText.innerText = product.Name;
-                            quantityText.innerText = product.Quantity;
-                            priceText.innerText = product.Price;
-                            imgDiv.src = product.Img;
-                            alert("Đã sửa thành công");
-                            products[i] = product;
-                            localStorage.setItem("products", JSON.stringify(products));
-                        }
-                    });
+                products.splice(i, 1);
+                localStorage.setItem("products", JSON.stringify(products));
                 break;
             }
         }
-        document.querySelector(".product__edit").style.display = "block";
+        divProduct.remove();
     }
-    // ------------ Delete ------------
-    function deleteProduct(productElement) {
-        if (confirm("Bạn có chắc chắn xóa sản phẩm này")) {
-            const divProduct = productElement.parentElement.parentElement;
-            const id = divProduct.querySelector(".product__id").innerText;
-            const products = JSON.parse(localStorage.getItem("products")) || [];
-            for (let i = 0; i < products.length; i++) {
-                if (products[i].ID == id) {
-                    products.splice(i, 1);
-                    localStorage.setItem("products", JSON.stringify(products));
-                    break;
-                }
-            }
-            divProduct.remove();
-        }
-    }
+}
 
-    //--------------------------------- Order -----------------------------
-    // Add order when the page is loaded
-    function addOrdertoTable() {
-        const orders = JSON.parse(localStorage.getItem("orders")) || [];
-        let orderContent = "";
-        orders.forEach((order) => {
-            //detail
-            let productContent = "";
-            order.ProductList.forEach((product) => {
-                productContent += `< tr >
+//--------------------------------- Order -----------------------------
+// Add order when the page is loaded
+function addOrdertoTable() {
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    let orderContent = "";
+    orders.forEach((order) => {
+        //detail
+        let productContent = "";
+        order.ProductList.forEach((product) => {
+            productContent += `< tr >
                 <td class="order-detail-id">${product.ID}</td>
                 <td>
                     <div class="order-detail-product">
@@ -1236,21 +1378,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 </td>
                 <td class="order-detail-quantity">${product.Quantity}</td>
             </tr > `;
-            });
-            //order
-            //Đặt trạng thái cho bảng
-            let cxlSelected = "";
-            let dxnSelected = "";
-            let dgSelected = "";
-            let dhSelected = "";
-            if (order.Status == "Chưa xử lý") cxlSelected = 'selected';
-            else if (order.Status == "Đã xác nhận") dxnSelected = "selected";
-            else if (order.Status == "Đã giao thành công") dgSelected = "selected";
-            else dhSelected = "selected";
-            const orderDate = new Date(order.OrderDate);
-            const formattedDate = new Intl.DateTimeFormat("vi-VN").format(orderDate);
-            orderContent +=
-                `< tr >
+        });
+        //order
+        //Đặt trạng thái cho bảng
+        let cxlSelected = "";
+        let dxnSelected = "";
+        let dgSelected = "";
+        let dhSelected = "";
+        if (order.Status == "Chưa xử lý") cxlSelected = 'selected';
+        else if (order.Status == "Đã xác nhận") dxnSelected = "selected";
+        else if (order.Status == "Đã giao thành công") dgSelected = "selected";
+        else dhSelected = "selected";
+        const orderDate = new Date(order.OrderDate);
+        const formattedDate = new Intl.DateTimeFormat("vi-VN").format(orderDate);
+        orderContent +=
+            `< tr >
             <td class="order__id">${order.ID}</td>
             <td class="order__customer-id">${order.Customer.UserId}</td>
             <td class="order__customer-district" style="display: none">${order.Customer.District}</td>
@@ -1276,8 +1418,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 </tr>
                                 </thead>
                                 <tbody>` +
-                productContent +
-                `</tbody>
+            productContent +
+            `</tbody>
                                 <tfoot>
                                 <tr>
                                     <td colspan="4" class="totalPrice">
@@ -1311,124 +1453,127 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             </td>
         </tr > `;
-        });
-        document.querySelector(".order-table tbody").innerHTML = orderContent;
-        setStatusColor();
-    }
-    addOrdertoTable();
+    });
+    document.querySelector(".order-table tbody").innerHTML = orderContent;
+    setStatusColor();
+}
+addOrdertoTable();
 
-    function showOrderDetail(orderElement) {
-        orderElement.parentElement.querySelector(".overlay").style.display = "block";
+function showOrderDetail(orderElement) {
+    orderElement.parentElement.querySelector(".overlay").style.display = "block";
+}
+// Set Status
+function setOrderStatus(statusElement) {
+    const orderStatusSubmit = statusElement.parentElement.querySelector(
+        ".order__submit-status"
+    );
+    orderStatusSubmit.disabled = false;
+    orderStatusSubmit.style.opacity = 1;
+}
+function submitStatus(submitElement, event) {
+    event.preventDefault();
+    const orderStatusSubmit = submitElement.parentElement.querySelector(
+        ".order__submit-status"
+    );
+    const selectElement = (statusElement =
+        submitElement.parentElement.querySelector("select"));
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const orderDiv =
+        submitElement.parentElement.parentElement.parentElement.parentElement
+            .parentElement.parentElement.parentElement.parentElement.parentElement
+            .parentElement;
+    const orderID = orderDiv.querySelector(".order__id").innerText;
+    const statusText =
+        selectElement.options[statusElement.selectedIndex].innerText; // Lấy text của thẻ option đang được chọn
+    for (let i = 0; i < orders.length; i++)
+        if (orders[i].ID == orderID) {
+            orders[i].Status = statusText;
+            break;
+        }
+    orderDiv.querySelector(".order__status").innerText = statusText;
+    localStorage.setItem("orders", JSON.stringify(orders));
+    setStatusColor();
+    alert("Đã cập nhật trạng thái thành công!");
+    orderStatusSubmit.disabled = true;
+    orderStatusSubmit.style.opacity = 0.5;
+}
+function setStatusColor() {
+    const orderStatus = document.querySelectorAll(".order__status");
+    for (let i = 0; i < orderStatus.length; i++) {
+        if (orderStatus[i].innerText == "Chưa xử lý")
+            orderStatus[i].style.color = "#565555";
+        else if (orderStatus[i].innerText == "Đã xác nhận")
+            orderStatus[i].style.color = "#4a81e1";
+        else if (orderStatus[i].innerText == "Đã giao")
+            orderStatus[i].style.color = "#00bb4bda";
+        else if (orderStatus[i].innerText == "Đã hủy")
+            orderStatus[i].style.color = "#ff0000da";
     }
-    // Set Status
-    function setOrderStatus(statusElement) {
-        const orderStatusSubmit = statusElement.parentElement.querySelector(
-            ".order__submit-status"
-        );
-        orderStatusSubmit.disabled = false;
-        orderStatusSubmit.style.opacity = 1;
-    }
-    function submitStatus(submitElement, event) {
-        event.preventDefault();
-        const orderStatusSubmit = submitElement.parentElement.querySelector(
-            ".order__submit-status"
-        );
-        const selectElement = (statusElement =
-            submitElement.parentElement.querySelector("select"));
-        const orders = JSON.parse(localStorage.getItem("orders")) || [];
-        const orderDiv =
-            submitElement.parentElement.parentElement.parentElement.parentElement
-                .parentElement.parentElement.parentElement.parentElement.parentElement
-                .parentElement;
-        const orderID = orderDiv.querySelector(".order__id").innerText;
-        const statusText =
-            selectElement.options[statusElement.selectedIndex].innerText; // Lấy text của thẻ option đang được chọn
-        for (let i = 0; i < orders.length; i++)
-            if (orders[i].ID == orderID) {
-                orders[i].Status = statusText;
-                break;
-            }
-        orderDiv.querySelector(".order__status").innerText = statusText;
-        localStorage.setItem("orders", JSON.stringify(orders));
-        setStatusColor();
-        alert("Đã cập nhật trạng thái thành công!");
-        orderStatusSubmit.disabled = true;
-        orderStatusSubmit.style.opacity = 0.5;
-    }
-    function setStatusColor() {
-        const orderStatus = document.querySelectorAll(".order__status");
-        for (let i = 0; i < orderStatus.length; i++) {
-            if (orderStatus[i].innerText == "Chưa xử lý")
-                orderStatus[i].style.color = "#565555";
-            else if (orderStatus[i].innerText == "Đã xác nhận")
-                orderStatus[i].style.color = "#4a81e1";
-            else if (orderStatus[i].innerText == "Đã giao")
-                orderStatus[i].style.color = "#00bb4bda";
-            else if (orderStatus[i].innerText == "Đã hủy")
-                orderStatus[i].style.color = "#ff0000da";
+}
+
+//editCustomer
+function editCustomer(customerElement) {
+    console.log("hhahahahahahahhah");
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const divCustomer = customerElement.parentElement.parentElement;
+    const id = divCustomer.querySelector(".customer__userID").innerText;
+
+    const userNameField = document.getElementById("form__edit-userName");
+    const namefullField = document.getElementById("form__edit-fullname");
+    const phoneField = document.getElementById("form__edit-phone");
+    const emailField = document.getElementById("form__edit-email");
+    const addressField = document.getElementById("form__edit-address");
+
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].UserId == id) {
+            userNameField.value = users[i].UserName;
+            namefullField.value = users[i].FullName;
+            phoneField.value = users[i].Phone;
+            emailField.value = users[i].Email;
+            addressField.value = users[i].Address;
+
+            document
+                .getElementById("form__edit-submit")
+                .addEventListener("click", function (event) {
+                    event.preventDefault();
+
+                    users[i].FullName = namefullField.value;
+                    users[i].Phone = phoneField.value;
+                    users[i].Email = emailField.value;
+                    users[i].Address = addressField.value;
+                    users[i].UserName = userNameField.value;
+
+                    localStorage.setItem("users", JSON.stringify(users));
+
+                    divCustomer.querySelector(".customer__userFullName").innerText =
+                        users[i].FullName;
+                    divCustomer.querySelector(".customer__userName").innerText =
+                        users[i].UserName;
+                    divCustomer.querySelector(".customer__userPhone").innerText =
+                        users[i].Phone;
+                    divCustomer.querySelector(".customer__userEmail").innerText =
+                        users[i].Email;
+                    divCustomer.querySelector(".customer__userAddress").innerText =
+                        users[i].Address;
+
+                    // Close the modal
+                    document.querySelector(".admin__edit").style.display = "none";
+                });
+
+            break;
         }
     }
 
-    //editCustomer
-    function editCustomer(customerElement) {
-        console.log("hhahahahahahahhah");
-        const users = JSON.parse(localStorage.getItem("users")) || [];
-        const divCustomer = customerElement.parentElement.parentElement;
-        const id = divCustomer.querySelector(".customer__userID").innerText;
+    // Show the edit modal
+    document.querySelector(".admin__edit").style.display = "block";
+}
+function showDetailProductAdmin(btnElement) {
+    btnElement.parentElement.querySelector('.detail-admin').style.display = 'block'
+}
+function showPaymentProduct(paymentElement) {
+    paymentElement.parentElement.querySelector(".overlay").style.display = 'block'
 
-        const userNameField = document.getElementById("form__edit-userName");
-        const namefullField = document.getElementById("form__edit-fullname");
-        const phoneField = document.getElementById("form__edit-phone");
-        const emailField = document.getElementById("form__edit-email");
-        const addressField = document.getElementById("form__edit-address");
-
-        for (let i = 0; i < users.length; i++) {
-            if (users[i].UserId == id) {
-                userNameField.value = users[i].UserName;
-                namefullField.value = users[i].FullName;
-                phoneField.value = users[i].Phone;
-                emailField.value = users[i].Email;
-                addressField.value = users[i].Address;
-
-                document
-                    .getElementById("form__edit-submit")
-                    .addEventListener("click", function (event) {
-                        event.preventDefault();
-
-                        users[i].FullName = namefullField.value;
-                        users[i].Phone = phoneField.value;
-                        users[i].Email = emailField.value;
-                        users[i].Address = addressField.value;
-                        users[i].UserName = userNameField.value;
-
-                        localStorage.setItem("users", JSON.stringify(users));
-
-                        divCustomer.querySelector(".customer__userFullName").innerText =
-                            users[i].FullName;
-                        divCustomer.querySelector(".customer__userName").innerText =
-                            users[i].UserName;
-                        divCustomer.querySelector(".customer__userPhone").innerText =
-                            users[i].Phone;
-                        divCustomer.querySelector(".customer__userEmail").innerText =
-                            users[i].Email;
-                        divCustomer.querySelector(".customer__userAddress").innerText =
-                            users[i].Address;
-
-                        // Close the modal
-                        document.querySelector(".admin__edit").style.display = "none";
-                    });
-
-                break;
-            }
-        }
-
-        // Show the edit modal
-        document.querySelector(".admin__edit").style.display = "block";
-    }
-    function showDetailProductAdmin(btnElement) {
-        btnElement.parentElement.querySelector('.detail-admin').style.display = 'block'
-    }
-    function showPaymentProduct(paymentElement) {
-        paymentElement.parentElement.querySelector(".overlay").style.display = 'block'
-        
-    }
+}
+function offPaymentProduct(paymentElement) {
+    paymentElement.parentElement.parentElement.parentElement.querySelector(".overlay").style.display = 'none'
+}
