@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //-----------------------------------Thống kê ----------------------------
     document
-        .querySelector(".option-period-tke")
+        .querySelector(".option-period-tke-mh")
         .addEventListener("change", (event) => {
             const selectedValue = event.target.value;
             console.log(selectedValue);
@@ -307,9 +307,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
 
-            // Gọi cả hai hàm statisticProduct và statisticCustomer với danh sách đơn hàng đã lọc
+            // Gọi hàm statisticProductvới danh sách đơn hàng đã lọc
             statisticProduct(orders);
-            statisticCustomer(orders); // Thêm dòng này để gọi statisticCustomer
+        });
+    document
+        .querySelector(".option-period-tke-kh")
+        .addEventListener("change", (event) => {
+            const selectedValue = event.target.value;
+            console.log(selectedValue);
+            const today = new Date();
+            const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+            // Lọc đơn hàng
+            for (let i = orders.length - 1; i >= 0; i--) {
+                const orderDate = new Date(orders[i].OrderDate);
+                const diffTime = today.getTime() - orderDate.getTime(); // Khoảng cách thời gian (mili-giây)
+                const diffDays = diffTime / (1000 * 60 * 60 * 24); // Chuyển sang ngày
+                if (diffDays > selectedValue) {
+                    orders.splice(i, 1); // Xóa đơn hàng nếu đã quá thời gian
+                }
+            }
+
+            // Gọi hàm  statisticCustomer với danh sách đơn hàng đã lọc
+            statisticCustomer(orders);
         });
 
     function statisticProduct(orders) {
@@ -343,13 +363,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         let insertWorst = "";
         let insertBest = "";
-        let insertTotalPrice = "";
-        let totalPrice = 0;
+        let insertTotalQuantity = "";
+        let totalQuantity = 0;
         let insertName = "";
 
         infoProduct.forEach((product) => {
-            let productName = "";
-            let productPrice = 0;
             let CustomerBuyList = [];
             for (let i = 0; i < product.Order[0].ProductList.length; i++) {
                 if (product.Order[0].ProductList[i].ID == product.ID) {
@@ -379,9 +397,8 @@ document.addEventListener("DOMContentLoaded", function () {
                    <td>${price.toLocaleString("de-DE")}</td>
                </tr>`;
             });
-            price =
-                Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity);
-            totalPrice += price;
+            price = Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity);
+            totalQuantity += Number(product.Quantity);
             insertName +=
                 `<tr>
                <td>${product.Name}</td>
@@ -390,32 +407,32 @@ document.addEventListener("DOMContentLoaded", function () {
                <td><span class="product-tke-price-value">${price.toLocaleString(
                     "de-DE"
                 )}</span> VNĐ</td>
-               <td>
-                   <button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
-                   <div class='overlay'>
-                       <div class="hoa-don-container" id="hoadon-items">
-                           <i class="fa-solid fa-rectangle-xmark close" onclick="offPaymentProduct(this)"></i>
-                           <div class="hoa-don-header">
-                               <h1>Hóa đơn</h1>
-                           </div>
-                           <div class="hoa-don-info">
-                               <div class="hoa-don-mat-hang">
-                                   <h3>Thông tin sản phẩm</h3>
-                                   <p>Mã: ${product.ID}</p>
-                                   <p>Tên: ${product.Name}</p>
-                                   <p>Giá: ${product.Price}</p>
-                               </div>
-                           </div>
-                           <div class="product-table-hd">
-                               <table class="product-table-info-hd">
-                                   <thead>
-                                       <tr class="table-header-hd">
-                                           <th>Tên khách hàng</th>
-                                           <th>Số lượng</th>
-                                           <th>Thành tiền</th>
-                                       </tr>
-                                   </thead>
-                                   <tbody>` +
+                 <td>
+                     <button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
+                     <div class='overlay'>
+                         <div class="hoa-don-container" id="hoadon-items">
+                             <i class="fa-solid fa-rectangle-xmark close"></i>
+                             <div class="hoa-don-header">
+                                 <h1>Hóa đơn</h1>
+                             </div>
+                             <div class="hoa-don-info">
+                                 <div class="hoa-don-mat-hang">
+                                     <h3>Thông tin sản phẩm</h3>
+                                     <p>Mã: ${product.ID}</p>
+                                     <p>Tên: ${product.Name}</p>
+                                     <p>Giá: ${product.Price}</p>
+                                 </div>
+                             </div>
+                             <div class="product-table-hd">
+                                 <table class="product-table-info-hd">
+                                     <thead>
+                                         <tr class="table-header-hd">
+                                             <th>Tên khách hàng</th>
+                                             <th>Số lượng</th>
+                                             <th>Thành tiền</th>
+                                         </tr>
+                                     </thead>
+                                     <tbody>` +
                 hdContent +
                 `</tbody>
                                </table>    
@@ -426,11 +443,9 @@ document.addEventListener("DOMContentLoaded", function () {
            </tr>`;
             hideOverlay();
         });
-        insertTotalPrice += `
-                               Tổng doanh thu: <span id="amount-revenue-tke">${totalPrice.toLocaleString(
-            "de-DE"
-        )}</span>VNĐ        
-                           `;
+        insertTotalQuantity += `
+                                 Tổng số lượng bán được: <span id="amount-revenue-tke">${totalQuantity}</span>mặt hàng  
+                             `;
 
         // Sắp xếp sản phẩm theo doanh thu giảm dần
         const best = infoProduct;
@@ -468,9 +483,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.querySelector("#worstPD").innerHTML = insertWorst;
 
-        document.querySelector(".total-revenue-tke").innerHTML = insertTotalPrice;
+        document.querySelector(".total-revenue-tke").innerHTML = insertTotalQuantity;
         document.querySelector(".items-tbody-tke").innerHTML = insertName;
-        console.log(infoProduct);
+        hideOverlay();
     }
 
     // Gọi hàm
@@ -478,7 +493,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function statisticCustomer(orders) {
         const customerStatArray = [];
-
+        let totalPrice = 0;
+        let insertTotalPrice = "";
         for (let i = 0; i < orders.length; i++) {
             const order = orders[i];
             const customer = order.Customer;
@@ -527,38 +543,39 @@ document.addEventListener("DOMContentLoaded", function () {
         let insertCus = "";
         const insert_Cus = document.getElementById("insertCus");
         customerStatArray.forEach((Customer) => {
+            totalPrice += Customer.TotalRevenue
             insertCus += `<tr>
                        <td>${Customer.FullName}</td>
                        <td>${Customer.TotalRevenue.toLocaleString(
                 "de-DE"
             )} VNĐ</td>
-                       <td><button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
-                         <div class='overlay'>
-                           <div class="hoa-don-container" id="hoadon-customers">
-                             <button class="esc-hoadon-btn" id="esc-hoadon-btn-kh" onclick="offPaymentProduct(this)">X</button>
-                             <div class="hoa-don-header">
-                                 <h1>Hóa đơn</h1>
-                             </div>
-                             <div class="hoa-don-info">
-                                 <div class="hoa-don-customer">
-                                     <h3>Thông tin khách hàng</h3>
-                                     <p>Họ tên: ${Customer.FullName}</p>
-                                     <p>Địa chỉ: ${Customer.Address}</p>
-                                     <p>Số điện thoại: ${Customer.Phone}</p>
-                                     <p>Email: ${Customer.Email}</p>
-                                 </div>
-                             </div>
-                             <div class="product-table-hd">
-                               <table class="product-table-info-hd">
-                                 <thead>
-                                     <tr class="table-header-hd">
-                                         <th>Tên sản phẩm</th>
-                                         <th>Số lượng</th>
-                                         <th>Đơn giá</th>
-                                         <th>Thành tiền</th>
-                                     </tr>
-                                 </thead>
-                                 <tbody>`;
+                         <td><button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
+                           <div class='overlay'>
+                             <div class="hoa-don-container" id="hoadon-customers">
+                               <i class="fa-solid fa-rectangle-xmark close"></i>
+                               <div class="hoa-don-header">
+                                   <h1>Hóa đơn</h1>
+                               </div>
+                               <div class="hoa-don-info">
+                                   <div class="hoa-don-customer">
+                                       <h3>Thông tin khách hàng</h3>
+                                       <p>Họ tên: ${Customer.FullName}</p>
+                                       <p>Địa chỉ: ${Customer.Address}</p>
+                                       <p>Số điện thoại: ${Customer.Phone}</p>
+                                       <p>Email: ${Customer.Email}</p>
+                                   </div>
+                               </div>
+                               <div class="product-table-hd">
+                                 <table class="product-table-info-hd">
+                                   <thead>
+                                       <tr class="table-header-hd">
+                                           <th>Tên sản phẩm</th>
+                                           <th>Số lượng</th>
+                                           <th>Đơn giá</th>
+                                           <th>Thành tiền</th>
+                                       </tr>
+                                   </thead>
+                                   <tbody>`;
             Customer.OrderHistory.forEach((product) => {
                 product.ProductList.forEach((product2) => {
                     const quantity = Number(product2.Quantity);
@@ -578,6 +595,11 @@ document.addEventListener("DOMContentLoaded", function () {
             insertCus += `</tbody></table></div></div></div></td></tr>`;
         });
         insert_Cus.innerHTML = insertCus;
+
+        insertTotalPrice += `
+                          Tổng doanh thu: <span id="amount-revenue-tke">${totalPrice.toLocaleString("de-DE")}</span>VNĐ
+                          `
+        document.querySelector('#total-revenue-tke1').innerHTML = insertTotalPrice
 
         let insertBestCus = "";
         let BestCus = customerStatArray;
@@ -621,34 +643,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const hoadon_kh_page = document.querySelector("#hoadon-customers");
     const hoadon_mh_page = document.querySelector("#hoadon-items");
     const overlay = document.querySelector(".overlay-hd");
-
-    hoadon_kh_btn.forEach((button) => {
-        button.addEventListener("click", showHoaDonKH);
-    });
-
-    hoadon_mh_btn.forEach((button) => {
-        button.addEventListener("click", showHoaDonMH);
-    });
-
-    function showHoaDonKH() {
-        overlay.style.display = "block";
-        hoadon_kh_page.style.display = "block";
-    }
-
-    function showHoaDonMH() {
-        overlay.style.display = "block";
-        hoadon_mh_page.style.display = "block";
-    }
-
-    function closeHoadonMH() {
-        overlay.style.display = "none";
-        hoadon_mh_page.style.display = "none";
-    }
-
-    function closeHoadonKH() {
-        overlay.style.display = "none";
-        hoadon_kh_page.style.display = "none";
-    }
 
     //--------------------------------- Customer -----------------------------
     // add customer to the table when the page is loaded
@@ -826,20 +820,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
                 // Thêm vào bảng khi không load trang
                 const productContent = `<tr>
-                <td class="product__id">${product.ID}</td>
-                <td class="product__name">${product.Name}</td>
-                <td class="product__quantity">${product.Quantity}<sup>₫</sup></td>
-                <td class="product__price">${product.Price}</td>
-                <td><button class="show-detail-btn">Chi tiết</button></td>
-                <td class="product__img"><img src="${product.Img}"/></td>
-                <td>
-                    <i class="fa-regular fa-pen-to-square edit-icon" onclick="editProduct(this)"></i>
-                    <i class="fa-solid fa-trash delete-icon" onclick="deleteProduct(this)"></i>
-                </td>
-            </tr>`;
+                  <td class="product__id">${product.ID}</td>
+                  <td class="product__name">${product.Name}</td>
+                  <td class="product__quantity">${product.Quantity}</td>
+                  <td class="product__price">${product.Price}</td>
+                  <td><button class="show-detail-btn">Chi tiết</button></td>
+                  <td class="product__img"><img src="${product.Img}"/></td>
+                  <td>
+                      <i class="fa-regular fa-pen-to-square edit-icon" onclick="editProduct(this)"></i>
+                      <i class="fa-solid fa-trash delete-icon" onclick="deleteProduct(this)"></i>
+                  </td>
+              </tr>`;
                 const addtr = document.createElement("tr");
                 addtr.innerHTML = productContent;
                 document.getElementById("product__list-body").appendChild(addtr);
+                hideOverlay();
                 // store data into localStorage
                 const products = JSON.parse(localStorage.getItem("products")) || [];
                 products.push(product);
@@ -1267,19 +1262,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Sắp xếp theo quận
         if (this.value == "up") { // Tăng dần
-            sortedOrders.sort((a, b) => {
-                const districtA = parseInt(a.Customer.District) || 0;
-                const districtB = parseInt(b.Customer.District) || 0;
-                return districtA - districtB;
+             sortedOrders.sort((a, b) => {
+              return  a.Customer.District.localeCompare(b.Customer.District)
             });
-        } else if (this.value == "down") { // Giảm dần
-            sortedOrders.sort((a, b) => {
-                const districtA = parseInt(a.Customer.District) || 0;
-                const districtB = parseInt(b.Customer.District) || 0;
-                return districtB - districtA;
-            });
+          }
+        else if (this.value == "down") { // Giảm dần
+          sortedOrders.sort((a, b) => {
+            return b.Customer.District.localeCompare(a.Customer.District)
+          });
         }
-
         // Lưu vào localStorage tạm thời
         localStorage.setItem("orders", JSON.stringify(sortedOrders));
 
@@ -1583,6 +1574,7 @@ function setStatusColor() {
 
 //editCustomer
 function editCustomer(customerElement) {
+    // liệt kê các thông tin cần sửa trong form edit customer
     const users = JSON.parse(localStorage.getItem("users")) || [];
     const divCustomer = customerElement.parentElement.parentElement;
     const id = divCustomer.querySelector(".customer__userID").innerText;
@@ -1594,7 +1586,8 @@ function editCustomer(customerElement) {
     const cityField = document.getElementById("form__edit-city");
 
     for (let i = 0; i < users.length; i++) {
-        if (users[i].UserId == id) {
+        if (users[i].UserId == id) { // nếu tìm được user cần sửa
+            // gán dữ liệu cũ vào form
             namefullField.value = users[i].FullName;
             phoneField.value = users[i].Phone;
             addressField.value = users[i].Address;
@@ -1602,6 +1595,7 @@ function editCustomer(customerElement) {
             districtField.value = users[i].District;
             cityField.value = users[i].City;
 
+            // khi bấm vào nút "sửa" thì lưu lại thông tin mới
             document
                 .getElementById("form__edit-submit")
                 .addEventListener("click", function (event) {
@@ -1614,19 +1608,25 @@ function editCustomer(customerElement) {
                     users[i].District = districtField.value;
                     users[i].Ward = wardField.value;
 
-                    divCustomer.querySelector(".customer__userFullName").innerText =
-                        users[i].FullName;
-                    divCustomer.querySelector(".customer__userAdress").innerText =
-                        users[i].Address;
-                    divCustomer.querySelector(".customer__userPhone").innerText =
-                        users[i].Phone;
-                    divCustomer.querySelector(".customer__userDistrictField").innerText =
-                        users[i].Email;
-                    divCustomer.querySelector(".customer__userCity").innerText =
-                        users[i].City;
-                    divCustomer.querySelector(".customer__userWard").innerText =
-                        users[i].Ward;
+                    localStorage.setItem("users", JSON.stringify(users));
 
+                    let customerContent = "";
+                    customerContent += `<tr>
+                  <td class="customer__userID">${users[i].UserId}</td>
+                  <td class="customer__userName">${users[i].FullName}</td>
+                  <td class="customer__userPhone">${users[i].Phone}</td>
+                  <td class="customer__userAddress">${users[i].Address}, Phường ${users[i].Ward}, Quận ${users[i].District}, ${users[i].City}</td>
+                  <td class="customer__userEmail">${users[i].Email}</td>
+                  <td><button type="button" class="customer__status" title="Nhấp chuột để thay đổi trạng thái">Hoạt động</button></td>
+                  <td>
+                      <i class="fa-regular fa-pen-to-square edit-icon" onclick="editCustomer(this)"></i>
+                  </td>
+                  <td class="customer__userdistrict" style="display: none;">${users[i].District}</td>
+                  <td class="customer__usercity" style="display: none;">${users[i].City}</td>
+                  <td class="customer__userward" style="display: none;">${users[i].Ward}</td>
+              </tr>`;
+
+                    divCustomer.innerHTML = customerContent;
                     // Close the modal
                     document.querySelector(".admin__edit").style.display = "none";
                 });
