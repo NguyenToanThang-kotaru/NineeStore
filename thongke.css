@@ -72,6 +72,8 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    max-height: 570px;
+    overflow-y: auto;
 }
 
 .items-table-tke td {
@@ -251,11 +253,19 @@ body {
 
 
 /* Kiểu cho bảng */
-#top-products-table {
+#top-products-table,#wrost-products-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    border: 1px solid #ddd;
+    
 }
+
+#top-products-table th,#wrost-products-table th {
+    border:1px #a9a8a8;
+    background-color: #ddd;
+}
+
 
 
 /* Kiểu cho tiêu đề cột */
@@ -268,7 +278,7 @@ body {
 
 /* Kiểu cho các ô trong bảng */
 .item-row td {
-    border: 1px solid black;
+    border: 2px solid #ddd;
     padding: 8px;
     text-align: left;
 }
@@ -279,6 +289,3 @@ body {
 }
 
 
-#wrost-products-table {
-    width: 100%;
-}

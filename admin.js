@@ -363,13 +363,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     let insertWorst = "";
     let insertBest = "";
-    let insertTotalPrice = "";
-    let totalPrice = 0;
+    let insertTotalQuantity = "";
+    let totalQuantity = 0;
     let insertName = "";
 
     infoProduct.forEach((product) => {
-      let productName = "";
-      let productPrice = 0;
       let CustomerBuyList = [];
       for (let i = 0; i < product.Order[0].ProductList.length; i++) {
         if (product.Order[0].ProductList[i].ID == product.ID) {
@@ -390,27 +388,23 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       let hdContent = "";
       CustomerBuyList.forEach((customer) => {
-        let price =
-          Number(product.Price.replace(/[.\/]/g, "")) *
-          Number(customer.QuantityBuy);
+        let price = Number(product.Price.replace(/[.\/]/g, "")) * Number(customer.QuantityBuy);
         hdContent += `<tr>
                    <td>${customer.Name}</td>
                    <td>${customer.QuantityBuy}</td>
                    <td>${price.toLocaleString("de-DE")}</td>
                </tr>`;
       });
-      price =
-        Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity);
-      totalPrice += price;
+      price = Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity);
+      totalQuantity += Number(product.Quantity);
       insertName +=
         `<tr>
                <td>${product.Name}</td>
-               <td><span class="product-tke-quantity-value">${
-                 product.Quantity
-               }</span></td>
+               <td><span class="product-tke-quantity-value">${product.Quantity
+        }</span></td>
                <td><span class="product-tke-price-value">${price.toLocaleString(
-                 "de-DE"
-               )}</span> VNĐ</td>
+          "de-DE"
+        )}</span> VNĐ</td>
                <td>
                    <button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
                    <div class='overlay'>
@@ -436,9 +430,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                            <th>Thành tiền</th>
                                        </tr>
                                    </thead>
-                                   <tbody>` +
-        hdContent +
-        `</tbody>
+                                   <tbody>` + hdContent + `</tbody>
                                </table>    
                            </div>
                        </div>
@@ -447,10 +439,8 @@ document.addEventListener("DOMContentLoaded", function () {
            </tr>`;
       hideOverlay();
     });
-    insertTotalPrice += `
-                               Tổng doanh thu: <span id="amount-revenue-tke">${totalPrice.toLocaleString(
-                                 "de-DE"
-                               )}</span>VNĐ        
+    insertTotalQuantity += `
+                               Tổng số lượng bán được: <span id="amount-revenue-tke">${totalQuantity}</span>mặt hàng  
                            `;
 
     // Sắp xếp sản phẩm theo doanh thu giảm dần
@@ -459,8 +449,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const topProducts = best.slice(0, 5);
 
     topProducts.forEach((product) => {
-      let price =
-        Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity);
+      let price = Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity);
       insertBest += `
            <tr class="item-row">
            <td>${product.Name}</td>
@@ -489,7 +478,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelector("#worstPD").innerHTML = insertWorst;
 
-    document.querySelector(".total-revenue-tke").innerHTML = insertTotalPrice;
+    document.querySelector(".total-revenue-tke").innerHTML = insertTotalQuantity;
     document.querySelector(".items-tbody-tke").innerHTML = insertName;
     hideOverlay();
   }
@@ -497,9 +486,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // Gọi hàm
   statisticProduct(JSON.parse(localStorage.getItem("orders")) || []);
 
+
+
   function statisticCustomer(orders) {
     const customerStatArray = [];
-
+    let totalPrice = 0;
+    let insertTotalPrice = "" ;
     for (let i = 0; i < orders.length; i++) {
       const order = orders[i];
       const customer = order.Customer;
@@ -548,11 +540,12 @@ document.addEventListener("DOMContentLoaded", function () {
     let insertCus = "";
     const insert_Cus = document.getElementById("insertCus");
     customerStatArray.forEach((Customer) => {
+      totalPrice += Customer.TotalRevenue
       insertCus += `<tr>
                        <td>${Customer.FullName}</td>
                        <td>${Customer.TotalRevenue.toLocaleString(
-                         "de-DE"
-                       )} VNĐ</td>
+        "de-DE"
+      )} VNĐ</td>
                        <td><button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
                          <div class='overlay'>
                            <div class="hoa-don-container" id="hoadon-customers">
@@ -600,6 +593,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     insert_Cus.innerHTML = insertCus;
 
+    insertTotalPrice +=`
+                        Tổng doanh thu: <span id="amount-revenue-tke">${totalPrice.toLocaleString("de-DE")}</span>VNĐ
+                        `
+    document.querySelector('#total-revenue-tke1').innerHTML=insertTotalPrice
+    
     let insertBestCus = "";
     let BestCus = customerStatArray;
     BestCus.sort((a, b) => b.Quantity - a.Quantity);
