@@ -153,6 +153,7 @@ body {
     color: var(--error-color);
 }
 
+.login-admin-sucess,
 .login-success,
 .overlay .register-success {
     z-index: 120;
@@ -197,7 +198,8 @@ body {
     cursor: pointer;
 }
 
-.login-success .success-btn {
+.login-success .success-btn,
+.login-admin-sucess .success-btn {
     width: 300px;
 }
 

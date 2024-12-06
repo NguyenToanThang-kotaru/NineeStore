@@ -68,6 +68,10 @@ var isLogin = localStorage.getItem("userLogin") ? true : false;
 function reloadPage() {
     window.location.href = "Nineshop.html";
 }
+function reloadAdminPage() {
+    window.location.href = "admin.html";
+}
+
 if (isLogin) {
     document.querySelector("li.login-btn").style.display = "none";
     document.querySelector("li.register-btn").style.display = "none";
