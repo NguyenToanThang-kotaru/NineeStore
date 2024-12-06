@@ -56,7 +56,7 @@ if (!localStorage.getItem("products")) {
             // ).innerText.trim(),
             Detail: {
                 Img: item.querySelector(".detail-img").src,
-                CPU: item.querySelector(".CPU").innerText,
+                CPU: item.querySelector(".CPU").innerText.trim(),
                 Screen: item.querySelector(".screen").innerText.trim(),
                 RAM: item.querySelector(".RAM").innerText.trim(),
                 ROM: item.querySelector(".ROM").innerText.trim(),
@@ -69,9 +69,6 @@ if (!localStorage.getItem("products")) {
                 Sale: item.querySelector(".sale").innerText.trim(),
             }
         };
-        console.log(product.Detail.CPU);
-        console.log(product.Detail.Sale);
-        console.log(product.Detail.Old);
         //Đẩy product vào mảng products[]
         products.push(product);
     });
@@ -306,7 +303,7 @@ productList.forEach((product) => {
     if (product.Brand === "Dell") dellList.push(product);
     if (product.Brand === "Asus") asusList.push(product);
     if (product.Brand === "Mac") macList.push(product);
-    if (product.Detail.Old === "true") oldList.push(product);
+    if (product.Detail.Old === true) oldList.push(product);
     if (product.Detail.Sale > 0) saleList.push(product);
 
 });

@@ -299,7 +299,8 @@ button:hover {
 
 /* --------------- Order ------------ */
 #filter-date,
-#filter-address
+#filter-district, 
+#filter-status 
 {
   display: none;
   width: 90%;

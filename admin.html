@@ -63,6 +63,7 @@
                         <div class="select-period-tke">
                             Khoảng thời gian:
                             <select name="select-preiod-tke" class="option-period-tke">
+                                <option value="Infinity">Tất cả</option>
                                 <option value="1">1 ngày</option>
                                 <option value="7">7 ngày</option>
                                 <option value="30">30 ngày</option>
@@ -105,25 +106,43 @@
                         </div>
 
                         <table class="summary-table-tke">
-                            <thead>
-                                <tr>
-                                    <th>Tiêu chí</th>
-                                    <th>Mặt hàng</th>
-                                    <th>Doanh thu</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Mặt hàng bán chạy nhất</td>
-                                    <td id="best-item">Mặt hàng 1</td>
-                                    <td id="best-item-revenue">0 VNĐ</td>
-                                </tr>
-                                <tr>
-                                    <td>Mặt hàng bán ế nhất</td>
-                                    <td id="worst-item">Mặt Hàng 2</td>
-                                    <td id="worst-item-revenue">0 VNĐ</td>
-                                </tr>
-                            </tbody>
+                            <h1 id="table-title">Danh Sách Mặt Hàng Bán Chạy Nhất</h1>
+                            <table id="top-products-table">
+                                <thead>
+                                    <tr>
+                                        <th class="category3" id="header-product-name">
+                                            Tên Mặt Hàng
+                                        </th>
+                                        <th class="category3" id="header-quantity-sold">
+                                            Số Lượng Bán Được
+                                        </th>
+                                        <th class="category3" id="header-revenue">Doanh Thu</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bestPD">
+                                    <!-- Nội dung sẽ được chèn vào đây -->
+                                </tbody>
+                            </table>
+                        </table>
+
+                        <table class="summary-table-tke">
+                            <h1 id="table-title">Danh Sách Mặt Hàng Bán Ế Nhất</h1>
+                            <table id="wrost-products-table">
+                                <thead>
+                                    <tr>
+                                        <th class="category3" id="header-product-name">
+                                            Tên Mặt Hàng
+                                        </th>
+                                        <th class="category3" id="header-quantity-sold">
+                                            Số Lượng Bán Được
+                                        </th>
+                                        <th class="category3" id="header-revenue">Doanh Thu</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="worstPD">
+                                    <!-- Nội dung sẽ được chèn vào đây -->
+                                </tbody>
+                            </table>
                         </table>
 
                         <button id="back-btn-mh">Quay lại</button>
@@ -134,6 +153,7 @@
                         <div class="select-period-tke">
                             Khoảng thời gian:
                             <select name="select-preiod-tke" class="option-period-tke">
+                                <option value="Infinity">Tất cả</option>
                                 <option value="1">1 ngày</option>
                                 <option value="7">7 ngày</option>
                                 <option value="30">30 ngày</option>
@@ -148,7 +168,7 @@
                                     <th>Xem hóa đơn</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="insertCus">
                                 <tr>
                                     <td>Khách hàng 1</td>
                                     <td>0 VNĐ</td>
@@ -166,6 +186,48 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <table class="summary-table-tke">
+                            <h1 id="table-title">
+                                Danh sách khách hàng mua nhiêù tiền nhất
+                            </h1>
+                            <table id="top-products-table">
+                                <thead>
+                                    <tr>
+                                        <th class="category3" id="header-product-name">
+                                            Tên Khách Hàng
+                                        </th>
+                                        <th class="category3" id="header-quantity-sold">
+                                            Số Lượng Bán Được
+                                        </th>
+                                        <th class="category3" id="header-revenue">Doanh Thu</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bestCus">
+                                    <!-- Nội dung sẽ được chèn vào đây -->
+                                </tbody>
+                            </table>
+                        </table>
+
+                        <table class="summary-table-tke">
+                            <h1 id="table-title">Danh sách khách hàng mua ít tiền nhất</h1>
+                            <table id="wrost-products-table">
+                                <thead>
+                                    <tr>
+                                        <th class="category3" id="header-product-name">
+                                            Tên Khách Hàng
+                                        </th>
+                                        <th class="category3" id="header-quantity-sold">
+                                            Số Lượng Bán Được
+                                        </th>
+                                        <th class="category3" id="header-revenue">Doanh Thu</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="worstCus">
+                                    <!-- Nội dung sẽ được chèn vào đây -->
+                                </tbody>
+                            </table>
+                        </table>
+
                         <button id="back-btn-kh">Quay lại</button>
                     </div>
 
@@ -525,7 +587,7 @@
                                         </div>
                                         <div class="form__row">
                                             <label for="form__edit-old">Old:</label>
-                                            <input type="text" id="form__edit-old" name="edit-old" />
+                                            <input type="checkbox" id="form__edit-old" name="edit-old" />
                                         </div>
                                         <div class="form__row">
                                             <label for="form__edit-sale">Sale:</label>
@@ -627,12 +689,10 @@
                 </div>
                 <!-- làm các nút để truy cập chức năng lọc -->
                 <div style="display: flex; justify-content: center;">
-                    <div
-                        style="display: flex; width: 90%; position: sticky; top: 0; background-color: white; margin-bottom: 20px;">
-                        <button type="button" id="order__filter-date">Lọc đơn hàng theo
-                            ngày</button>
-                        <button type="button" id="order__filter-status">Lọc đơn hàng
-                            theo trạng thái</button>
+                    <div style="display: flex; width: 90%; position: sticky; top: 0; background-color: white; margin-bottom: 20px;">
+                        <button type="button" id="order__filter-date">Lọc đơn hàng theo ngày</button>
+                        <button type="button" id="order__filter-status">Lọc đơn hàng theo trạng thái</button>
+                        <button type="button" id="order__filter-district">Lọc đơn hàng theo quận</button>
                     </div>
                 </div>
                 <div>
@@ -649,18 +709,26 @@
                                 <option value="last-month">Tháng trước</option>
                             </select>
                         </div>
-                        <div id="filter-address">
-                            <select name="filter__address" id="filter__address">
+                        <div id="filter-status">
+                            <select name="filter__status" id="filter__status">
                                 <option value="." selected>Chọn theo trạng thái</option>
-                                <option value="all">Tất cả</option>
+                                <option value="all">Trở về nguyên dạng</option>
                                 <option value="chuaxuly">Chưa xử lý</option>
                                 <option value="daxacnhan">Đã xác nhận</option>
                                 <option value="dagiao">Đã giao</option>
                                 <option value="dahuy">Đã hủy</option>
                             </select>
                         </div>
+                        <div id="filter-district">
+                            <select name="filter__district" id="filter__district">
+                                <option value="." selected>Sắp xếp theo quận</option>
+                                <option value="all">Tất cả</option>
+                                <option value="up">Tăng dần</option>
+                                <option value="down">Giảm dần</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
+                    </div>
                 <div>
                     <div id="order__list">
                         <table class="order-table">
@@ -716,8 +784,7 @@
                             <div class="form">
                                 <div class="form__row-right">
                                     <div class="form__row">
-                                        <label for="form__admin-name">Họ tên người quản
-                                            trị: </label>
+                                        <label for="form__admin-name">Họ tên người quản trị: </label>
                                         <input type="text" id="form__admin-name" name="admin-name" placeholder="Nhập họ tên" required autofocus />
                                     </div>
                                     <div class="form__row">
