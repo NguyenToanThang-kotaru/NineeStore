@@ -1,13 +1,19 @@
 const adminAccount = {
+  UserId: Math.ceil(Math.random() * 10000000000),
   UserName: "admin",
   Password: "admin123",
+  UserType: "admin",
+  FullName: "Admin",
+  Phone: "0123456789",
+  Address: `273 An Dương Vương, Phường 3, Quận 5, TPHCM`,
+  Email: "adminNineStore@gmail.com",
+  OrderHistory: [],
   UserType: "admin",
 };
 const loginSubmit = document.querySelector(".login-submit");
 loginSubmit.addEventListener("click", (event) => {
   const userLocalLogin = JSON.parse(localStorage.getItem("users")) || [];
   const adminLocalLogin = JSON.parse(localStorage.getItem("admins")) || [];
-  console.log(adminLocalLogin);
   if (adminLocalLogin.length == 0) {
     adminLocalLogin.push(adminAccount);
     localStorage.setItem("admins", JSON.stringify(adminLocalLogin));
