@@ -317,7 +317,7 @@ productList.forEach((product) => {
   if (product.Brand === "Dell") dellList.push(product);
   if (product.Brand === "Asus") asusList.push(product);
   if (product.Brand === "Mac") macList.push(product);
-  if (product.Detail.Old === "true") oldList.push(product);
+  if (product.Detail.Old === true) oldList.push(product);
   if (product.Detail.Sale > 0) saleList.push(product);
 });
 //Trang hiện tại là 1
@@ -395,23 +395,7 @@ function showASUS() {
   clearSelect(selectFilter);
   document.getElementById("filter-asus").checked = true;
 
-  function showOLD() {
-    thisPage = 1;
-    displayProduct(oldList);
-    localStorage.setItem("productFilter", JSON.stringify(oldList));
-    const typeButton = document.querySelectorAll(".type-button");
-    typeButton.forEach((type) => {
-      type.classList.remove("active");
-    });
-    // typeElement.classList.add("active");
-    // Cuộn đến phần tử sản phẩm
-    document
-      .querySelector("#all-product")
-      .scrollIntoView({ behavior: "smooth", block: "center" });
-    // Tắt overlay nếu là điện thoại
-    document.querySelector(".overlay-nav").classList.remove("show");
-    document.querySelector(".mobile-menu").classList.remove("show");
-  }
+  
 }
 function showSale() {
   thisPage = 1;
@@ -422,6 +406,24 @@ function showSale() {
     type.classList.remove("active");
   });
   // typeElement.classList.add("active");
+}
+
+function showOLD() {
+  thisPage = 1;
+  displayProduct(oldList);
+  localStorage.setItem("productFilter", JSON.stringify(oldList));
+  const typeButton = document.querySelectorAll(".type-button");
+  typeButton.forEach((type) => {
+    type.classList.remove("active");
+  });
+  // typeElement.classList.add("active");
+  // Cuộn đến phần tử sản phẩm
+  // document
+  //   .querySelector("#all-product")
+  //   .scrollIntoView({ behavior: "smooth", block: "center" });
+  // // Tắt overlay nếu là điện thoại
+  // document.querySelector(".overlay-nav").classList.remove("show");
+  // document.querySelector(".mobile-menu").classList.remove("show");
 }
 
 function showMac() {

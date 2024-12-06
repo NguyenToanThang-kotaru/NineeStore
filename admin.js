@@ -185,6 +185,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const filterDateContainer = document.getElementById("filter-date");
   const filterStatusContainer = document.getElementById("filter-address");
   const filterStatus = document.getElementById("filter__address");
+  const filterDistrictContainer = document.getElementById("filter-district");
+  const filterDistrict = document.getElementById("filter__district");
+  let showFilterDistrict = false;
   let showFilterDate = false;
   let showFilterStatus = false;
   // statistic
@@ -714,6 +717,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", function () {
       if (showFilterDate == false) {
         filterStatusContainer.style.display = "none";
+        filterDistrictContainer.style.display = "none";
         filterDateContainer.style.display = "flex";
         filterDateContainer.style.justifyContent = "flex-end";
         showFilterDate = true;
@@ -840,6 +844,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Status filter button clicked");
       if (showFilterStatus == false) {
         filterDateContainer.style.display = "none";
+        filterDistrictContainer.style.display = "none";
         filterStatusContainer.style.display = "flex";
         filterStatusContainer.style.justifyContent = "flex-end";
         showFilterStatus = true;
@@ -848,6 +853,7 @@ document.addEventListener("DOMContentLoaded", function () {
         showFilterStatus = false;
       }
     });
+    // order__filter- District
   // lọc theo trạng thái
 
   filterStatus.addEventListener("change", function () {
@@ -918,8 +924,93 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
+  filterDistrictContainer.style.display = "none";
+  document.getElementById("order__filter-district").addEventListener("click", function () {
+    if (showFilterDistrict == false) {
+      filterDateContainer.style.display = "none";
+      filterStatusContainer.style.display = "none";
+      filterDistrictContainer.style.display = "flex";
+      filterDistrictContainer.style.justifyContent = "flex-end";
+      showFilterDistrict = true;
+      showFilterDate = false;
+      showFilterStatus = false;
+    } else {
+      filterDistrictContainer.style.display = "none";
+      showFilterDistrict = false;
+    }
+  });
+  
+
   // filter the order by date
 });
+
+
+
+
+document.getElementById("filter__district").addEventListener("change", function () {
+  if (this.value == ".") {
+    hideOverlay();
+    return;
+  }
+
+  if (this.value == "all") {
+    // Khôi phục dữ liệu gốc
+    const originalOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    localStorage.setItem("orders", JSON.stringify(originalOrders));
+    addOrdertoTable();
+    hideOverlay();
+    return;
+  }
+
+  // Lấy dữ liệu từ localStorage
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  let sortedOrders = [...orders];
+
+  // Sắp xếp theo quận
+  if (this.value == "up") { // Tăng dần
+    sortedOrders.sort((a, b) => {
+      const districtA = parseInt(a.Customer.District) || 0;
+      const districtB = parseInt(b.Customer.District) || 0;
+      return districtA - districtB;
+    });
+  } else if (this.value == "down") { // Giảm dần
+    sortedOrders.sort((a, b) => {
+      const districtA = parseInt(a.Customer.District) || 0;
+      const districtB = parseInt(b.Customer.District) || 0;
+      return districtB - districtA;
+    });
+  }
+
+  // Lưu vào localStorage tạm thời
+  localStorage.setItem("orders", JSON.stringify(sortedOrders));
+  
+  // Hiển thị lại bảng với dữ liệu đã sắp xếp
+  addOrdertoTable();
+  
+  // Ẩn tất cả overlays
+  document.querySelectorAll(".overlay").forEach(overlay => {
+    overlay.style.display = "none";
+  });
+
+  hideOverlay();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ------------ Edit ------------
 function editProduct(productElement) {
   const products = JSON.parse(localStorage.getItem("products")) || [];
@@ -967,63 +1058,65 @@ function editProduct(productElement) {
       pin.value = products[i].Detail.Pin;
       network.value = products[i].Detail.Network;
       weight.value = products[i].Detail.Weight;
-      old.value = products[i].Detail.Old;
+      old.checked = products[i].Detail.Old;
       sale.value = products[i].Detail.Sale;
       detailImg.src = products[i].Detail.Img;
       // ----- Submit ------
       const submitBtn = document.querySelector(".form__edit-submit-btn");
 
       // Xóa sự kiện trước khi gán mới
-      submitBtn.replaceWith(submitBtn.cloneNode(true)); // Replace để đảm bảo xóa mọi sự kiện
-      document
-        .querySelector(".form__edit-submit-btn")
-        .addEventListener("click", (event) => {
-          event.preventDefault();
-          //kiểm tra lại
-          if (!inputFilled([name, brand, quantity, price, img])) {
-            alert("Vui lòng nhập đầy đủ các thông tin chính");
-            return false;
-          } else if (isNaN(Number(price.value.replace(/\./g, "")))) {
-            alert("Vui lòng nhập số.");
-            price.focus();
-            return false;
-          } else if (isNaN(quantity.value)) {
-            alert("Vui lòng nhập số.");
-            quantity.focus();
-            return false;
-          } else {
-            const product = {
-              ID: id,
-              Img: img.src,
-              Name: name.value,
-              Brand: brand.value,
-              Price: price.value,
-              Quantity: quantity.value,
-              OriginalPrice: "",
-              Detail: {
-                Img: detailImg.src,
-                CPU: cpu.value,
-                Screen: screen.value,
-                RAM: ram.value,
-                ROM: rom.value,
-                OS: os.value,
-                Card: card.value,
-                Pin: pin.value,
-                Network: network.value,
-                Weight: weight.value,
-                Old: old.checked,
-                Sale: sale.value,
-              },
-            };
-            nameText.innerText = product.Name;
-            quantityText.innerText = product.Quantity;
-            priceText.innerText = product.Price;
-            imgDiv.src = product.Img;
-            alert("Đã sửa thành công");
-            products[i] = product;
-            localStorage.setItem("products", JSON.stringify(products));
-          }
-        });
+      
+       // Replace để đảm bảo xóa mọi sự kiện
+       submitBtn.replaceWith(submitBtn.cloneNode(true));
+      
+       document.querySelector(".form__edit-submit-btn").addEventListener("click", (event) => {
+         event.preventDefault();
+         
+         if (!inputFilled([name, brand, quantity, price, img])) {
+           alert("Vui lòng nhập đầy đủ các thông tin chính");
+           return false;
+         } else if (isNaN(Number(price.value.replace(/\./g, "")))) {
+           alert("Vui lòng nhập số.");
+           price.focus();
+           return false;
+         } else if (isNaN(quantity.value)) {
+           alert("Vui lòng nhập số.");
+           quantity.focus();
+           return false;
+         } else {
+           const product = {
+             ID: id,
+             Img: img.src,
+             Name: name.value,
+             Brand: brand.value,
+             Price: price.value,
+             Quantity: quantity.value,
+             OriginalPrice: "",
+             Detail: {
+               Img: detailImg.src,
+               CPU: cpu.value,
+               Screen: screen.value,
+               RAM: ram.value,
+               ROM: rom.value,
+               OS: os.value,
+               Card: card.value,
+               Pin: pin.value,
+               Network: network.value,
+               Weight: weight.value,
+               Old: old.checked,
+               Sale: sale.value,
+             },
+           };
+           
+           nameText.innerText = product.Name;
+           quantityText.innerText = product.Quantity;
+           priceText.innerText = product.Price;
+           imgDiv.src = product.Img;
+           alert("Đã sửa thành công");
+           products[i] = product;
+           localStorage.setItem("products", JSON.stringify(products));
+         }
+       });
       break;
     }
   }
@@ -1265,3 +1358,8 @@ function showPaymentProduct(paymentElement) {
   paymentElement.parentElement.querySelector(".overlay").style.display =
     "block";
 }
+
+
+
+
+

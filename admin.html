@@ -180,7 +180,7 @@
                             <div class="hoa-don-customer">
                                 <h3>Thông tin khách hàng</h3>
                                 <p>Họ tên: Nguyễn Văn A</p>
-                                <p>Địa chỉ: 123 An Dương Vương</p>
+                                <p>��ịa chỉ: 123 An Dương Vương</p>
                                 <p>Số điện thoại:0912345678</p>
                                 <p>Email:123@gmail.com</p>
                             </div>
@@ -525,7 +525,7 @@
                                         </div>
                                         <div class="form__row">
                                             <label for="form__edit-old">Old:</label>
-                                            <input type="text" id="form__edit-old" name="edit-old" />
+                                            <input type="checkbox" id="form__edit-old" name="edit-old" />
                                         </div>
                                         <div class="form__row">
                                             <label for="form__edit-sale">Sale:</label>
@@ -633,6 +633,8 @@
                             ngày</button>
                         <button type="button" id="order__filter-status">Lọc đơn hàng
                             theo trạng thái</button>
+                            <button type="button" id="order__filter-district">Lọc đơn hàng
+                                theo quận</button>
                     </div>
                 </div>
                 <div>
@@ -659,6 +661,15 @@
                                 <option value="dahuy">Đã hủy</option>
                             </select>
                         </div>
+                        <div id="filter-district">
+                            <select name="filter__district" id="filter__district">
+                                <option value="." selected>Sắp xếp theo quận</option>
+                                <option value="all">Tất cả</option>
+                                <option value="up">Tăng dần</option>
+                                <option value="down">Giảm dần</option>
+                            </select>
+                        </div>
+                    </div>
                     </div>
                 </div>
                 <div>
