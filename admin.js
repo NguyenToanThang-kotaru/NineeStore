@@ -340,6 +340,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td>
                     <i class="fa-regular fa-pen-to-square edit-icon" onclick="editCustomer(this)"></i>
                 </td>
+                <td class="customer__userdistrict" style="display: none;">${user.District}</td>
+                <td class="customer__usercity" style="display: none;">${user.City}</td>
+                <td class="customer__userward" style="display: none;">${user.Ward}</td>
             </tr>`;
     });
     customerList.innerHTML = customerContent;
@@ -1300,20 +1303,21 @@ function editCustomer(customerElement) {
   const users = JSON.parse(localStorage.getItem("users")) || [];
   const divCustomer = customerElement.parentElement.parentElement;
   const id = divCustomer.querySelector(".customer__userID").innerText;
-
-  const userNameField = document.getElementById("form__edit-userName");
   const namefullField = document.getElementById("form__edit-fullname");
   const phoneField = document.getElementById("form__edit-phone");
-  const emailField = document.getElementById("form__edit-email");
   const addressField = document.getElementById("form__edit-address");
+  const wardField = document.getElementById("form__edit-ward");
+  const districtField = document.getElementById("form__edit-district");
+  const cityField = document.getElementById("form__edit-city");
 
   for (let i = 0; i < users.length; i++) {
     if (users[i].UserId == id) {
-      userNameField.value = users[i].UserName;
       namefullField.value = users[i].FullName;
       phoneField.value = users[i].Phone;
-      emailField.value = users[i].Email;
       addressField.value = users[i].Address;
+      wardField.value =  users[i].Ward;
+      districtField.value =  users[i].District;
+      cityField.value =  users[i].City;
 
       document
         .getElementById("form__edit-submit")
@@ -1322,25 +1326,27 @@ function editCustomer(customerElement) {
 
           users[i].FullName = namefullField.value;
           users[i].Phone = phoneField.value;
-          users[i].Email = emailField.value;
+          users[i].City = cityField.value;
           users[i].Address = addressField.value;
-          users[i].UserName = userNameField.value;
-
-          localStorage.setItem("users", JSON.stringify(users));
+          users[i].District = districtField.value;
+          users[i].Ward = wardField.value;
 
           divCustomer.querySelector(".customer__userFullName").innerText =
             users[i].FullName;
-          divCustomer.querySelector(".customer__userName").innerText =
-            users[i].UserName;
+          divCustomer.querySelector(".customer__userAdress").innerText =
+            users[i].Address;
           divCustomer.querySelector(".customer__userPhone").innerText =
             users[i].Phone;
-          divCustomer.querySelector(".customer__userEmail").innerText =
+          divCustomer.querySelector(".customer__userDistrictField").innerText =
             users[i].Email;
-          divCustomer.querySelector(".customer__userAddress").innerText =
-            users[i].Address;
+          divCustomer.querySelector(".customer__userCity").innerText =
+            users[i].City;
+            divCustomer.querySelector(".customer__userWard").innerText =
+            users[i].Ward;
 
           // Close the modal
           document.querySelector(".admin__edit").style.display = "none";
+
         });
 
       break;
