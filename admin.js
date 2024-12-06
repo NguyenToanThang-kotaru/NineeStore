@@ -821,9 +821,72 @@ document.addEventListener("DOMContentLoaded", function () {
         const productContent = `<tr>
                 <td class="product__id">${product.ID}</td>
                 <td class="product__name">${product.Name}</td>
-                <td class="product__quantity">${product.Quantity}<sup>₫</sup></td>
+                <td class="product__quantity">${product.Quantity}</td>
                 <td class="product__price">${product.Price}</td>
-                <td><button class="show-detail-btn">Chi tiết</button></td>
+                <td>
+                    <button class="show-detail-btn" onclick="showDetailProductAdmin(this)">Chi tiết</button>
+                    <div class="overlay detail-admin" >
+                          <div class="detail-box">
+                              <i class="fa-solid fa-rectangle-xmark close"></i>
+                              <section class="detail-head">
+                                <img src="${product.Detail.Img}" class="detail-img">
+                                <div class="detail-title">
+                                  <h2 class="detail-heading">${product.Name}</h2>
+                                  <span class="detail-price">${product.Price}</span><sup class="sale-price">₫</sup>
+                                  <div class="product-quantity">Kho: <span class="product-quantity-value">${product.Quantity}</span></div>
+                                </div>
+                              </section>
+                              <h3 class="detail-heading">Thông tin chi tiết</h3>
+                              <table class="detail-table">
+                                <tr>
+                                  <td>Bộ xử lý:</td>
+                                  <td class="CPU">${product.Detail.CPU}</td>
+                                </tr>
+                                <tr>
+                                  <td>Card màn hình:</td>
+                                  <td class="card">${product.Detail.Card}</td>
+                                </tr>
+                                <tr>
+                                  <td>Màn hình:</td>
+                                  <td class="screen">${product.Detail.Screen}</td>
+                                </tr>
+                                <tr>
+                                  <td>RAM:</td>
+                                  <td class="RAM">${product.Detail.RAM}</td>
+                                </tr>
+                                <tr>
+                                  <td>Bộ nhớ trong</td>
+                                  <td class="ROM">${product.Detail.ROM}</td>
+                                </tr>
+                                <tr>
+                                  <td>Hệ điều hành:</td>
+                                  <td class="OS">${product.Detail.OS}</td>
+                                </tr>
+                                <tr>
+                                  <td>Hỗ trợ kết nối:</td>
+                                  <td class="network">${product.Detail.Network}</td>
+                                </tr>
+                                <tr>
+                                  <td>Pin:</td>
+                                  <td class="pin">${product.Detail.Pin}</td>
+                                </tr>
+                                <tr>
+                                  <td>Khối lượng:</td>
+                                  <td class="weight">${product.Detail.Weight}</td>
+                                </tr>
+                                <tr>
+                                  <td>Old:</td>
+                                  <td class="old">${product.Detail.Old}</td>
+                                </tr>
+                                <tr>
+                                  <td>Sale:</td>
+                                  <td class="sale">${product.Detail.Sale}</td>
+                                </tr>
+  
+                              </table>
+                          </div>
+                        </div>
+                </td>
                 <td class="product__img"><img src="${product.Img}"/></td>
                 <td>
                     <i class="fa-regular fa-pen-to-square edit-icon" onclick="editProduct(this)"></i>
@@ -833,11 +896,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const addtr = document.createElement("tr");
         addtr.innerHTML = productContent;
         document.getElementById("product__list-body").appendChild(addtr);
+        hideOverlay();
         // store data into localStorage
         const products = JSON.parse(localStorage.getItem("products")) || [];
         products.push(product);
         localStorage.setItem("products", JSON.stringify(products));
-        showDetailProductAdmin();
         // make all the input empty
         clearInput([
           name,
@@ -861,6 +924,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#form__preview-detail-img").src =
           "./img/no-photo-or-blank-image.jpg";
       }
+      alert("Đã thêm sản phẩm thành công");
     });
 
   // Function to block customers
