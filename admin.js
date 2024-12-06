@@ -620,8 +620,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const hoadon_mh_btn = document.querySelectorAll(".show-hoadon-mh");
     const hoadon_kh_page = document.querySelector("#hoadon-customers");
     const hoadon_mh_page = document.querySelector("#hoadon-items");
-    const esc_hoadon1 = document.querySelector("#esc-hoadon-btn-kh");
-    const esc_hoadon2 = document.querySelector("#esc-hoadon-btn-mh");
     const overlay = document.querySelector(".overlay-hd");
 
     hoadon_kh_btn.forEach((button) => {
@@ -631,9 +629,6 @@ document.addEventListener("DOMContentLoaded", function () {
     hoadon_mh_btn.forEach((button) => {
         button.addEventListener("click", showHoaDonMH);
     });
-
-    esc_hoadon1.addEventListener("click", closeHoadonKH);
-    esc_hoadon2.addEventListener("click", closeHoadonMH);
 
     function showHoaDonKH() {
         overlay.style.display = "block";
@@ -663,7 +658,7 @@ document.addEventListener("DOMContentLoaded", function () {
         userLocal.forEach((user) => {
             customerContent += `<tr>
                   <td class="customer__userID">${user.UserId}</td>
-                  <td class="customer__userName">${user.UserName}</td>
+                  <td class="customer__userName">${user.FullName}</td>
                   <td class="customer__userPhone">${user.Phone}</td>
                   <td class="customer__userAddress">${user.Address}, Phường ${user.Ward}, Quận ${user.District}, ${user.City}</td>
                   <td class="customer__userEmail">${user.Email}</td>
