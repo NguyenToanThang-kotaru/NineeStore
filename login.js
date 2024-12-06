@@ -71,9 +71,10 @@ function reloadPage() {
 if (isLogin) {
     document.querySelector("li.login-btn").style.display = "none";
     document.querySelector("li.register-btn").style.display = "none";
-    // if (JSON.parse(localStorage.getItem(userlogin)).Username == 'admin') {
-    //   document.querySelector(".admin-item").style.display = "block";
-    // }
+    document.querySelector(".order-history-btn").style.display = "block";
+    if (JSON.parse(localStorage.getItem("userLogin")).UserType == "admin") {
+        document.querySelector(".order-history-btn").style.display = "none";
+    }
 } else {
     document.querySelector("li.info-btn").style.display = "none";
     document.querySelector("li.logout-btn").style.display = "none";

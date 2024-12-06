@@ -1,3 +1,10 @@
+// clear the input inside the form
+function clearSelect(selects) {
+    selects.forEach((select) => {
+    select.selectedIndex = 0; // Đặt về lựa chọn đầu tiên trong danh sách
+    });
+}
+
 //------------------------- Detail ----------------------
 // Hiển thị cửa sổ thông tin sản phẩm
 function showDetail(detailElement) {
@@ -49,7 +56,7 @@ if (!localStorage.getItem("products")) {
             // ).innerText.trim(),
             Detail: {
                 Img: item.querySelector(".detail-img").src,
-                CPU: item.querySelector(".CPU").innerText.trim(),
+                CPU: item.querySelector(".CPU").innerText,
                 Screen: item.querySelector(".screen").innerText.trim(),
                 RAM: item.querySelector(".RAM").innerText.trim(),
                 ROM: item.querySelector(".ROM").innerText.trim(),
@@ -58,10 +65,13 @@ if (!localStorage.getItem("products")) {
                 Pin: item.querySelector(".pin").innerText.trim(),
                 Network: item.querySelector(".network").innerText.trim(),
                 Weight: item.querySelector(".weight").innerText.trim(),
-          Old: item.querySelector(".old").innerText.trim(),
-          Sale: item.querySelector(".sale").innerText.trim(),
-            },
+                Old: (item.querySelector(".old").tableContent === 'true'), // lấy giá trị boolean
+                Sale: item.querySelector(".sale").innerText.trim(),
+            }
         };
+        console.log(product.Detail.CPU);
+        console.log(product.Detail.Sale);
+        console.log(product.Detail.Old);
         //Đẩy product vào mảng products[]
         products.push(product);
     });
@@ -87,194 +97,193 @@ function displayProduct(arr, thisPageValue) {
     let productListContent = "";
     arr.forEach((item, index) => {
         if (index >= start && index < end) {
-        if(item.Detail.Sale == ""){
-          item.Detail.Sale = 0;
-        }
-        let tmp = 1 - item.Detail.Sale/100;
-        console.log(tmp);
-        if(item.Detail.Sale > 0){
-  
-        productListContent += `<section class="product all-product-item" id="${item.ID}">
+            if (item.Detail.Sale == "") {
+                item.Detail.Sale = 0;
+            }
+            let tmp = 1 - item.Detail.Sale / 100;
+            if (item.Detail.Sale > 0) {
+
+                productListContent += `<section class="product all-product-item" id="${item.ID}">
         <img
-          src="${item.Img}"
-          alt=""
-          class="product-img"
+        src="${item.Img}"
+        alt=""
+        class="product-img"
         />
-        <p class="product-name">${item.Name}(N5I5052W1)</p>
+        <p class="product-name">${item.Name}</p>
         <div class="product-brand" style="display: none;">${item.Brand}</div>
         <span class="product-sale-price original-price">${item.Price}</span>₫
-        <span class= "product-price">${(tmp*item.Price.replace(/\./g, "")).toLocaleString("vi-VN")}</span><sup class="sale-price">₫</sup>
+        <span class= "product-price">${(tmp * item.Price.replace(/\./g, "")).toLocaleString("vi-VN")}</span><sup class="sale-price">₫</sup>
         <div class="product-operation">
-          <i
+        <i
             class="fa-regular fa-eye more-details"
             onclick="showDetail(this)"
-          >
+        >
             <div class="note">Xem thêm thông tin</div>
-          </i>
-          <i class="fa-solid fa-cart-shopping add-cart" onclick="addToCart(this)">
+        </i>
+        <i class="fa-solid fa-cart-shopping add-cart" onclick="addToCart(this)">
             <div class="note">Thêm vào giỏ hàng</div>
-          </i>
+        </i>
         </div>
         <div class="overlay">
-          <div class="detail-box">
+        <div class="detail-box">
             <i class="fa-solid fa-rectangle-xmark close"></i>
             <section class="detail-head">
-              <img src="${item.Detail.Img}" class="detail-img">
-              <div class="detail-title">
+            <img src="${item.Detail.Img}" class="detail-img">
+            <div class="detail-title">
                 <h2 class="detail-heading">${item.Name}</h2>
                 <div class="detail-prices">
-                  <span class="detail-price original-price">${item.Price}</span>
-                  <span class="detail-sale-price">${(tmp*item.Price.replace(/\./g, "")).toLocaleString("vi-VN")}</span><sup class="sale-price">₫</sup>
+                <span class="detail-price original-price">${item.Price}</span>
+                <span class="detail-sale-price">${(tmp * item.Price.replace(/\./g, "")).toLocaleString("vi-VN")}</span><sup class="sale-price">₫</sup>
                 </div>
                 <div class="product-quantity">Kho: <span class="product-quantity-value">${item.Quantity}</span></div>
                 <div class="detail-quantity">
-                  <i class="fa-solid fa-circle-minus desc-quantity" onclick="decreaseQuantity(this)"></i>
-                  <div class="detail-quantity-value">1</div>
-                  <i class="fa-solid fa-circle-plus plus-quantity" onclick="increaseQuantity(this,${item.Quantity})"></i>
+                <i class="fa-solid fa-circle-minus desc-quantity" onclick="decreaseQuantity(this)"></i>
+                <div class="detail-quantity-value">1</div>
+                <i class="fa-solid fa-circle-plus plus-quantity" onclick="increaseQuantity(this,${item.Quantity})"></i>
                 </div>
                 <div class="detail-btn">
-                  <button class="add-cart-btn" onclick="addToCart(this.parentElement.parentElement.parentElement.parentElement)">Thêm vào giỏ hàng</button>
-                  <button class="buy-btn" onclick="buyNow(this)">Mua ngay</button>
+                <button class="add-cart-btn" onclick="addToCart(this.parentElement.parentElement.parentElement.parentElement)">Thêm vào giỏ hàng</button>
+                <button class="buy-btn" onclick="buyNow(this)">Mua ngay</button>
                 </div>
-              </div>
+            </div>
             </section>
             <h3 class="detail-heading">Thông tin chi tiết</h3>
             <table class="detail-table">
-              <tr>
+            <tr>
                 <td>Bộ xử lý:</td>
                 <td class="CPU">${item.Detail.CPU}</td>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td>Card màn hình:</td>
                 <td class="card">${item.Detail.Card}</td>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td>Màn hình:</td>
                 <td class="screen">${item.Detail.Screen}</td>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td>RAM:</td>
                 <td class="RAM">${item.Detail.RAM}</td>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td>Bộ nhớ trong</td>
                 <td class="ROM">${item.Detail.ROM}</td>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td>Hệ điều hành:</td>
                 <td class="OS">${item.Detail.OS}</td>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td>Hỗ trợ kết nối:</td>
                 <td class="network">${item.Detail.Network}</td>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td>Pin:</td>
                 <td class="pin">${item.Detail.Pin}</td>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td>Khối lượng:</td>
                 <td class="weight">${item.Detail.Weight}</td>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td>Old:</td>
                 <td class="old">${item.Detail.Old}</td>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td>Sale:</td>
                 <td class="sale">${item.Detail.Sale}</td>
-              </tr>
+            </tr>
             </table>
-          </div>
         </div>
-      </section>`;
-    }
-    else{
-            productListContent += `<section class="product all-product-item" id="${item.ID}">
-                  <img src="${item.Img}" alt="" class="product-img"/>
-                <p class="product-name">${item.Name}(N5I5052W1)</p>
+        </div>
+    </section>`;
+            }
+            else {
+                productListContent += `<section class="product all-product-item" id="${item.ID}">
+                <img src="${item.Img}" alt="" class="product-img"/>
+                <p class="product-name">${item.Name}</p>
                 <div class="product-brand" style="display: none;">${item.Brand}</div>
                 <span class="product-price">${item.Price}</span><sup class="sale-price">₫</sup>
                 <div class="product-operation">
                     <i class="fa-regular fa-eye more-details" onclick="showDetail(this)">
                     <div class="note">Xem thêm thông tin</div>
-                  </i>
-                  <i class="fa-solid fa-cart-shopping add-cart" onclick="addToCart(this)">
+                </i>
+                <i class="fa-solid fa-cart-shopping add-cart" onclick="addToCart(this)">
                     <div class="note">Thêm vào giỏ hàng</div>
-                  </i>
+                </i>
                 </div>
                 <div class="overlay" >
-                  <div class="detail-box">
+                <div class="detail-box">
                     <i class="fa-solid fa-rectangle-xmark close"></i>
                     <section class="detail-head">
-                      <img src="${item.Detail.Img}" class="detail-img">
-                      <div class="detail-title">
+                    <img src="${item.Detail.Img}" class="detail-img">
+                    <div class="detail-title">
                         <h2 class="detail-heading">${item.Name}</h2>
                         <span class="detail-price">${item.Price}</span><sup class="sale-price">₫</sup>
                         <div class="product-quantity">Kho: <span class="product-quantity-value">${item.Quantity}</span></div>
                         <div class="detail-quantity">
-                          <i class="fa-solid fa-circle-minus desc-quantity" onclick="decreaseQuantity(this)"></i>
-                          <div class="detail-quantity-value">1</div>
-                          <i class="fa-solid fa-circle-plus plus-quantity" onclick="increaseQuantity(this,${item.Quantity})"></i>
+                        <i class="fa-solid fa-circle-minus desc-quantity" onclick="decreaseQuantity(this)"></i>
+                        <div class="detail-quantity-value">1</div>
+                        <i class="fa-solid fa-circle-plus plus-quantity" onclick="increaseQuantity(this,${item.Quantity})"></i>
                         </div>
                         <div class="detail-btn">
-                          <button class="add-cart-btn" onclick="addToCart(this.parentElement.parentElement.parentElement.parentElement)">Thêm vào giỏ hàng</button>
-                          <button class="buy-btn" onclick="buyNow(this)">Mua ngay</button>
+                        <button class="add-cart-btn" onclick="addToCart(this.parentElement.parentElement.parentElement.parentElement)">Thêm vào giỏ hàng</button>
+                        <button class="buy-btn" onclick="buyNow(this)">Mua ngay</button>
                         </div>
-                      </div>
+                    </div>
                     </section>
                     <h3 class="detail-heading">Thông tin chi tiết</h3>
                     <table class="detail-table">
                     <tr>
-                      <td>Bộ xử lý:</td>
-                      <td class="CPU">${item.Detail.CPU}</td>
+                    <td>Bộ xử lý:</td>
+                    <td class="CPU">${item.Detail.CPU}</td>
                     </tr>
                     <tr>
-                      <td>Card màn hình:</td>
-                      <td class="card">${item.Detail.Card}</td>
+                    <td>Card màn hình:</td>
+                    <td class="card">${item.Detail.Card}</td>
                     </tr>
                     <tr>
-                      <td>Màn hình:</td>
-                      <td class="screen">${item.Detail.Screen}</td>
+                    <td>Màn hình:</td>
+                    <td class="screen">${item.Detail.Screen}</td>
                     </tr>
                     <tr>
-                      <td>RAM:</td>
-                      <td class="RAM">${item.Detail.RAM}</td>
+                    <td>RAM:</td>
+                    <td class="RAM">${item.Detail.RAM}</td>
                     </tr>
                     <tr>
-                      <td>Bộ nhớ trong</td>
-                      <td class="ROM">${item.Detail.ROM}</td>
+                    <td>Bộ nhớ trong</td>
+                    <td class="ROM">${item.Detail.ROM}</td>
                     </tr>
                     <tr>
-                      <td>Hệ điều hành:</td>
-                      <td class="OS">${item.Detail.OS}</td>
+                    <td>Hệ điều hành:</td>
+                    <td class="OS">${item.Detail.OS}</td>
                     </tr>
                     <tr>
-                      <td>Hỗ trợ kết nối:</td>
-                      <td class="network">${item.Detail.Network}</td>
+                    <td>Hỗ trợ kết nối:</td>
+                    <td class="network">${item.Detail.Network}</td>
                     </tr>
                     <tr>
-                      <td>Pin:</td>
-                      <td class="pin">${item.Detail.Pin}</td>
+                    <td>Pin:</td>
+                    <td class="pin">${item.Detail.Pin}</td>
                     </tr>
                     <tr>
-                      <td>Khối lượng:</td>
-                      <td class="weight">${item.Detail.Weight}</td>
+                    <td>Khối lượng:</td>
+                    <td class="weight">${item.Detail.Weight}</td>
                     </tr>
-                      <tr>
+                    <tr>
                         <td>Old:</td>
                         <td class="old">${item.Detail.Old}</td>
-                      </tr>
-                      <tr>
+                    </tr>
+                    <tr>
                         <td>Sale:</td>
-                        <td class="saley">${item.Detail.Sale}</td>
-                      </tr>
-                  </table>
-                  </div>
+                        <td class="sale">${item.Detail.Sale}</td>
+                    </tr>
+                </table>
                 </div>
-              </section>`;
+                </div>
+            </section>`;
+            }
         }
-      }
     });
     productList.innerHTML = productListContent;
     productContainer.append(productList);
@@ -291,15 +300,15 @@ const productList = JSON.parse(localStorage.getItem("products")) || [];
 let dellList = [];
 let asusList = [];
 let macList = [];
-  let oldList = [];
-  let saleList = [];
+let oldList = [];
+let saleList = [];
 productList.forEach((product) => {
     if (product.Brand === "Dell") dellList.push(product);
     if (product.Brand === "Asus") asusList.push(product);
     if (product.Brand === "Mac") macList.push(product);
-    if(product.Detail.Old == true) oldList.push(product);
-    if(product.Detail.Sale > 0) saleList.push(product);
-  
+    if (product.Detail.Old === "true") oldList.push(product);
+    if (product.Detail.Sale > 0) saleList.push(product);
+
 });
 //Trang hiện tại là 1
 let thisPage = 1;
@@ -307,30 +316,40 @@ let thisPage = 1;
 const amountProduct1Page = 6;
 function createListPage(arr) {
     const listPage = document.querySelector(".listPage");
-    //Tạo số trang = số sảng phẩm / số sản phẩm 1 trang
+    //Tạo số trang = số sản phẩm / số sản phẩm 1 trang
     const amountPage = Math.ceil(arr.length / amountProduct1Page);
     let s = "";
     let flag = 1;
     for (let i = 1; i <= amountPage; i++) {
         let type = "all";
-      if(amountPage === 1){
-        s += `<button onclick="changePage(${i})" class="numberlist active" style="display: none;" >${i}</button>`;
-        continue;
-      }
+        if (amountPage === 1) {
+            s += `<button onclick="changePage(${i})" class="numberlist active" style="display: none;" >${i}</button>`;
+            continue;
+        }
         if (arr === dellList) type = "dell";
         else if (arr === asusList) type = "asus";
         else if (arr === macList) type = "mac";
 
         if (i === thisPage) {
-        s += `<button onclick="changePage(${i})" class="numberlist active" >${i}</button>`;
+            s += `<button onclick="changePage(${i})" class="numberlist active" >${i}</button>`;
         } else {
             s += `<button onclick="changePage(${i})" class="numberlist">${i}</button>`;
         }
     }
     listPage.innerHTML = s;
+    document.querySelectorAll(".numberlist").forEach((button) => {
+        button.addEventListener("click", (e) => {
+            const page = Number(e.target.innerText);
+            changePage(page, arr);
+        });
+    });
 }
 
-function showDELL(typeElement) {
+//Lấy tất cả checkbox trong lọc để clear
+const checkboxFilter = document.querySelectorAll(".filter-form input");
+const selectFilter = document.querySelectorAll(".filter-form select");
+
+function showDELL() {
     thisPage = 1;
     displayProduct(dellList);
     localStorage.setItem("productFilter", JSON.stringify(dellList));
@@ -338,9 +357,20 @@ function showDELL(typeElement) {
     typeButton.forEach((type) => {
         type.classList.remove("active");
     });
-    typeElement.classList.add("active");
+    document.querySelector(".type-item-dell").classList.add("active");
+    // Cuộn đến phần tử sản phẩm
+    document
+        .querySelector("#all-product")
+        .scrollIntoView({ behavior: "smooth", block: "center" });
+    // Tắt overlay nếu là điện thoại
+    document.querySelector(".overlay-nav").classList.remove("show");
+    document.querySelector(".mobile-menu").classList.remove("show");
+    // Clear tất cả checkbox và chỉ có hãng nào được bấm thì checked
+    clearInput(checkboxFilter);
+    clearSelect(selectFilter);
+    document.getElementById("filter-dell").checked = true;
 }
-function showASUS(typeElement) {
+function showASUS() {
     thisPage = 1;
     displayProduct(asusList);
     localStorage.setItem("productFilter", JSON.stringify(asusList));
@@ -348,30 +378,50 @@ function showASUS(typeElement) {
     typeButton.forEach((type) => {
         type.classList.remove("active");
     });
-    typeElement.classList.add("active");
+    document.querySelector(".type-item-asus").classList.add("active");
+    // Cuộn đến phần tử sản phẩm
+    document
+        .querySelector("#all-product")
+        .scrollIntoView({ behavior: "smooth", block: "center" });
+    // Tắt overlay nếu là điện thoại
+    document.querySelector(".overlay-nav").classList.remove("show");
+    document.querySelector(".mobile-menu").classList.remove("show");
+    // Clear tất cả checkbox và chỉ có hãng nào được bấm thì checked
+    clearInput(checkboxFilter);
+    clearSelect(selectFilter);
+    document.getElementById("filter-asus").checked = true;
 }
-  function showOLD(typeElement) {
+
+function showOLD() {
     thisPage = 1;
     displayProduct(oldList);
     localStorage.setItem("productFilter", JSON.stringify(oldList));
     const typeButton = document.querySelectorAll(".type-button");
     typeButton.forEach((type) => {
-      type.classList.remove("active");
+        type.classList.remove("active");
     });
-    typeElement.classList.add("active");
-  }
-  function showSale(typeElement) {
+    // typeElement.classList.add("active");
+    // Cuộn đến phần tử sản phẩm
+    document
+        .querySelector("#all-product")
+        .scrollIntoView({ behavior: "smooth", block: "center" });
+    // Tắt overlay nếu là điện thoại
+    document.querySelector(".overlay-nav").classList.remove("show");
+    document.querySelector(".mobile-menu").classList.remove("show");
+}
+
+function showSale() {
     thisPage = 1;
     displayProduct(saleList);
     localStorage.setItem("productFilter", JSON.stringify(saleList));
     const typeButton = document.querySelectorAll(".type-button");
     typeButton.forEach((type) => {
-      type.classList.remove("active");
+        type.classList.remove("active");
     });
-    typeElement.classList.add("active");
-  }
-  
-function showMac(typeElement) {
+    // typeElement.classList.add("active");
+}
+
+function showMac() {
     thisPage = 1;
     displayProduct(macList);
     localStorage.setItem("productFilter", JSON.stringify(macList));
@@ -379,9 +429,21 @@ function showMac(typeElement) {
     typeButton.forEach((type) => {
         type.classList.remove("active");
     });
-    typeElement.classList.add("active");
+    document.querySelector(".type-item-mac").classList.add("active");
+    // Cuộn đến phần tử sản phẩm
+    document
+        .querySelector("#all-product")
+        .scrollIntoView({ behavior: "smooth", block: "center" });
+    // Tắt overlay nếu là điện thoại
+    document.querySelector(".overlay-nav").classList.remove("show");
+    document.querySelector(".mobile-menu").classList.remove("show");
+
+    // Clear tất cả checkbox và chỉ có hãng nào được bấm thì checked
+    clearInput(checkboxFilter);
+    clearSelect(selectFilter);
+    document.getElementById("filter-mac").checked = true;
 }
-function showAll(typeElement) {
+function showAll() {
     thisPage = 1;
     displayProduct(productList);
     localStorage.setItem("productFilter", JSON.stringify(productList));
@@ -389,13 +451,19 @@ function showAll(typeElement) {
     typeButton.forEach((type) => {
         type.classList.remove("active");
     });
-    typeElement.classList.add("active");
+    document.querySelector(".show-all-product").classList.add("active");
+    // Cuộn đến phần tử sản phẩm
+    document
+        .querySelector("#all-product")
+        .scrollIntoView({ behavior: "smooth", block: "center" });
+    // Tắt overlay nếu là điện thoại
+    document.querySelector(".overlay-nav").classList.remove("show");
+    document.querySelector(".mobile-menu").classList.remove("show");
 }
 
-function changePage(page) {
+function changePage(page, arr) {
     thisPage = page;
-    const productFilter = JSON.parse(localStorage.getItem("productFilter"));
-    displayProduct(productFilter);
+    displayProduct(arr);
 }
 // --------------------- Mua ngay -------------------------
 function buyNow(buyElement) {
@@ -437,7 +505,7 @@ function searchProduct(inputElement) {
         const productName = value.Name.toUpperCase();
         return productName.includes(valueSearchInput.toUpperCase());
     });
-    displayProduct(productSearch);
+    displayProduct(productSearch, 1);
 
     inputElement.addEventListener("keydown", function (event) {
         // Kiểm tra nếu phím Enter được nhấn

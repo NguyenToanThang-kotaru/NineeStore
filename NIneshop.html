@@ -36,13 +36,13 @@
                     <li>
                         <div class="lap-menu"><a href="NIneshop.html">Laptop</a></div>
                         <ul id="menudacap">
-                            <li class="asus_Product" onclick="showASUS(this)">Asus</li>
-                            <li class="dell_Product" onclick="showDELL(this)">Dell</li>
+                            <li class="asus_Product" onclick="showASUS()">Asus</li>
+                            <li class="dell_Product" onclick="showDELL()">Dell</li>
                         </ul>
                     </li>
-                    <li class="mac_Product" onclick="showMac(this)">MacBook</li>
-                    <li class="old_Product" onclick="showOLD(this)">Sản phẩm cũ</li>
-                    <li class="sale_Product" onclick="showSale(this)">Đang giảm giá</li>
+                    <li class="mac_Product" onclick="showMac()">MacBook</li>
+                    <li class="old_Product" onclick="showOLD()">Sản phẩm cũ</li>
+                    <li class="sale_Product" onclick="showSale()">Đang giảm giá</li>
                 </ul>
                 <ul id="rightmenu">
                     <li>
@@ -184,16 +184,16 @@
               </div> -->
                 </div>
                 <div class="type-list">
-                    <button onclick="showAll(this)" class="show-all-product type-button active">
+                    <button onclick="showAll()" class="show-all-product type-button active">
                         Tất cả
                     </button>
-                    <button onclick="showDELL(this)" class="type-button">
+                    <button onclick="showDELL()" class="type-button type-item-dell">
                         <img src="./img/brand_icon/dell.png" class="type-item" alt="DELL" />
                     </button>
-                    <button onclick="showASUS(this)" class="type-button">
+                    <button onclick="showASUS()" class="type-button type-item-asus">
                         <img src="./img/brand_icon/asus.png" class="type-item" alt="ASUS" />
                     </button>
-                    <button class="type-button" onclick="showMac(this)">
+                    <button class="type-button type-item-mac" onclick="showMac()">
                         <img src="./img/brand_icon/mac.png" class="type-item" alt="hp" />
                     </button>
                 </div>
@@ -503,7 +503,8 @@
                                     <tr>
                                         <td>Khối lượng:</td>
                                         <td class="weight">1.85 kg</td>
-                                    </tr> <tr>
+                                    </tr>
+                                    <tr>
                                         <td>Old:</td>
                                         <td class="old">false</td>
                                       </tr>
@@ -1358,6 +1359,14 @@
                                         <td>Khối lượng:</td>
                                         <td class="weight">1.8 kg</td>
                                     </tr>
+                                    <tr>
+                                        <td>Old:</td>
+                                        <td class="old">false</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sale:</td>
+                                        <td class="sale">0</td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
@@ -1825,12 +1834,12 @@
             <ul id="menu-list-mobile">
                 <li class="menu-mobile-item" onclick="toggleMenu()">Laptop</li>
                 <ul class="menudacap-mobile">
-                    <li class="child-menu-lap">Asus</li>
-                    <li class="child-menu-lap">Dell</li>
+                    <li class="child-menu-lap" onclick="showASUS()">Asus</li>
+                    <li class="child-menu-lap" onclick="showDELL()">Dell</li>
                 </ul>
-                <li class="menu-mobile-item">MacBook</li>
-                <li class="menu-mobile-item">Sản phẩm cũ</li>
-                <li class="menu-mobile-item">Đang giảm giá</li>
+                <li class="menu-mobile-item" onclick="showMac()">MacBook</li>
+                <li class="menu-mobile-item" onclick="showOLD()">Sản phẩm cũ</li>
+                <li class="menu-mobile-item" onclick="showSale()">Đang giảm giá</li>
             </ul>
         </div>
     </div>
@@ -2128,8 +2137,10 @@
         <td>Số điện thoại:</td>
         <td>0123456</td>
       </tr> -->
-                <!-- <button class="order-history-btn">Xem lịch sử đặt hàng</button> -->
             </table>
+            <button class="order-history-btn" onclick="showHistory()">
+                Xem lịch sử đặt hàng
+            </button>
         </div>
     </div>
     <!---------------------------- Order History ------------------------->
