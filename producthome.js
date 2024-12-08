@@ -320,8 +320,7 @@ function createListPage(arr) {
     for (let i = 1; i <= amountPage; i++) {
         let type = "all";
         if (amountPage === 1) {
-            s += `<button onclick="changePage(${i})" class="numberlist active" style="display: none;" >${i}</button>`;
-            continue;
+           break;
         }
         if (arr === dellList) type = "dell";
         else if (arr === asusList) type = "asus";
