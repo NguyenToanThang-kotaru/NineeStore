@@ -491,7 +491,7 @@ function buyNow(buyElement) {
         Quantity: productQuantity,
         Price: productPrice,
         Img: productImg,
-        QuantitySold: true,
+        QuantitySold: true
     };
     displayPayment([product], []);
 }

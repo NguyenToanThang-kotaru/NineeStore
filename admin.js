@@ -176,6 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const donHang = document.getElementById("side-menu__menu-order");
     const customer = document.getElementById("side-menu__menu-customer");
     const thongke = document.getElementById("side-menu__menu-statistic");
+    const homepage = document.getElementById("side-menu__menu-homepage");
     const adminLogo = document.getElementById("side-menu__account");
     // customers
     const customerList = document.getElementById("customer__list-body");
@@ -238,6 +239,11 @@ document.addEventListener("DOMContentLoaded", function () {
             toggleForm("order", "close");
             toggleForm("customer", "close");
             toggleForm("statistic", "close");
+        });
+
+        // return to the homepage
+        homepage.addEventListener("click", function() {
+            window.location.href = "NIneshop.html";
         });
     }
 
@@ -741,23 +747,37 @@ document.addEventListener("DOMContentLoaded", function () {
     function addCustomertoTable() {
         const userLocal = JSON.parse(localStorage.getItem("users")) || [];
         let customerContent = "";
+        let adminContent = "";
         userLocal.forEach((user) => {
-            customerContent += `<tr>
-                  <td class="customer__userID">${user.UserId}</td>
-                  <td class="customer__userName">${user.FullName}</td>
-                  <td class="customer__userPhone">${user.Phone}</td>
-                  <td class="customer__userAddress">${user.Address}, Phường ${user.Ward}, Quận ${user.District}, ${user.City}</td>
-                  <td class="customer__userEmail">${user.Email}</td>
-                  <td><button type="button" class="customer__status" title="Nhấp chuột để thay đổi trạng thái">Hoạt động</button></td>
-                  <td>
-                      <i class="fa-regular fa-pen-to-square edit-icon" onclick="editCustomer(this)"></i>
-                  </td>
-                  <td class="customer__userdistrict" style="display: none;">${user.District}</td>
-                  <td class="customer__usercity" style="display: none;">${user.City}</td>
-                  <td class="customer__userward" style="display: none;">${user.Ward}</td>
-              </tr>`;
+            if (user.UserType == "customer") {
+                customerContent += `<tr>
+                    <td class="customer__userID">${user.UserId}</td>
+                    <td class="customer__userName">${user.FullName}</td>
+                    <td class="customer__userPhone">${user.Phone}</td>
+                    <td class="customer__userAddress">${user.Address}, Phường ${user.Ward}, Quận ${user.District}, ${user.City}</td>
+                    <td class="customer__userEmail">${user.Email}</td>
+                    <td><button type="button" class="customer__status" title="Nhấp chuột để thay đổi trạng thái">Hoạt động</button></td>
+                    <td>
+                        <i class="fa-regular fa-pen-to-square edit-icon" onclick="editCustomer(this)"></i>
+                    </td>
+                    <td class="customer__userdistrict" style="display: none;">${user.District}</td>
+                    <td class="customer__usercity" style="display: none;">${user.City}</td>
+                    <td class="customer__userward" style="display: none;">${user.Ward}</td>
+                </tr>`;
+            }
+            else if (user.UserType = "admin") {
+                adminContent += `<tr>
+                    <td class="admin__userID">${admin.UserId}</td>
+                    <td class="admin__userName">${admin.FullName}</td>
+                    <td class="admin__userPhone">${admin.Phone}</td>
+                    <td class="admin__userEmail">${admin.Email}</td>
+                    <td class="admin__userAddress">${admin.Address}</td>
+                    <td class="admin__username">${admin.UserName}</td>
+                </tr>`;
+            }
         });
         customerList.innerHTML = customerContent;
+        adminList.innerHTML = adminContent;
     }
     addCustomertoTable();
     //--------------------------------- Product -----------------------------
@@ -895,6 +915,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     Brand: brand.value,
                     Price: Number(price.value.replace(/\./g, "")).toLocaleString("de-DE"),
                     Quantity: quantity.value,
+                    QuantitySold: false, 
                     Detail: {
                         Img: detailImg.src,
                         CPU: cpu.value,
@@ -992,6 +1013,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const userName = document.getElementById("form__admin-username");
             const password = document.getElementById("form__admin-password");
 
+            const users = JSON.parse(localStorage.getItem("users")) || [];
             // check if the information admin filled is valid
             if (!inputFilled([name, phone, email, address, userName, password])) {
                 alert("Vui lòng điền đầy đủ thông tin.");
@@ -1008,10 +1030,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("Mật khẩu phải có ít nhất 8 kí tự và phải chưa kí tự chữ.");
                 password.focus();
                 return false;
+            } else if (!input.value.match(/[a-zA-Z0-9]/) || (/^\d+$/).test(input.value)) {
+                alert("Tên đăng nhập không được chứa toàn kí tự số và không được chứa kí tự đặc biệt");
+                userName.focus();
+                return false;
             } else {
                 // check if the information is already in the user database
-                const users = JSON.parse(localStorage.getItem("users")) || [];
-                const admins = JSON.parse(localStorage.getItem("admins")) || [];
                 for (let i = 0; i < users.length; i++) {
                     if (users[i].Email == email.value) {
                         alert("Email này đã được đăng ký.");
@@ -1024,24 +1048,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         return false;
                     }
                     if (users[i].UserName == userName.value) {
-                        alert("Tên đăng nhập này đã được đăng ký.");
-                        userName.focus();
-                        return false;
-                    }
-                }
-
-                for (let admin of admins) {
-                    if (admin.Email == email.value) {
-                        alert("Email này đã được đăng ký.");
-                        email.focus();
-                        return false;
-                    }
-                    if (admin.Phone == phone.value) {
-                        alert("Số điện thoại này đã được đăng ký.");
-                        phone.focus();
-                        return false;
-                    }
-                    if (admin.UserName == userName.value) {
                         alert("Tên đăng nhập này đã được đăng ký.");
                         userName.focus();
                         return false;
@@ -1064,28 +1070,6 @@ document.addEventListener("DOMContentLoaded", function () {
             };
             // Thêm vào bảng khi không load trang
             const adminInfo = `<tr>
-            <td class="admin__userID">${admin.UserId}</td>
-            <td class="admin__userName">${admin.FullName}</td>
-            <td class="admin__userPhone">${admin.Phone}</td>
-            <td class="admin__userEmail">${admin.Email}</td>
-            <td class="admin__userAddress">${admin.Address}</td>
-            <td class="admin__username">${admin.UserName}</td>
-        </tr>`;
-            adminList.innerHTML += adminInfo;
-            // store data into localStorage
-            admins.push(admin);
-            localStorage.setItem("admins", JSON.stringify(admins));
-
-            // make all the input empty
-            clearInput([name, phone, email, address, ward, district, city, userName, password]);
-        });
-
-    // ------------ Add admin when the page is loaded ------------
-    function addAdminToTable() {
-        const admins = JSON.parse(localStorage.getItem("admins")) || [];
-        let adminContent = "";
-        admins.forEach((admin) => {
-            adminContent += `<tr>
                 <td class="admin__userID">${admin.UserId}</td>
                 <td class="admin__userName">${admin.FullName}</td>
                 <td class="admin__userPhone">${admin.Phone}</td>
@@ -1093,6 +1077,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td class="admin__userAddress">${admin.Address}</td>
                 <td class="admin__username">${admin.UserName}</td>
             </tr>`;
+            adminList.innerHTML += adminInfo;
+            // store data into localStorage
+            users.push(admin);
+            localStorage.setItem("users", JSON.stringify(users));
+
+            // make all the input empty
+            clearInput([name, phone, email, address, ward, district, city, userName, password]);
+        });
+
+    // ------------ Add admin when the page is loaded ------------
+    function addAdminToTable() {
+        const admins = JSON.parse(localStorage.getItem("users")) || [];
+        let adminContent = "";
+        admins.forEach((admin) => {
+            if (admin.UserType == "admin") {
+                adminContent += `<tr>
+                    <td class="admin__userID">${admin.UserId}</td>
+                    <td class="admin__userName">${admin.FullName}</td>
+                    <td class="admin__userPhone">${admin.Phone}</td>
+                    <td class="admin__userEmail">${admin.Email}</td>
+                    <td class="admin__userAddress">${admin.Address}</td>
+                    <td class="admin__username">${admin.UserName}</td>
+                </tr>`;
+            }
         });
         adminList.innerHTML = adminContent;
     }

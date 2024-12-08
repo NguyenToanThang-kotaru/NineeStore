@@ -109,16 +109,25 @@ function checkEmailError(input) {
 }
 function checkUserNameError(input) {
     let isUserNameSame = false;
-    const usersLocal = JSON.parse(localStorage.getItem("users")) || [];
-    usersLocal.forEach((user) => {
-        if (user.UserName === input.value) isUserNameSame = true;
-    });
-    if (!isUserNameSame) {
-        showSuccess(input);
-    } else {
-        showError(input, "Tên đăng nhập này đã được đăng ký");
+
+    if (!input.value.match(/[a-zA-Z0-9]/) || (/^\d+$/).test(input.value)) {
+        showError(input, "Username không được chứa toàn số và kí tự đặc biệt");
     }
-    return isUserNameSame;
+    else {
+        const usersLocal = JSON.parse(localStorage.getItem("users")) || [];
+        for (let user of usersLocal) {
+            if (user.UserName === input.value) {
+                isUserNameSame = true;
+                break;
+            }
+        }
+        if (!isUserNameSame) {
+            showSuccess(input);
+        } else {
+            showError(input, "Tên đăng nhập này đã được đăng ký");
+        }
+        return isUserNameSame;    
+    }
 }
 function checkMatchPasswordError(passwordInput, rePasswordInput) {
     if (passwordInput.value !== rePasswordInput.value)

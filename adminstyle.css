@@ -60,8 +60,14 @@ body {
 }
 
 #side-menu__account {
-  position: absolute;
-  bottom: 0;
+    position: absolute;
+    bottom: 0;
+}
+
+#side-menu__menu-homepage {
+    position: absolute;
+    bottom: 70px;
+    /* margin-bottom: 20px; */
 }
 
 /* icon's color */
