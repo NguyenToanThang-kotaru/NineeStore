@@ -51,6 +51,7 @@ if (!localStorage.getItem("products")) {
             Brand: item.querySelector(".product-brand").innerText.trim().trim(),
             Price: item.querySelector(".product-price").innerText.trim(),
             Quantity: item.querySelector(".product-quantity-value").innerText.trim(),
+            QuantitySold: false,
             // OriginalPrice: item.querySelector(
             //   ".product-original-price .original-price"
             // ).innerText.trim(),
@@ -490,6 +491,7 @@ function buyNow(buyElement) {
         Quantity: productQuantity,
         Price: productPrice,
         Img: productImg,
+        QuantitySold: true,
     };
     displayPayment([product], []);
 }
