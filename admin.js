@@ -319,14 +319,14 @@ document.addEventListener("DOMContentLoaded", function () {
     //         const orders = JSON.parse(localStorage.getItem("orders")) || [];
 
     //         // Lọc đơn hàng
-    //         for (let i = orders.length - 1; i >= 0; i--) {
-    //             const orderDate = new Date(orders[i].OrderDate);
-    //             const diffTime = today.getTime() - orderDate.getTime(); // Khoảng cách thời gian (mili-giây)
-    //             const diffDays = diffTime / (1000 * 60 * 60 * 24); // Chuyển sang ngày
-    //             if (diffDays > selectedValue) {
-    //                 orders.splice(i, 1); // Xóa đơn hàng nếu đã quá thời gian
-    //             }
-    //         }
+    // for (let i = orders.length - 1; i >= 0; i--) {
+    //     const orderDate = new Date(orders[i].OrderDate);
+    //     const diffTime = today.getTime() - orderDate.getTime(); // Khoảng cách thời gian (mili-giây)
+    //     const diffDays = diffTime / (1000 * 60 * 60 * 24); // Chuyển sang ngày
+    //     if (diffDays > selectedValue) {
+    //         orders.splice(i, 1); // Xóa đơn hàng nếu đã quá thời gian
+    //     }
+    // }
 
     //         // Gọi hàm  statisticCustomer với danh sách đơn hàng đã lọc
     //         statisticCustomer(orders);
@@ -338,8 +338,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const startPD = document.querySelector("#startPD");
     const endPD = document.querySelector("#endPD");
-    const today = new Date().toISOString().split('T')[0]; // Lấy ngày hôm nay và định dạng
-    endPD.value = today;
+
 
     startPD.addEventListener("change", filterDateStat);
     endPD.addEventListener("change", filterDateStat);
@@ -350,39 +349,33 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function filterDateStat() {
-        const startDate = new Date(startPD.value);
-        const endDate = new Date(endPD.value);
-        const orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-        // Lọc đơn hàng
-        if (startDate > endDate) {
-            alert("Vui lòng chọn ngày hợp lệ.");
-            orders.length=0;
-            statisticProduct(orders)
-            resetFilter(); // Gọi hàm resetFilter để đặt lại giá trị input
-            return;
-        }
-
-        for (let i = orders.length - 1; i >= 0; i--) {
-            const orderDate = new Date(orders[i].OrderDate);
-            // Kiểm tra nếu orderDate nằm ngoài khoảng thời gian
-            if (orderDate < startDate || orderDate > endDate) {
-                orders.splice(i, 1); // Xóa đơn hàng nếu không trong khoảng thời gian
+        if (startPD.value != 0 && endPD.value != 0) {
+            const startDate = new Date(startPD.value);
+            const endDate = new Date(endPD.value);
+            const orders = JSON.parse(localStorage.getItem("orders")) || [];
+            endDate.setHours(23, 59, 59, 999);
+            // Lọc đơn hàng
+            if (startDate > endDate) {
+                alert("Vui lòng chọn ngày hợp lệ.");
+                orders.length = 0;
+                statisticProduct(orders)
+                resetFilter(); // Gọi hàm resetFilter để đặt lại giá trị input
+                return;
             }
-        }
 
-        if (orders.length === 0) {
-            statisticProduct(orders)
-            setTimeout(function() {alert("Không có sản phẩm");}, 300); // Hoặc bạn có thể thay thế bằng alert
-        } else {
-            // Gọi hàm statisticProduct với danh sách đơn hàng đã lọc
+            for (let i = orders.length - 1; i >= 0; i--) {
+                const orderDate = new Date(orders[i].OrderDate);
+                // Kiểm tra nếu orderDate nằm ngoài khoảng thời gian
+                if (orderDate < startDate || orderDate > endDate) {
+                    orders.splice(i, 1); // Xóa đơn hàng nếu không trong khoảng thời gian
+                }
+            }
             statisticProduct(orders);
         }
     }
 
     const startCus = document.querySelector("#startCus");
     const endCus = document.querySelector("#endCus");
-    endCus.value = today;
 
     startCus.addEventListener("change", filterDateStat2);
     endCus.addEventListener("change", filterDateStat2);
@@ -393,34 +386,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function filterDateStat2() {
-        const startDate = new Date(startCus.value);
-        const endDate = new Date(endCus.value);
-        const orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-        // Lọc đơn hàng
-        if (startDate > endDate) {
-            alert("Vui lòng chọn ngày hợp lệ.");
-            orders.length=0;
-            statisticCustomer(orders)
-            resetFilter2(); // Gọi hàm resetFilter để đặt lại giá trị input
-            return;
-        }
-
-        for (let i = orders.length - 1; i >= 0; i--) {
-            const orderDate = new Date(orders[i].OrderDate);
-            // Kiểm tra nếu orderDate nằm ngoài khoảng thời gian
-            if (orderDate < startDate || orderDate > endDate) {
-                orders.splice(i, 1); // Xóa đơn hàng nếu không trong khoảng thời gian
+        if (startCus.value != 0 && endCus.value != 0) {
+            const startDate = new Date(startCus.value);
+            const endDate = new Date(endCus.value);
+            const orders = JSON.parse(localStorage.getItem("orders")) || [];
+            endDate.setHours(23,59,59,999);
+            // Lọc đơn hàng
+            if (startDate > endDate) {
+                alert("Vui lòng chọn ngày hợp lệ.");
+                orders.length = 0;
+                statisticCustomer(orders)
+                resetFilter2(); // Gọi hàm resetFilter để đặt lại giá trị input
+                return;
             }
-        }
 
-        if (orders.length === 0) {
-            statisticCustomer(orders)
-            setTimeout(function() {alert("Không có khách hàng");}, 300); // Hoặc bạn có thể thay thế bằng alert
-        } else {
+            for (let i = orders.length - 1; i >= 0; i--) {
+                const orderDate = new Date(orders[i].OrderDate);
+                // Kiểm tra nếu orderDate nằm ngoài khoảng thời gian
+                if (orderDate < startDate || orderDate > endDate) {
+                    orders.splice(i, 1); // Xóa đơn hàng nếu không trong khoảng thời gian
+                }
+            }
             // Gọi hàm statisticProduct với danh sách đơn hàng đã lọc
             statisticCustomer(orders);
         }
+
     }
 
 

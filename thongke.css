@@ -255,6 +255,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    border: none;
 }
 
 
@@ -262,13 +263,12 @@ body {
 #header-product-name,
 #header-revenue,
 #header-quantity-sold {
-    background-color: #f2f2f2;
     text-align: center;
 }
 
 /* Kiểu cho các ô trong bảng */
 .item-row td {
-    border: 1px solid black;
+    border: 3px solid #ddd;
     padding: 8px;
     text-align: left;
 }
@@ -281,4 +281,9 @@ body {
 
 #wrost-products-table {
     width: 100%;
+}
+
+.category3{
+    background-color: #cccccc;
+    border:3px solid #ddd;
 }
