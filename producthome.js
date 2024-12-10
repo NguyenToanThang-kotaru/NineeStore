@@ -357,8 +357,8 @@ function showDELL() {
     document.querySelector(".type-item-dell").classList.add("active");
     // Cuộn đến phần tử sản phẩm
     document
-        .querySelector("#all-product")
-        .scrollIntoView({ behavior: "smooth", block: "center" });
+        .querySelector(".container")
+        .scrollIntoView(true, { behavior: "smooth", block: "center"});
     // Tắt overlay nếu là điện thoại
     document.querySelector(".overlay-nav").classList.remove("show");
     document.querySelector(".mobile-menu").classList.remove("show");
@@ -378,8 +378,8 @@ function showASUS() {
     document.querySelector(".type-item-asus").classList.add("active");
     // Cuộn đến phần tử sản phẩm
     document
-        .querySelector("#all-product")
-        .scrollIntoView({ behavior: "smooth", block: "center" });
+        .querySelector(".container")
+        .scrollIntoView(true, { behavior: "smooth", block: "center"});
     // Tắt overlay nếu là điện thoại
     document.querySelector(".overlay-nav").classList.remove("show");
     document.querySelector(".mobile-menu").classList.remove("show");
@@ -400,8 +400,8 @@ function showOLD() {
     // typeElement.classList.add("active");
     // Cuộn đến phần tử sản phẩm
     document
-        .querySelector("#all-product")
-        .scrollIntoView({ behavior: "smooth", block: "center" });
+        .querySelector(".container")
+        .scrollIntoView(true, { behavior: "smooth", block: "center"});
     // Tắt overlay nếu là điện thoại
     document.querySelector(".overlay-nav").classList.remove("show");
     document.querySelector(".mobile-menu").classList.remove("show");
@@ -429,8 +429,8 @@ function showMac() {
     document.querySelector(".type-item-mac").classList.add("active");
     // Cuộn đến phần tử sản phẩm
     document
-        .querySelector("#all-product")
-        .scrollIntoView({ behavior: "smooth", block: "center" });
+        .querySelector(".container")
+        .scrollIntoView(true, { behavior: "smooth", block: "center"});
     // Tắt overlay nếu là điện thoại
     document.querySelector(".overlay-nav").classList.remove("show");
     document.querySelector(".mobile-menu").classList.remove("show");
@@ -451,8 +451,8 @@ function showAll() {
     document.querySelector(".show-all-product").classList.add("active");
     // Cuộn đến phần tử sản phẩm
     document
-        .querySelector("#all-product")
-        .scrollIntoView({ behavior: "smooth", block: "center" });
+        .querySelector(".container")
+        .scrollIntoView(true, { behavior: "smooth", block: "center"});
     // Tắt overlay nếu là điện thoại
     document.querySelector(".overlay-nav").classList.remove("show");
     document.querySelector(".mobile-menu").classList.remove("show");
@@ -478,9 +478,7 @@ function buyNow(buyElement) {
     const productImg = productItem.querySelector(".product-img").src;
     const productName = productItem.querySelector(".product-name").innerText;
     const productPrice = productItem.querySelector(".product-price").innerText;
-    const productQuantity = productItem.querySelector(
-        ".detail-quantity-value"
-    ).innerText;
+    const productQuantity = productItem.querySelector(".detail-quantity-value").innerText;
     if (productQuantity == 0) {
         alert("Sản phẩm đã hết hàng");
         return;
@@ -491,7 +489,7 @@ function buyNow(buyElement) {
         Quantity: productQuantity,
         Price: productPrice,
         Img: productImg,
-        QuantitySold: true
+        
     };
     displayPayment([product], []);
 }
@@ -512,9 +510,9 @@ function searchProduct(inputElement) {
 
             // Cuộn đến phần tử sản phẩm
             document
-                .querySelector("#all-product")
-                .scrollIntoView({ behavior: "smooth", block: "center" });
-        }
+            .querySelector(".container")
+            .scrollIntoView(true, { behavior: "smooth", block: "center"});
+            }
     });
 }
 // ---------------------- Filter--------------------
@@ -623,8 +621,8 @@ function submitFilter(event) {
     filterProduct();
     document.querySelector(".filter-box").style.display = "none";
     document
-        .querySelector("#all-product")
-        .scrollIntoView({ behavior: "smooth", block: "center" });
+        .querySelector(".container")
+        .scrollIntoView(true, { behavior: "smooth", block: "center"});
 }
 // ----------------------- Sort ----------------------
 function toggleDisplaySort(event, sortElement) {

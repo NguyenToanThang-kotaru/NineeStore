@@ -62,6 +62,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     width: 50%;
+    transition: background-color 0.25s ease;
 }
 
 #menu-tke button:hover {
@@ -255,6 +256,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    border: none;
 }
 
 
@@ -262,13 +264,12 @@ body {
 #header-product-name,
 #header-revenue,
 #header-quantity-sold {
-    background-color: #f2f2f2;
     text-align: center;
 }
 
 /* Kiểu cho các ô trong bảng */
 .item-row td {
-    border: 1px solid black;
+    border: 3px solid #ddd;
     padding: 8px;
     text-align: left;
 }
@@ -281,4 +282,42 @@ body {
 
 #wrost-products-table {
     width: 100%;
+}
+
+.category3{
+    background-color: #cccccc;
+    border:3px solid #ddd;
+}
+
+#product-stats-title {
+    text-align: center;
+}
+
+#product-stats-table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+#product-stats-table th,
+#product-stats-table td {
+    border: 3px solid #ddd;
+    padding: 10px;
+    text-align: center;
+
+}
+
+#product-stats-table th {
+    background-color: #cccccc;
+    /* Màu nền cho cột tiêu đề */
+}
+
+#product-stats-body tr:nth-child(even) {
+    background-color: #f9f9f9;
+    /* Màu nền cho các hàng chẵn */
+}
+
+#product-stats-body tr:hover {
+    background-color: #e0e0e0;
+    /* Màu nền khi hover */
 }

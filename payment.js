@@ -145,6 +145,7 @@ function displayPayment(productList, cartListChecked) {
                         for (let j = 0; j < productLocal.length; j++) {
                             if (productList[i].ID == productLocal[j].ID) {
                                 productLocal[j].Quantity -= productList[i].Quantity;
+                                productLocal[j].QuantitySold = true;
                                 break;
                             }
                         }

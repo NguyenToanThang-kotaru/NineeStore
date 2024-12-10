@@ -74,6 +74,7 @@ body {
 a:link,
 a:visited {
   color: black;
+  transition: color 0.25s ease;
 }
 
 a:hover,
@@ -236,6 +237,7 @@ button {
   border-radius: 10px;
   padding: 5px;
   margin: 5px;
+  transition: background-color 0.25s ease;
 }
 
 button:hover {
@@ -291,16 +293,17 @@ button:hover {
   font-size: 20px;
   padding: 5px;
   cursor: pointer;
+  transition: color 0.25s ease;
 }
 
 .edit-icon:hover {
   color: #321ee6;
-  background-color: #e9e6e6;
+  /* background-color: #e9e6e6; */
 }
 
 .delete-icon:hover {
   color: #e61e1e;
-  background-color: #e9e6e6;
+  /* background-color: #e9e6e6; */
 }
 
 /* --------------- Order ------------ */

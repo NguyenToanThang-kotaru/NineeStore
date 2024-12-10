@@ -59,7 +59,7 @@ i.nav-bar {
 #leftmenu img:hover {
     background-color: rgb(223, 218, 218);
     transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); */
 
 }
 
@@ -69,7 +69,7 @@ i.nav-bar {
 }
 
 #centermenu li a {
-    color: black;
+    color: #454545;
     text-decoration: none;
 }
 
@@ -143,14 +143,16 @@ i.nav-bar {
 }
 
 #Topmenu li {
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    color: #454545;
+    transition: color 0.3s ease, transform 0.3s;
 }
 
 #Topmenu li:hover {
-    background-color: rgb(204, 202, 202);
+    /* background-color: rgb(204, 202, 202); */
     transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); */
     display: block;
+    color: #000000;
 }
 
 .container {

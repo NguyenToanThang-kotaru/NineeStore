@@ -73,14 +73,14 @@ body {
   object-fit: contain;
 }
 .product-name {
-  font-size: 2rem;
+  font-size: large;
   font-weight: 500;
 }
 .sale-price,
 .product-price {
   display: inline-block;
   margin-top: 10px;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 600;
   color: #dd2f2c;
 }
@@ -132,10 +132,10 @@ body {
   cursor: pointer;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* tăng bóng khi hover */
 }
-.product:hover > .product-img {
+/* .product:hover > .product-img {
   transform: scale(1.1);
   transition: 0.5s;
-}
+} */
 .note {
   background-color: black;
   font-size: 1.6rem;
