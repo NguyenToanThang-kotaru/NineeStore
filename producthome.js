@@ -478,9 +478,7 @@ function buyNow(buyElement) {
     const productImg = productItem.querySelector(".product-img").src;
     const productName = productItem.querySelector(".product-name").innerText;
     const productPrice = productItem.querySelector(".product-price").innerText;
-    const productQuantity = productItem.querySelector(
-        ".detail-quantity-value"
-    ).innerText;
+    const productQuantity = productItem.querySelector(".detail-quantity-value").innerText;
     if (productQuantity == 0) {
         alert("Sản phẩm đã hết hàng");
         return;
@@ -491,9 +489,9 @@ function buyNow(buyElement) {
         Quantity: productQuantity,
         Price: productPrice,
         Img: productImg,
-        QuantitySold: true,
     };
     displayPayment([product], []);
+    
 }
 // ---------------------- Search--------------------
 function searchProduct(inputElement) {

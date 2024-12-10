@@ -266,11 +266,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const back2 = document.querySelector("#back-btn-kh");
     const item_page = document.querySelector("#items-tke");
     const customer_page = document.querySelector("#customers-tke");
-
     customer_btn.addEventListener("click", showCustomer);
     item_btn.addEventListener("click", showItems);
     back1.addEventListener("click", backMenu);
     back2.addEventListener("click", backMenu);
+
 
     function showCustomer() {
         customer_page.style.display = "block";
@@ -333,6 +333,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //     });
 
 
+
     statisticProduct(JSON.parse(localStorage.getItem("orders")) || []);
     statisticCustomer(JSON.parse(localStorage.getItem("orders")) || []);
 
@@ -390,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const startDate = new Date(startCus.value);
             const endDate = new Date(endCus.value);
             const orders = JSON.parse(localStorage.getItem("orders")) || [];
-            endDate.setHours(23,59,59,999);
+            endDate.setHours(23, 59, 59, 999);
             // Lọc đơn hàng
             if (startDate > endDate) {
                 alert("Vui lòng chọn ngày hợp lệ.");
@@ -412,6 +413,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
     }
+
 
 
 
@@ -445,8 +447,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         }
-        let insertWorst = "";
-        let insertBest = "";
+
         let insertTotalQuantity = "";
         let totalQuantity = 0;
         let insertName = "";
@@ -485,90 +486,117 @@ document.addEventListener("DOMContentLoaded", function () {
             totalQuantity += Number(product.Quantity);
             insertName +=
                 `<tr>
-               <td>${product.Name}</td>
-               <td><span class="product-tke-quantity-value">${product.Quantity
+                    <td>${product.Name}</td>
+                    <td><span class="product-tke-quantity-value">${product.Quantity
                 }</span></td>
-               <td><span class="product-tke-price-value">${price.toLocaleString(
+                    <td><span class="product-tke-price-value">${price.toLocaleString(
                     "de-DE"
                 )}</span> VNĐ</td>
-                 <td>
-                     <button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
-                     <div class='overlay'>
-                         <div class="hoa-don-container" id="hoadon-items">
-                             <i class="fa-solid fa-rectangle-xmark close"></i>
-                             <div class="hoa-don-header">
-                                 <h1>Hóa đơn</h1>
-                             </div>
-                             <div class="hoa-don-info">
-                                 <div class="hoa-don-mat-hang">
-                                     <h3>Thông tin sản phẩm</h3>
-                                     <p>Mã: ${product.ID}</p>
-                                     <p>Tên: ${product.Name}</p>
-                                     <p>Giá: ${product.Price}</p>
-                                 </div>
-                             </div>
-                             <div class="product-table-hd">
-                                 <table class="product-table-info-hd">
-                                     <thead>
-                                         <tr class="table-header-hd">
-                                             <th>Tên khách hàng</th>
-                                             <th>Số lượng</th>
-                                             <th>Thành tiền</th>
-                                         </tr>
-                                     </thead>
-                                     <tbody>` +
-                hdContent +
-                `</tbody>
-                               </table>    
-                           </div>
-                       </div>
-                   </div>
-               </td>
-           </tr>`;
+                      <td>
+                          <button class="show-hoadon-kh" onclick="showPaymentProduct(this)">Xem</button>
+                          <div class='overlay'>
+                              <div class="hoa-don-container" id="hoadon-items">
+                                  <i class="fa-solid fa-rectangle-xmark close"></i>
+                                  <div class="hoa-don-header">
+                                      <h1>Hóa đơn</h1>
+                                  </div>
+                                  <div class="hoa-don-info">
+                                      <div class="hoa-don-mat-hang">
+                                          <h3>Thông tin sản phẩm</h3>
+                                          <p>Mã: ${product.ID}</p>
+                                          <p>Tên: ${product.Name}</p>
+                                          <p>Giá: ${product.Price}</p>
+                                      </div>
+                                  </div>
+                                  <div class="product-table-hd">
+                                      <table class="product-table-info-hd">
+                                          <thead>
+                                              <tr class="table-header-hd">
+                                                  <th>Tên khách hàng</th>
+                                                  <th>Số lượng</th>
+                                                  <th>Thành tiền</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>`+ hdContent + `</tbody>
+                                    </table>    
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>`;
             hideOverlay();
         });
+        document.querySelector(".items-tbody-tke").innerHTML = insertName;
         insertTotalQuantity += `
                                  Tổng số lượng bán được: <span id="amount-revenue-tke">${totalQuantity}</span>mặt hàng  
                              `;
+        document.querySelector(".total-revenue-tke").innerHTML = insertTotalQuantity;
 
         // Sắp xếp sản phẩm theo doanh thu giảm dần
-        const best = infoProduct;
-        best.sort((a, b) => b.Quantity - a.Quantity);
-        const topProducts = best.slice(0, 5);
+        let TopBestPD = 0;
+        document.querySelector("#TopBestPD").addEventListener("change", (event) => {
+            const selectedValue = event.target.value;
+            // console.log(selectedValue);
+            TopBestPD = selectedValue;
+            const best = infoProduct;
+            best.sort((a, b) => b.Quantity - a.Quantity);
+            const topProducts = best.slice(0, TopBestPD);
 
-        topProducts.forEach((product) => {
-            let price =
-                Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity);
-            insertBest += `
-           <tr class="item-row">
-           <td>${product.Name}</td>
-           <td>${product.Quantity}</td>
-           <td>${price.toLocaleString("de-DE")} VNĐ</td>
-           </tr>
-           `;
-        });
 
-        document.querySelector("#bestPD").innerHTML = insertBest;
 
-        const worst = infoProduct;
-        worst.sort((a, b) => a.Quantity - b.Quantity);
-        const bottomProducts = worst.slice(0, 5);
-        bottomProducts.forEach((product) => {
-            let price =
-                Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity);
-            insertWorst += `
+            let insertBest = "";
+            console.log(topProducts)
+            topProducts.forEach((product) => {
+                let price =
+                    Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity);
+                insertBest += `
                <tr class="item-row">
-                   <td>${product.Name}</td>
-                   <td>${product.Quantity}</td>
-                   <td>${price.toLocaleString("de-DE")} VNĐ</td>
+               <td>${product.Name}</td>
+               <td>${product.Quantity}</td>
+               <td>${price.toLocaleString("de-DE")} VNĐ</td>
                </tr>
-           `;
+               `;
+            });
+
+
+            let insertWorst = "";
+            const worst = infoProduct;
+            worst.sort((a, b) => a.Quantity - b.Quantity);
+            const bottomProducts = worst.slice(0, TopBestPD);
+            bottomProducts.forEach((product) => {
+                let price =
+                    Number(product.Price.replace(/[.\/]/g, "")) * Number(product.Quantity);
+                insertWorst += `
+                   <tr class="item-row">
+                       <td>${product.Name}</td>
+                       <td>${product.Quantity}</td>
+                       <td>${price.toLocaleString("de-DE")} VNĐ</td>
+                   </tr>
+               `;
+            });
+
+            document.querySelector("#bestPD").innerHTML = insertBest;
+            document.querySelector("#worstPD").innerHTML = insertWorst;
         });
 
-        document.querySelector("#worstPD").innerHTML = insertWorst;
 
-        document.querySelector(".total-revenue-tke").innerHTML = insertTotalQuantity;
-        document.querySelector(".items-tbody-tke").innerHTML = insertName;
+        const products = JSON.parse(localStorage.getItem("products")) || []
+        let insert_dontsold = ""
+        products.forEach((product) => {
+            if (product.QuantitySold == false) {
+                let price = Number(product.Price.replace(/[.\/]/g, "")).toLocaleString("de-DE");
+                insert_dontsold += `
+                                    <tr>
+                                        <td id="product-a">${product.Name}</td>
+                                        <td id="price-a">${price} VNĐ</td>
+                                        <td id="quantity-a">${product.Quantity}</td>
+                                    </tr>
+                                    `
+            }
+        })
+        document.querySelector("#product-stats-body").innerHTML = insert_dontsold;
+
+
         hideOverlay();
     }
 
@@ -684,35 +712,44 @@ document.addEventListener("DOMContentLoaded", function () {
                           `
         document.querySelector('#total-revenue-tke1').innerHTML = insertTotalPrice
 
-        let insertBestCus = "";
-        let BestCus = customerStatArray;
-        BestCus.sort((a, b) => b.Quantity - a.Quantity);
-        const topCus = BestCus.slice(0, 5);
-        topCus.forEach((product) => {
-            insertBestCus += `
-       <tr class="item-row">
-       <td>${product.FullName}</td>
-       <td>${product.Quantity}</td>
-       <td>${product.TotalRevenue.toLocaleString("de-DE")} VNĐ</td>
-       </tr>
-       `;
-        });
-        document.querySelector("#bestCus").innerHTML = insertBestCus;
+        let TopBestCus = 0;
+        document.querySelector("#TopBestCus").addEventListener("change", (event) => {
+            const selectedValue = event.target.value;
+            // console.log(selectedValue);
+            TopBestCus = selectedValue;
+            console.log(TopBestCus)
+            let insertBestCus = "";
+            let BestCus = customerStatArray;
+            BestCus.sort((a, b) => b.Quantity - a.Quantity);
+            const topCus = BestCus.slice(0, TopBestCus);
+            topCus.forEach((product) => {
+                insertBestCus += `
+                                    <tr class="item-row">
+                                    <td>${product.FullName}</td>
+                                    <td>${product.Quantity}</td>
+                                    <td>${product.TotalRevenue.toLocaleString("de-DE")} VNĐ</td>
+                                    </tr>
+                                `;
+            });
 
-        let insertWorstCus = "";
-        let WorstCus = customerStatArray;
-        WorstCus.sort((a, b) => a.Quantity - b.Quantity);
-        const bottomCus = WorstCus.slice(0, 5);
-        bottomCus.forEach((product) => {
-            insertWorstCus += `
-       <tr class="item-row">
-       <td>${product.FullName}</td>
-       <td>${product.Quantity}</td>
-       <td>${product.TotalRevenue.toLocaleString("de-DE")} VNĐ</td>
-       </tr>
-       `;
-        });
-        document.querySelector("#worstCus").innerHTML = insertWorstCus;
+            let insertWorstCus = "";
+            let WorstCus = customerStatArray;
+            WorstCus.sort((a, b) => a.Quantity - b.Quantity);
+            const bottomCus = WorstCus.slice(0, TopBestCus);
+            bottomCus.forEach((product) => {
+                insertWorstCus += `
+                                    <tr class="item-row">
+                                    <td>${product.FullName}</td>
+                                    <td>${product.Quantity}</td>
+                                    <td>${product.TotalRevenue.toLocaleString("de-DE")} VNĐ</td>
+                                    </tr>
+                                `;
+            });
+
+            document.querySelector("#bestCus").innerHTML = insertBestCus;
+            document.querySelector("#worstCus").innerHTML = insertWorstCus;
+        })
+
 
         hideOverlay();
     }

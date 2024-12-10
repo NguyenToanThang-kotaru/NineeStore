@@ -33,7 +33,7 @@
     <div class="admin__page" style="display: none">
         <!-- Side menu -->
         <div class="side-menu">
-            <a href="#statistic" id="side-menu__menu-statistic" title="Thống kê">
+            <a href="#statistic" id="side-menu__menu-statistic"  title="Thống kê">
                 <i class="fa-solid fa-chart-simple fa-2xl"></i>
             </a>
             <a href="#product" id="side-menu__menu-sp" title="Sản phẩm">
@@ -103,6 +103,7 @@
 
                         <table class="summary-table-tke">
                             <h1 id="table-title">Danh Sách Mặt Hàng Bán Chạy Nhất</h1>
+                            <input type="number" name="" id="TopBestPD">
                             <table id="top-products-table">
                                 <thead>
                                     <tr>
@@ -140,6 +141,25 @@
                                 </tbody>
                             </table>
                         </table>
+
+                        <h1 id="product-stats-title">Bảng Thống Kê Sản Phẩm Không Bán Được</h1>
+                        <table id="product-stats-table">
+                            <thead>
+                                <tr>
+                                    <th id="product-name-header">Tên Sản Phẩm</th>
+                                    <th id="product-price-header">Giá Tiền</th>
+                                    <th id="product-quantity-header">Tổng Số Lượng</th>
+                                </tr>
+                            </thead>
+                            <tbody id="product-stats-body">
+                                <tr>
+                                    <td id="product-a">Sản phẩm A</td>
+                                    <td id="price-a">200.000 VNĐ</td>
+                                    <td id="quantity-a">50</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
 
                         <button id="back-btn-mh">Quay lại</button>
                     </div>
@@ -187,6 +207,8 @@
                             <h1 id="table-title">
                                 Danh sách khách hàng mua nhiêù tiền nhất
                             </h1>
+                            <input type="number" name="" id="TopBestCus">
+
                             <table id="top-products-table">
                                 <thead>
                                     <tr>
@@ -224,6 +246,26 @@
                                 </tbody>
                             </table>
                         </table>
+
+                        <!-- <h1 id="product-stats-title">Bảng Thống Kê tài khoản Không Mua Hàng</h1>
+                        <table id="product-stats-table">
+                            <thead>
+                                <tr>
+                                    <th id="product-name-header">Tên người dùng</th>
+                                    <th id="product-price-header">Giá Tiền</th>
+                                    <th id="product-quantity-header">Tổng Số Lượng</th>
+                                </tr>
+                            </thead>
+                            <tbody id="product-stats-body">
+                                <tr>
+                                    <td id="product-a">Sản phẩm A</td>
+                                    <td id="price-a">200.000 VNĐ</td>
+                                    <td id="quantity-a">50</td>
+                                </tr>
+                            </tbody>
+                        </table> -->
+
+                        
 
                         <button id="back-btn-kh">Quay lại</button>
                     </div>
@@ -590,7 +632,7 @@
                                             <label for="form__edit-sale">Sale:</label>
                                             <input type="text" id="form__edit-sale" name="edit-sale" />
                                         </div>
-                                        
+
                                         <div class="form__row" style="display: block">
                                             <label for="form__edit-img" style="width: fit-content">Hình chi tiết sản
                                                 phẩm</label><br />
@@ -598,7 +640,8 @@
                                                 accept="image/*" onchange="uploadImg(this)" />
                                             <!-- https://stackoverflow.com/questions/4328947/limit-file-format-when-using-input-type-file -->
 
-                                            <div style="margin: 10px; display: flex; justify-content: center; align-items: center; width: 30%;">
+                                            <div
+                                                style="margin: 10px; display: flex; justify-content: center; align-items: center; width: 30%;">
                                                 <img src="./img/no-photo-or-blank-image.jpg" alt="blank image!"
                                                     class="form__preview" id="form__edit-preview-detail-img"
                                                     style="width: 100%" />
@@ -688,7 +731,8 @@
                 </div>
                 <!-- làm các nút để truy cập chức năng lọc -->
                 <div style="display: flex; justify-content: center;">
-                    <div style="display: flex; width: 90%; position: sticky; top: 0; background-color: white; margin-bottom: 20px;">
+                    <div
+                        style="display: flex; width: 90%; position: sticky; top: 0; background-color: white; margin-bottom: 20px;">
                         <button type="button" id="order__filter-date">Lọc đơn hàng theo ngày</button>
                         <button type="button" id="order__filter-status">Lọc đơn hàng theo trạng thái</button>
                         <button type="button" id="order__filter-district">Lọc đơn hàng theo quận</button>
@@ -726,7 +770,7 @@
                             </select>
                         </div>
                     </div>
-                    </div>
+                </div>
                 <div>
                     <div id="order__list" style="overflow-x: auto">
                         <table class="order-table">
@@ -783,45 +827,54 @@
                                 <div class="form__row-right">
                                     <div class="form__row">
                                         <label for="form__admin-name">Họ tên người quản trị: </label>
-                                        <input type="text" id="form__admin-name" name="admin-name" placeholder="Nhập họ tên" required autofocus />
+                                        <input type="text" id="form__admin-name" name="admin-name"
+                                            placeholder="Nhập họ tên" required autofocus />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-phone">Số điện thoại:
                                         </label>
-                                        <input type="text" id="form__admin-phone" name="admin-phone" placeholder="Nhập số điện thoại" required autofocus />
+                                        <input type="text" id="form__admin-phone" name="admin-phone"
+                                            placeholder="Nhập số điện thoại" required autofocus />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-email">Email: </label>
-                                        <input type="text" id="form__admin-email" name="admin-email" placeholder="Nhập email" required />
+                                        <input type="text" id="form__admin-email" name="admin-email"
+                                            placeholder="Nhập email" required />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-address">Địa chỉ:
                                         </label>
-                                        <input type="text" id="form__admin-address" name="admin-address" placeholder="Nhập địa chỉ" required />
+                                        <input type="text" id="form__admin-address" name="admin-address"
+                                            placeholder="Nhập địa chỉ" required />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-ward">Phường:</label>
-                                        <input type="text" id="form__admin-ward" name="admin-ward" placeholder="Nhập phường (Vd: 1, 2)" required />
+                                        <input type="text" id="form__admin-ward" name="admin-ward"
+                                            placeholder="Nhập phường (Vd: 1, 2)" required />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-district">Quận:</label>
-                                        <input type="text" id="form__admin-district" name="admin-district" placeholder="Nhập quận (Vd: 7, 8)" required />
+                                        <input type="text" id="form__admin-district" name="admin-district"
+                                            placeholder="Nhập quận (Vd: 7, 8)" required />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-city">Thành phố:</label>
-                                        <input type="text" id="form__admin-city" name="admin-city" placeholder="Ghi cả chữ 'Thành phố' hoặc 'Tỉnh'" required />
+                                        <input type="text" id="form__admin-city" name="admin-city"
+                                            placeholder="Ghi cả chữ 'Thành phố' hoặc 'Tỉnh'" required />
                                     </div>
                                 </div>
                                 <div class="form__row-right">
                                     <div class="form__row">
                                         <label for="form__admin-username">Tên đăng nhập:
                                         </label>
-                                        <input type="text" id="form__admin-username" name="admin-username" placeholder="Nhập tên đăng nhập" required />
+                                        <input type="text" id="form__admin-username" name="admin-username"
+                                            placeholder="Nhập tên đăng nhập" required />
                                     </div>
                                     <div class="form__row">
                                         <label for="form__admin-password">Password:
                                         </label>
-                                        <input type="password" id="form__admin-password" name="admin-password" placeholder="Nhập mật khẩu" required />
+                                        <input type="password" id="form__admin-password" name="admin-password"
+                                            placeholder="Nhập mật khẩu" required />
                                     </div>
                                 </div>
                             </div>
