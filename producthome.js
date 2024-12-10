@@ -329,7 +329,8 @@ function createListPage(arr) {
 
         if (i === thisPage) {
             s += `<button onclick="changePage(${i})" class="numberlist active" >${i}</button>`;
-        } else {
+        } 
+        else {
             s += `<button onclick="changePage(${i})" class="numberlist">${i}</button>`;
         }
     }
