@@ -69,9 +69,7 @@ loginSubmit.addEventListener("click", (event) => {
             document.querySelector(".login-error").style.display = "none";
             localStorage.setItem("userLogin", JSON.stringify(findAdmin));
             isLogin = true;
-            setTimeout(function () {
-                document.querySelector(".register-success").style.display = "block";
-            }, 500);
+            reloadPage();
         }
     }
 });

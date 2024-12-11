@@ -186,10 +186,9 @@ formRegister.addEventListener("submit", (event) => {
     }
     else {
         // check if fullname & phone has issue
-        setTimeout(
-            (document.querySelector(".register-success").style.display = "block"),
-            500
-        );
+        setTimeout(function () {
+            document.querySelector(".register-success").style.display = "block";
+        }, 500);
         const user = {
             UserId: Math.ceil(Math.random() * 10000000000),
             FullName: fullname.value,
