@@ -1052,7 +1052,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("Mật khẩu phải có ít nhất 8 kí tự và phải chưa kí tự chữ.");
                 password.focus();
                 return false;
-            } else if (!input.value.match(/[a-zA-Z0-9]/) || (/^\d+$/).test(input.value)) {
+            } else if (!userName.value.match(/[a-zA-Z0-9]/) || (/^\d+$/).test(userName.value)) {
                 alert("Tên đăng nhập không được chứa toàn kí tự số và không được chứa kí tự đặc biệt");
                 userName.focus();
                 return false;

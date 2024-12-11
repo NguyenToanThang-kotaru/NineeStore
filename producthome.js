@@ -102,8 +102,7 @@ function displayProduct(arr, thisPageValue) {
             if (item.Detail.Sale > 0) {
 
                 productListContent += `<section class="product all-product-item" id="${item.ID}">
-        <img
-        src="${item.Img}"
+        <img src="${item.Img}"
         alt=""
         class="product-img"
         />

@@ -30,19 +30,22 @@ loginSubmit.addEventListener("click", (event) => {
     // Duyệt User và Admin trong localStorage
     const findUser = userLocalLogin.find(
         (user) =>
-            user.UserType == "user" && (user.UserName === emailLogin.value || user.Email === emailLogin.value) &&
+            user.UserType === "customer" && 
+            (user.UserName === emailLogin.value || user.Email === emailLogin.value) &&
             user.Password === passwordLogin.value
     );
+    console.log(userLocalLogin);
 
     const findAdmin = userLocalLogin.find(
         (admin) =>
-            admin.UserType == "admin" &&
+            admin.UserType === "admin" &&
             (admin.UserName === emailLogin.value ||
                 admin.Email === emailLogin.value) &&
             admin.Password === passwordLogin.value
     );
 
     if (!findUser && !findAdmin) {
+        console.log("Sai tài khoản hoặc mật khẩu");
         document.querySelector(".login-error").style.display = "block";
     } else {
         const userLock = JSON.parse(localStorage.getItem("userLock")) || [];
@@ -67,8 +70,8 @@ loginSubmit.addEventListener("click", (event) => {
             localStorage.setItem("userLogin", JSON.stringify(findAdmin));
             isLogin = true;
             setTimeout(function () {
-                window.location.href = "admin.html";
-            }, 3000);
+                document.querySelector(".register-success").style.display = "block";
+            }, 500);
         }
     }
 });

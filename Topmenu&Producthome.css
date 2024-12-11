@@ -15,7 +15,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #f0f0f0;
+    background-color: #111010;
     padding: 0px;
     z-index: 10;
     display: flex;
@@ -56,12 +56,6 @@ i.nav-bar {
     margin: 0px;
 }
 
-#leftmenu img:hover {
-    background-color: rgb(223, 218, 218);
-    transform: scale(1.05);
-    /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); */
-
-}
 
 #centermenu li {
     display: flex;
@@ -69,7 +63,7 @@ i.nav-bar {
 }
 
 #centermenu li a {
-    color: #454545;
+    color: rgb(207, 207, 207);
     text-decoration: none;
 }
 
@@ -84,7 +78,7 @@ i.nav-bar {
     padding-right: 0px;
     padding-left: 0px;
     padding-bottom: 0px;
-    background-color: rgb(204, 202, 202);
+    background-color: rgb(0, 0, 0);
     display: none;
 }
 
@@ -112,7 +106,7 @@ i.nav-bar {
 
 #rightmenu li a {
     text-decoration: none;
-    color: black;
+    color: rgb(207, 207, 207);
 }
 
 #menudacap2 {
@@ -122,7 +116,7 @@ i.nav-bar {
     padding: 0px;
     width: 150px;
     list-style: none;
-    background-color: rgb(204, 202, 202);
+    background-color: rgb(0, 0, 0);
     display: none;
 }
 
@@ -132,10 +126,13 @@ i.nav-bar {
 }
 
 #menudacap2 li a {
-    color: black;
+    color: rgb(207, 207, 207);
     text-decoration: none;
     font-family: 'Times New Roman', Times, serif;
     font-size: 16px;
+}
+#menudacap2 li a:hover {
+    color: white;
 }
 
 #container #Topmenu #rightmenu li:hover #menudacap2 {
@@ -143,7 +140,7 @@ i.nav-bar {
 }
 
 #Topmenu li {
-    color: #454545;
+    color: rgb(207, 207, 207);
     transition: color 0.3s ease, transform 0.3s;
 }
 
@@ -152,7 +149,7 @@ i.nav-bar {
     transform: scale(1.05);
     /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); */
     display: block;
-    color: #000000;
+    color: #fffcfc;
 }
 
 .container {
@@ -241,7 +238,9 @@ i.nav-bar {
     color: #141c24;
     transition: 0.3s;
 }
-
+.lap-menu a:hover{
+    color: white;
+}
 .cart-menu {
     position: relative;
 }
